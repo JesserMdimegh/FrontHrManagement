@@ -1,0 +1,38 @@
+<div class="job-cv-matching-container">
+    <h2>CV Submission & Job Description Matching</h2>
+    
+    <!-- Job Description Form -->
+    <div class="form-container">
+      <h3>Job Description</h3>
+      <textarea id="jobDescription" name="jobDescription" placeholder="Enter the job description here" rows="8" required></textarea>
+    </div>
+  
+    <!-- CV Submission Form -->
+    <div class="cv-form-container">
+      <h3>Submit CV</h3>
+      <form id="cvSubmissionForm" method="POST">
+        <div class="form-group">
+          <label for="cvTitle">Job Title</label>
+          <input type="text" id="cvTitle" name="cvTitle" placeholder="Enter the job title" required />
+        </div>
+  
+        <div class="form-group">
+          <label for="cvFile">Upload Candidate's CV</label>
+          <input type="file" id="cvFile" name="cvFile" accept=".pdf, .docx, .txt" required />
+        </div>
+  
+        <button type="submit" class="submit-btn">Submit CV</button>
+      </form>
+    </div>
+  
+    <!-- CV vs Job Description Result -->
+    <div id="matchingResult" class="result-container">
+      <h3>Matching Result</h3>
+      <div id="resultMessage">
+        <!-- This will be dynamically populated -->
+        <p><strong>Status:</strong> <span id="resultStatus">Waiting for CV submission...</span></p>
+        <p><strong>Job Description:</strong> <span id="jobTitle"></span></p>
+      </div>
+    </div>
+  </div>
+  

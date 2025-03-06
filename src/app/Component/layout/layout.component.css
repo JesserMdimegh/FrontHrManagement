@@ -1,0 +1,212 @@
+/* Sidebar CSS */
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&amp;display=swap");
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css');
+@import url("https://cdn.icofont.com/icofont.min.css");
+.sidebar {
+    width: 250px;
+    height: 100vh;
+    background-color: #000;
+    color: #fff;
+    position: fixed;
+    top: 0;
+    left: 0;
+    overflow-y: auto;
+    padding: 20px 10px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    border-right: 2px solid #444; /* Added border to the right */
+}
+.header{
+    position: relative;
+    left: 280px;
+}
+
+/* Rest of the CSS remains the same */
+.brand-icon {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+.logo-icon svg {
+    fill: #fff;
+}
+
+.logo-text {
+    font-size: 17px;
+    font-weight: bold;
+    color: #fff;
+}
+
+.menu-list {
+    list-style: none;
+    padding-left: 0;
+}
+
+.menu-list li {
+    margin-bottom: 15px;
+}
+
+.m-link {
+    color: #fff;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 15px;
+    border-radius: 8px;
+    transition: background-color 0.3s, color 0.3s; /* Ajout de la transition sur la couleur */
+}
+
+.m-link.active, .m-link:hover {
+    background-color: #6f42c1;  /* Conserve la couleur de fond au survol et au clic */
+    color: #ffffff; /* Changer la couleur du texte lors du survol ou clic */
+}
+
+
+
+
+.m-link i {
+    font-size: 20px;
+}
+
+.sub-menu {
+    padding-left: 20px;
+}
+
+.sub-menu li {
+    margin-bottom: 10px;
+}
+
+.ms-link {
+    color: #ddd;
+    text-decoration: none;
+    padding: 5px 0;
+    display: block;
+    transition: color 0.3s;
+}
+
+.ms-link:hover {
+    color: #fff;
+}
+
+.theme-switch, .theme-rtl {
+    margin-top: 20px;
+}
+
+.form-check-label {
+    color: #fff;
+}
+
+.sidebar-mini-btn {
+    margin-top: 20px;
+}
+
+.page-content {
+    margin-left: 250px;
+    padding: 20px;
+}
+
+/* Search Bar */
+.sidebar .search-bar {
+    padding: 10px 15px;
+    margin: 10px 0;
+    background-color: #fff;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    display: flex;
+    align-items: center;
+}
+
+.sidebar .search-bar input {
+    width: 100%;
+    border: none;
+    outline: none;
+    padding: 8px 10px;
+    font-size: 14px;
+    color: #333;
+}
+
+.sidebar .search-bar input::placeholder {
+    color: #888;
+}
+
+.sidebar .search-bar .search-icon {
+    font-size: 16px; /* Adjusted icon size */
+    color: #007bff;
+    margin-right: 10px;
+}
+
+/* Profile Section */
+.sidebar .profile-section {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px; /* Adjusted padding */
+    margin-top: auto;
+    border-top: 1px solid #ddd;
+}
+
+.sidebar .profile-section .profile-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 10px;
+}
+
+.sidebar .profile-section .profile-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar .profile-section .profile-info .profile-name {
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+}
+
+.sidebar .profile-section .profile-info .profile-email {
+    font-size: 12px;
+    color: #888;
+}
+
+/* Dark Mode Adjustments */
+body.dark-mode .sidebar .search-bar {
+    background-color: #444;
+    border: 1px solid #666;
+}
+
+body.dark-mode .sidebar .search-bar input {
+    background-color: #555;
+    color: #fff;
+}
+
+body.dark-mode .sidebar .search-bar input::placeholder {
+    color: #ccc;
+}
+
+body.dark-mode .sidebar .profile-section {
+    border-top: 1px solid #666;
+}
+
+body.dark-mode .sidebar .profile-section .profile-info .profile-name,
+body.dark-mode .sidebar .profile-section .profile-info .profile-email {
+    color: #ccc;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 200px;
+    }
+
+    .sidebar .search-bar {
+        padding: 8px 12px;
+    }
+
+    .sidebar .profile-section {
+        padding: 8px 12px;
+    }
+}
+
+  
