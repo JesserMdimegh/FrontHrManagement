@@ -1,3 +1,64 @@
+<<<<<<< README.md
+# HRAutomation
+
+This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.0.
+
+## Development server
+
+To start a local development server, run:
+
+```bash
+ng serve
+```
+
+Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+
+## Code scaffolding
+
+Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+
+```bash
+ng generate component component-name
+```
+
+For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+
+```bash
+ng generate --help
+```
+
+## Building
+
+To build the project run:
+
+```bash
+ng build
+```
+
+This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+
+## Running unit tests
+
+To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+
+```bash
+ng test
+```
+
+## Running end-to-end tests
+
+For end-to-end (e2e) testing, run:
+
+```bash
+ng e2e
+```
+
+Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+
+## Additional Resources
+
+For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+=======
 # Hr_Automation_frontend
 
 
@@ -65,8 +126,7 @@ On some READMEs, you may see small images that convey metadata, such as whether 
 Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
 
 ## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
-
+installation angular cli
 ## Usage
 Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
 
@@ -91,3 +151,4 @@ For open source projects, say how it is licensed.
 
 ## Project status
 If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+>>>>>>> README.md

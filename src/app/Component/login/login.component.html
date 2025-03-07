@@ -1,0 +1,70 @@
+<body>
+  <div class="auth-wrapper d-flex align-center justify-center pa-4">
+    <div class="auth-card pa-4 pt-7" style="max-width: 448px;">
+      <div class="justify-center">
+        <div class="d-flex">
+          <div class="d-flex text-primary">
+            <img src="/HR-automation/public/logo_hr.png" alt="HR Tracking Logo" />
+          </div>
+        </div>
+      </div>
+
+      <div class="pt-2">
+        <h5 class="text-h5 mb-1">
+          Welcome, Admin! 👋🏻
+        </h5>
+        <p class="mb-0">
+          Please sign in to manage employees, track work hours, and oversee the HR system.
+        </p>
+      </div>
+
+      <div>
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+          <div class="row">
+            <!-- email -->
+            <div class="col-12">
+              <input
+                type="email"
+                id="email"
+                formControlName="email"
+                placeholder="Admin email"
+                class="text-field"
+                required
+              />
+            </div>
+
+            <!-- password -->
+            <div class="col-12">
+              <input
+                type="password"
+                id="password"
+                formControlName="password"
+                placeholder="Admin password"
+                class="text-field"
+                required
+              />
+              <div class="d-flex flex-wrap mt-1 mb-4">
+                <input type="checkbox" id="remember" name="remember" />
+                <label for="remember" style="font-weight: normal;">Remember me</label>
+
+                <a href="javascript:void(0)" class="text-primary ms-2 mb-1">
+                  Forgot Password?
+                </a>
+              </div>
+
+              <!-- login button -->
+              <button type="submit" class="btn block" [disabled]="loginForm.invalid">
+                Sign In as Admin
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <!-- Create Account Section -->
+      <div class="text-center mt-3">
+        <p>Or <a href="/register" class="text-primary">Create your account</a></p>
+      </div>
+    </div>
+  </div>
+</body>

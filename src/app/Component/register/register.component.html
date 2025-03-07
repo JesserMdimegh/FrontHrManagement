@@ -1,0 +1,96 @@
+<body>
+    <div class="auth-wrapper d-flex align-center justify-center pa-4">
+      <div class="auth-card pa-4 pt-7" style="max-width: 448px;">
+        <div class="justify-center">
+          <div class="d-flex">
+            <div class="d-flex text-primary">
+              <img src="/HR-automation/public/logo_hr.png" alt="HR Tracking Logo" />
+            </div>
+          </div>
+        </div>
+  
+        <div class="pt-2">
+          <h5 class="text-h5 mb-1">
+            Create Your Account 🚀
+          </h5>
+          <p class="mb-0">
+            Please sign up to access the HR system and manage your account.
+          </p>
+        </div>
+  
+        <div>
+          <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+            <div class="row">
+              <!-- name -->
+              <div class="col-12">
+                <input
+                  type="text"
+                  id="name"
+                  formControlName="name"
+                  placeholder="Full Name"
+                  class="text-field"
+                  required
+                />
+                <div *ngIf="registerForm.get('name')?.invalid && registerForm.get('name')?.touched" class="error-message">
+                  Full Name is required.
+                </div>
+              </div>
+  
+              <!-- email -->
+              <div class="col-12">
+                <input
+                  type="email"
+                  id="email"
+                  formControlName="email"
+                  placeholder="Email Address"
+                  class="text-field"
+                  required
+                />
+                <div *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched" class="error-message">
+                  Please enter a valid email address.
+                </div>
+              </div>
+  
+              <!-- password -->
+              <div class="col-12">
+                <input
+                  type="password"
+                  id="password"
+                  formControlName="password"
+                  placeholder="Password"
+                  class="text-field"
+                  required
+                />
+                <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched" class="error-message">
+                  Password is required (at least 6 characters).
+                </div>
+              </div>
+  
+              <!-- confirm password -->
+              <div class="col-12">
+                <input
+                  type="password"
+                  id="confirmPassword"
+                  formControlName="confirmPassword"
+                  placeholder="Confirm Password"
+                  class="text-field"
+                  required
+                />
+                <div *ngIf="registerForm.hasError('mismatch') && registerForm.get('confirmPassword')?.touched" class="error-message">
+                  Passwords do not match.
+                </div>
+              </div>
+  
+              <!-- register button -->
+              <div class="col-12">
+                <button type="submit" class="btn block" [disabled]="registerForm.invalid">
+                  Register Account
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+  
