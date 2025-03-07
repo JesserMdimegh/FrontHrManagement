@@ -3,6 +3,7 @@ import { LoginComponent } from './Component/login/login.component';
 import { DashboardComponent } from './Component/dashboard/dashboard.component';
 import { LayoutComponent } from './Component/layout/layout.component';
 import { CvSubmissionComponent } from './Component/cv-submission/cv-submission.component';
+import { RegisterComponent } from './Component/register/register.component';
 
 export const routes: Routes = [
     {
@@ -15,6 +16,10 @@ export const routes: Routes = [
         component:LoginComponent,
     }
     ,
+  
+    {
+         path: 'register',
+         component: RegisterComponent },
     {
         path: '',
         component: LayoutComponent,
@@ -25,7 +30,7 @@ export const routes: Routes = [
             },
             {
                 path:'CvSubmission',
-                component: CvSubmissionComponent,
+                component:CvSubmissionComponent,
             }
         ]
     }
