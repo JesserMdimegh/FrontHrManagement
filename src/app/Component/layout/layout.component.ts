@@ -18,10 +18,8 @@ export class LayoutComponent implements OnInit {
   constructor(private router: Router) {}
 
   ngOnInit(): void {
-    // Implement your initialization logic here
     console.log('LayoutComponent initialized');
-    
-    // Example: Load user data if needed
+ 
     this.userName = 'John Doe'; // Replace with actual logic
     this.userRole = 'Admin'; // Replace with actual role
 
