@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-
+import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-register',
-  imports: [ReactiveFormsModule, FormsModule],  
+  imports: [ReactiveFormsModule, FormsModule, CommonModule],  
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })

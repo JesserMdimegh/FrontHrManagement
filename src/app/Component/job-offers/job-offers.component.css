@@ -1,0 +1,172 @@
+/* Main Container */
+.main-content {
+    padding: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: #f7f8fa;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  /* Add Job Button */
+  .add-job-section {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+  }
+  
+  .open-form-btn {
+    background-color: #6f42c1;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 5px;
+    border: none;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .open-form-btn:hover {
+    background-color: #6f42c1;
+  }
+  
+  /* Job Form */
+  .job-form {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    width: 60%;
+    margin: 30px auto;
+    display: block;
+  }
+  
+  .job-form h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  /* Form Inputs */
+  .job-form input,
+  .job-form textarea {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    font-size: 14px;
+    color: #333;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-sizing: border-box;
+  }
+  
+  .job-form input:focus,
+  .job-form textarea:focus {
+    outline: none;
+    border-color:  #6f42c1;
+  }
+  
+  button[type="submit"] {
+    background-color: #28a745;
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+  }
+  
+  button[type="submit"]:hover {
+    background-color: #218838;
+  }
+  
+  /* Job Grid (Job Cards) */
+  .job-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+  }
+  
+  /* Job Card */
+  .job-card {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-align: center;
+  }
+  
+  .job-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+  }
+  
+  /* Job Card Title and Details */
+  .job-card h2 {
+    font-size: 22px;
+    color: #333;
+    margin-bottom: 15px;
+  }
+  
+  .job-card p {
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 8px;
+  }
+  
+  .job-card .posted {
+    font-size: 13px;
+    color: #999;
+  }
+  
+  .job-card p strong {
+    font-weight: bold;
+  }
+  
+  /* View Candidates Button */
+  button {
+    background-color:  #6f42c1;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+    margin-top: 15px;
+  }
+  
+  button:hover {
+    background-color: #6f42c1;
+  }
+  
+  /* Responsive Design */
+  @media screen and (max-width: 768px) {
+    .job-form {
+      width: 90%;
+    }
+  
+    .job-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  
+  @media screen and (max-width: 480px) {
+    .job-form {
+      width: 100%;
+      padding: 20px;
+    }
+  
+    .job-grid {
+      grid-template-columns: 1fr;
+    }
+  
+    .open-form-btn {
+      width: 100%;
+      font-size: 18px;
+    }
+  }
+  

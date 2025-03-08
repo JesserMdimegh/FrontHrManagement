@@ -1,0 +1,46 @@
+<body>
+    <main class="main-content">
+      <!-- Section to Add Job Offer -->
+      <section class="add-job-section">
+        <button class="open-form-btn" (click)="showJobForm = !showJobForm">Add Job Offer</button>
+        
+        <!-- Job Form (initially hidden) -->
+        <div class="job-form" *ngIf="showJobForm">
+          <h2>Add a Job Offer</h2>
+          <form (ngSubmit)="addJobOffer()">
+            <label for="jobTitle">Job Title:</label>
+            <input type="text" id="jobTitle" name="jobTitle" [(ngModel)]="newJob.jobTitle" required>
+  
+            <label for="company">Company:</label>
+            <input type="text" id="company" name="company" [(ngModel)]="newJob.company" required>
+  
+            <label for="location">Location:</label>
+            <input type="text" id="location" name="location" [(ngModel)]="newJob.location" required>
+  
+            <label for="description">Job Description:</label>
+            <textarea id="description" name="description" [(ngModel)]="newJob.description" required></textarea>
+  
+            <label for="requiredSkills">Required Skills (separate by commas):</label>
+            <input type="text" id="requiredSkills" name="requiredSkills" [(ngModel)]="newJob.requiredSkills" placeholder="e.g., HTML, CSS, JavaScript" required>
+  
+            <label for="interviewQuestions">Interview Questions (separate by commas):</label>
+            <input type="text" id="interviewQuestions" name="interviewQuestions" [(ngModel)]="newJob.interviewQuestions" placeholder="e.g., Tell us about your experience with Angular" />
+  
+            <button type="submit">Add Job Offer</button>
+          </form>
+        </div>
+      </section>
+  
+      <!-- Section to List Job Offers -->
+      <section class="job-grid">
+        <div class="job-card" *ngFor="let job of jobs">
+          <h2>{{ job.jobTitle }}</h2>
+          <p>{{ job.company }} • {{ job.location }}</p>
+          <p class="posted">Posted {{ job.posted }}</p>
+          <p><strong>Required Skills:</strong> {{ job.requiredSkills }}</p>
+          <button (click)="viewCandidates(job)">View Candidates</button>
+        </div>
+      </section>
+    </main>
+  </body>
+  
