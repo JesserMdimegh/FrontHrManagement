@@ -1,0 +1,32 @@
+<div class="performance-dashboard">
+    <h1>Employee Performance Dashboard</h1>
+  
+    <div class="employee-list">
+      <div *ngFor="let employee of employees" class="employee-card">
+        <h2>{{ employee.name }}</h2>
+        <div class="performance-metrics">
+          <div class="metric">
+            <label>Attendance:</label>
+            {{ performanceData[employee.id].attendance || 'No data available' }}
+
+          </div>
+          <div class="metric">
+            <label>Task Completion:</label>
+            performanceData[employee.id].taskCompletion || 'No data available'
+
+          </div>
+          <div class="metric">
+            <label>Quality of Work:</label>
+            <span>{{ performanceData[employee.id].qualityOfWork || 'No data available' }}</span>
+          </div>
+          <div class="metric">
+            <label>Goals Achieved:</label>
+            <
+<span>{{ performanceData[employee.id].goalsAchieved || 'No data available' }}</span>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

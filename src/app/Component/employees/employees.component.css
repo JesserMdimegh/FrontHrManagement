@@ -1,0 +1,39 @@
+.performance-dashboard {
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .employee-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .employee-card {
+    background: #f4f4f4;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .performance-metrics {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .metric {
+    display: flex;
+    justify-content: space-between;
+    font-size: 16px;
+  }
+  
+  h2 {
+    margin-bottom: 10px;
+    font-size: 24px;
+  }
+  
+  label {
+    font-weight: bold;
+  }
+  

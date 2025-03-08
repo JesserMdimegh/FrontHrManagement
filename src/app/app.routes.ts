@@ -4,6 +4,11 @@ import { DashboardComponent } from './Component/dashboard/dashboard.component';
 import { LayoutComponent } from './Component/layout/layout.component';
 import { CvSubmissionComponent } from './Component/cv-submission/cv-submission.component';
 import { RegisterComponent } from './Component/register/register.component';
+import { JobOffersComponent } from './Component/job-offers/job-offers.component';
+import { CondidatesComponent } from './Component/condidates/condidates.component';
+import { DepartmentPerformanceComponent } from './Component/Departement/department-performance/department-performance.component';
+import { DepartmentLisComponent } from './Component/Departement/department-lis/department-lis.component';
+import { EmployeesComponent } from './Component/employees/employees.component';
 
 export const routes: Routes = [
     {
@@ -31,7 +36,27 @@ export const routes: Routes = [
             {
                 path:'CvSubmission',
                 component:CvSubmissionComponent,
+            },
+            {
+                path:'JobOffers',
+                component:JobOffersComponent,
             }
+            ,
+            {
+                path:'Condidates',
+                component:CondidatesComponent,
+            }
+            ,
+            {
+                path:'Employees',
+                component: EmployeesComponent,
+            }
+            , {
+                path:'Departmentlist',
+                component:  DepartmentLisComponent,
+            }
+           
+            
         ]
     }
                

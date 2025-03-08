@@ -1,0 +1,225 @@
+/* General styling */
+.hr-management {
+  font-family: 'Arial', sans-serif, Impact, Haettenschweiler, 'Arial Narrow Bold';
+  max-width: 1200px;
+  size: 45px;
+  margin: 0 auto;
+  padding: 30px;
+}
+
+h2 {
+  color: #6f42c1;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+
+.department-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin: 40px 0;
+  padding: 20px 0;
+  background-color: #f3f4f8;
+}
+
+/* Container for departments with grid display */
+.departments-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  width: 100%;
+  max-width: 1200px;
+  padding: 0 15px;
+  justify-items: center;
+}
+
+/* Department card styling */
+.department-card {
+  background-color: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: left;
+}
+
+.department-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+  background-color: #f9f9f9;
+}
+
+.department-card h4 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  color: #333;
+  font-weight: 600;
+}
+
+.department-card p {
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 10px;
+}
+
+.department-card .manager {
+  font-weight: bold;
+  color: #6f42c1;
+}
+
+.department-card .performance {
+  font-size: 0.9rem;
+  color: #333;
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.department-card .performance span {
+  margin-top: 5px;
+}
+
+.department-card .performance .tasks {
+  font-weight: bold;
+  color: #28a745;
+}
+
+.department-card .performance .attendance {
+  font-weight: bold;
+  color: #ff9800;
+}
+.performance-chart {
+  margin-top: 20px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+}
+
+.performance-chart canvas {
+  width: 100%;
+  height: 300px;
+}
+
+
+/* Add Department Button */
+.add-department-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #007BFF;
+  color: white;
+  font-size: 24px;
+  padding: 15px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease;
+  z-index: 1100;
+}
+
+.add-department-btn:hover {
+  background-color: #0056b3;
+}
+
+/* Add Department Form */
+.add-department-form {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 30px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  width: 400px;
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+}
+
+.add-department-form h3 {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.add-department-form label {
+  font-size: 1rem;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.add-department-form input,
+.add-department-form select {
+  font-size: 1rem;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  width: 100%;
+}
+
+.add-department-form button[type="submit"],
+.add-department-form button[type="button"] {
+  background-color: #007BFF;
+  color: white;
+  font-size: 1rem;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.add-department-form button[type="submit"]:hover,
+.add-department-form button[type="button"]:hover {
+  background-color: #0056b3;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .department-list {
+    padding: 15px;
+  }
+
+  .departments-container {
+    grid-template-columns: 1fr;
+  }
+
+  .department-card {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .add-department-form {
+    width: 90%;
+  }
+
+  .add-department-btn {
+    bottom: 30px;
+    right: 30px;
+  }
+
+  /* Sidebar adjustment for mobile */
+  .sidebar {
+    width: 100%;
+    position: static;
+    height: auto;
+    padding: 15px;
+  }
+
+  .sidebar ul {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .sidebar ul li {
+    margin: 5px 0;
+  }
+}

@@ -1,0 +1,63 @@
+<div class="hr-management">
+  <h2>Department Management</h2>
+
+  <div class="department-list">
+   
+    <div class="departments-container">
+      <div *ngFor="let department of departments" (click)="selectDepartment(department)" class="department-card">
+        <h4>{{ department.name }}</h4>
+        <p>Manager: {{ department.manager }}</p>
+        <p>Tasks Completed: {{ department.performance.tasksCompleted }}</p>
+        <p>Attendance Rate: {{ department.performance.attendanceRate }}%</p>
+
+        <!-- Employee Management for Each Department -->
+        <div class="employee-management">
+          <h5>Employees</h5>
+          <ul>
+            <li *ngFor="let employee of department.employees; let i = index">
+              <span>{{ employee.name }} ({{ employee.role }}) - {{ employee.status }}</span>
+              <button (click)="removeEmployee(department, i)">Remove</button>
+            </li>
+          </ul>
+          <button (click)="openAddEmployeeForm(department)">Add Employee</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Floating Button to Add Department -->
+  <button class="add-department-btn" (click)="openAddDepartmentForm()">+</button>
+
+  <!-- Add Department Form -->
+  <div class="add-department-form" *ngIf="isAddDepartmentFormOpen">
+    <h3>Add New Department</h3>
+    <form [formGroup]="addDepartmentForm" (ngSubmit)="addDepartment()">
+      <label for="departmentName">Department Name:</label>
+      <input id="departmentName" formControlName="name" required />
+
+      <label for="manager">Manager:</label>
+      <input id="manager" formControlName="manager" required />
+
+      <div formArrayName="employees">
+        <h4>Employees</h4>
+        <div *ngFor="let employee of employeesFormArray.controls; let i = index" [formGroupName]="i">
+          <label for="employeeName">Name:</label>
+          <input id="employeeName" formControlName="name" required />
+
+          <label for="employeeRole">Role:</label>
+          <input id="employeeRole" formControlName="role" required />
+
+          <label for="employeeStatus">Status:</label>
+          <select id="employeeStatus" formControlName="status">
+            <option value="Active">Active</option>
+            <option value="On Leave">On Leave</option>
+          </select>
+        </div>
+        <button type="button" (click)="addEmployee()">Add Employee</button>
+      </div>
+
+      <button type="submit">Add Department</button>
+    </form>
+    <button type="button" (click)="closeAddDepartmentForm()">Cancel</button>
+  </div>
+</div>
