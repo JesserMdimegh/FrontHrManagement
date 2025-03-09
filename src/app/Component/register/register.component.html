@@ -21,7 +21,6 @@
         <div>
           <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
             <div class="row">
-              <!-- name -->
               <div class="col-12">
                 <input
                   type="text"
@@ -36,7 +35,7 @@
                 </div>
               </div>
   
-              <!-- email -->
+             
               <div class="col-12">
                 <input
                   type="email"
@@ -51,7 +50,6 @@
                 </div>
               </div>
   
-              <!-- password -->
               <div class="col-12">
                 <input
                   type="password"
@@ -66,7 +64,6 @@
                 </div>
               </div>
   
-              <!-- confirm password -->
               <div class="col-12">
                 <input
                   type="password"
@@ -81,7 +78,7 @@
                 </div>
               </div>
   
-              <!-- register button -->
+             
               <div class="col-12">
                 <button type="submit" class="btn block" [disabled]="registerForm.invalid">
                   Register Account

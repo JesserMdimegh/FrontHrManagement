@@ -1,4 +1,4 @@
-/* Global Styles */
+
 * {
   margin: 0;
   padding: 0;
@@ -81,7 +81,6 @@ label {
   color: #333;
 }
 
-/* Button */
 .btn {
   width: 100%;
   padding: 12px;
@@ -100,7 +99,7 @@ label {
   box-shadow: 0 4px 10px rgba(106, 109, 255, 0.3);
 }
 
-/* Links */
+
 a {
   color: #007bff;
   text-decoration: none;
@@ -157,7 +156,6 @@ input[type="checkbox"] {
   text-align: center;
 }
 
-/* Divider */
 hr {
   border: none;
   height: 1px;
@@ -166,7 +164,6 @@ hr {
   margin: 16px 0;
 }
 
-/* Responsive Design */
 @media screen and (max-width: 480px) {
   .auth-card {
       padding: 24px;

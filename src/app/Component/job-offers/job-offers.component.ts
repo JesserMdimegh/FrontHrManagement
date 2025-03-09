@@ -11,10 +11,10 @@ import { Router } from '@angular/router';
 })
 export class JobOffersComponent {
 
-  // State to toggle form visibility
+  
   showJobForm: boolean = false;
 
-  // Placeholder for job offers
+  
   jobs = [
     {
       id: 1,
@@ -45,7 +45,6 @@ export class JobOffersComponent {
     }
   ];
 
-  // Data model for new job offer
   newJob = {
     jobTitle: '',
     company: '',
@@ -59,18 +58,16 @@ export class JobOffersComponent {
 
   // Function to handle form submission and add new job
   addJobOffer() {
-    // Automatically generate an ID for the new job (e.g., based on the length of jobs array + 1)
     const newJob = {
-      ...this.newJob, // Spread the new job data
-      id: this.jobs.length + 1, // Assign a unique ID based on the current length of jobs
-      posted: 'Just Now', // You can also handle this dynamically
-      candidates: [] // Initialize with empty candidates array
+      ...this.newJob, 
+      id: this.jobs.length + 1, 
+      posted: 'Just Now', 
+      candidates: [] 
     };
 
-    // Push the new job to the jobs array
+   
     this.jobs.push(newJob);
 
-    // Reset form and hide it
     this.resetForm();
     this.showJobForm = false;
   }

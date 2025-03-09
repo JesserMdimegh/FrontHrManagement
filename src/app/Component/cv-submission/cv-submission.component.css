@@ -1,4 +1,4 @@
-/* Container for HR Manager's CV submission and Job Description comparison */
+
 .job-cv-matching-container {
     width: 80%;
     max-width: 800px;
@@ -18,8 +18,7 @@
   .form-container, .cv-form-container, .result-container {
     margin-bottom: 20px;
   }
-  
-  /* Styling for the Job Description text area */
+
   textarea {
     width: 100%;
     padding: 10px;
@@ -34,7 +33,7 @@
     border-color: #3498db;
   }
   
-  /* Styling for form groups */
+
   .form-group {
     display: flex;
     flex-direction: column;
@@ -58,7 +57,7 @@
     border-color: #3498db;
   }
   
-  /* Styling for the Submit button */
+
   .submit-btn {
     background-color: #3498db;
     color: white;
@@ -74,7 +73,7 @@
     background-color: #2980b9;
   }
   
-  /* Styling for the matching result */
+  
   .result-container {
     margin-top: 20px;
     background-color: #fff;

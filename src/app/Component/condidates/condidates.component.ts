@@ -12,7 +12,7 @@ export class CondidatesComponent {
 
   relevanceScore: number = 0;
 
-  // List of candidates with their score
+  
   candidates = [
     {
       name: 'Jean Dupont',

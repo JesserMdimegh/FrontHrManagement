@@ -1,4 +1,4 @@
-/* Global Styles */
+
 * {
     margin: 0;
     padding: 0;
@@ -13,8 +13,7 @@
     align-items: center;
     height: 100vh;
   }
-  
-  /* Auth Wrapper */
+
   .auth-wrapper {
     display: flex;
     align-items: center;
@@ -35,7 +34,7 @@
     text-align: center;
   }
   
-  /* Header */
+
   .auth-card .text-2xl {
     font-size: 26px;
     font-weight: bold;
@@ -57,7 +56,7 @@
     margin-top: 8px;
   }
   
-  /* Form */
+ 
   .text-field {
     width: 100%;
     padding: 12px;
@@ -81,7 +80,7 @@
     color: #333;
   }
   
-  /* Button */
+  
   .btn {
     width: 100%;
     padding: 12px;
@@ -100,7 +99,6 @@
     box-shadow: 0 4px 10px rgba(106, 109, 255, 0.3);
   }
   
-  /* Links */
   a {
     color: #007bff;
     text-decoration: none;
@@ -111,7 +109,7 @@
     text-decoration: underline;
   }
   
-  /* Checkbox */
+ 
   input[type="checkbox"] {
     margin-right: 8px;
   }
@@ -157,7 +155,7 @@
     text-align: center;
   }
   
-  /* Divider */
+  
   hr {
     border: none;
     height: 1px;
@@ -166,7 +164,6 @@
     margin: 16px 0;
   }
   
-  /* Responsive Design */
   @media screen and (max-width: 480px) {
     .auth-card {
         padding: 24px;

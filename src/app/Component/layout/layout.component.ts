@@ -1,4 +1,4 @@
-// layout.component.ts
+
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -21,8 +21,8 @@ export class LayoutComponent implements OnInit {
   ngOnInit(): void {
     console.log('LayoutComponent initialized');
  
-    this.userName = 'John Doe'; // Replace with actual logic
-    this.userRole = 'Admin'; // Replace with actual role
+    this.userName = 'John Doe'; 
+    this.userRole = 'Admin';
 
    
   }

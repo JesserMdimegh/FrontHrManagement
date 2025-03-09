@@ -1,10 +1,7 @@
 <body>
     <main class="main-content">
-      <!-- Section to Add Job Offer -->
       <section class="add-job-section">
         <button class="open-form-btn" (click)="showJobForm = !showJobForm">Add Job Offer</button>
-        
-        <!-- Job Form (initially hidden) -->
         <div class="job-form" *ngIf="showJobForm">
           <h2>Add a Job Offer</h2>
           <form (ngSubmit)="addJobOffer()">

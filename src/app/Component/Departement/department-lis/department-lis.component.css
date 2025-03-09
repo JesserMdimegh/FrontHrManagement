@@ -1,4 +1,4 @@
-/* General styling */
+
 .hr-management {
   font-family: 'Arial', sans-serif, Impact, Haettenschweiler, 'Arial Narrow Bold';
   max-width: 1200px;
@@ -22,7 +22,6 @@ h2 {
   background-color: #f3f4f8;
 }
 
-/* Container for departments with grid display */
 .departments-container {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -33,7 +32,7 @@ h2 {
   justify-items: center;
 }
 
-/* Department card styling */
+
 .department-card {
   background-color: white;
   padding: 20px;
@@ -105,7 +104,6 @@ h2 {
 }
 
 
-/* Add Department Button */
 .add-department-btn {
   position: fixed;
   bottom: 20px;
@@ -126,7 +124,6 @@ h2 {
   background-color: #0056b3;
 }
 
-/* Add Department Form */
 .add-department-form {
   position: fixed;
   top: 50%;
@@ -182,7 +179,6 @@ h2 {
   background-color: #0056b3;
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
   .department-list {
     padding: 15px;
@@ -206,7 +202,6 @@ h2 {
     right: 30px;
   }
 
-  /* Sidebar adjustment for mobile */
   .sidebar {
     width: 100%;
     position: static;
