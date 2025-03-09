@@ -2,11 +2,13 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TokenService } from '../../services/services/token.service';
+import { AuthService } from '../../services/services';
 
 @Component({
   selector: 'app-login',
   imports: [
-    ReactiveFormsModule, 
+    ReactiveFormsModule,
     FormsModule,
   ],
   templateUrl: './login.component.html',
@@ -15,7 +17,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 export class LoginComponent {
   loginForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private router: Router) {
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private authService: AuthService,
+    private tokenService: TokenService
+    ) {
 
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -24,15 +31,20 @@ export class LoginComponent {
   }
 
   onSubmit() {
+    var loginModel = {
+      email: this.loginForm.value.email,
+      password: this.loginForm.value.password
+    };
     if (this.loginForm.valid) {
-      const { email, password } = this.loginForm.value;
-
-      // Validation simple sans backend : email et mot de passe par défaut
-      if (email === 'admin@example.com' && password === 'password123') {
-        this.router.navigate(['/dashboard']);
-      } else {
-        alert('Email ou mot de passe incorrect');
-      }
+      this.authService.apiAuthLoginPost({body:loginModel}).subscribe({
+        next: (res:any) => {
+          this.tokenService.token = res.token as string;
+          //this.router.navigate(['/']);
+        },
+        error: (error) => {
+          console.log(error);
+        }
+      });
     }
   }
 }

@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RegisterService } from '../../services/register.service'; 
-import { Router } from '@angular/router'; 
+
+import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../../services/services';
 
 @Component({
   selector: 'app-register',
@@ -16,18 +17,18 @@ export class RegisterComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private registerService: RegisterService,  
-    private router: Router 
+    private registerService: AuthService,
+    private router: Router
   ) {}
 
   ngOnInit() {
     this.registerForm = this.fb.group({
-      name: ['', Validators.required],  
+      name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', [Validators.required]],
-    }, { 
-      validator: this.passwordMatchValidator  
+    }, {
+      validator: this.passwordMatchValidator
     });
   }
 
@@ -38,7 +39,10 @@ export class RegisterComponent implements OnInit {
     return password === confirmPassword ? null : { mismatch: true };
   }
 
+
+
   onSubmit() {
+    /*
     if (this.registerForm.valid) {
       const formData = this.registerForm.value;  // Get the form values
 
@@ -55,5 +59,7 @@ export class RegisterComponent implements OnInit {
         }
       });
     }
+      */
   }
+
 }
