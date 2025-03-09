@@ -23,14 +23,12 @@ export class LoginComponent {
     });
   }
 
-  // Méthode de soumission
   onSubmit() {
     if (this.loginForm.valid) {
       const { email, password } = this.loginForm.value;
 
       // Validation simple sans backend : email et mot de passe par défaut
       if (email === 'admin@example.com' && password === 'password123') {
-        // Si les identifiants sont corrects, rediriger vers le tableau de bord
         this.router.navigate(['/dashboard']);
       } else {
         alert('Email ou mot de passe incorrect');

@@ -6,8 +6,6 @@ import { CvSubmissionComponent } from './Component/cv-submission/cv-submission.c
 import { RegisterComponent } from './Component/register/register.component';
 import { JobOffersComponent } from './Component/job-offers/job-offers.component';
 import { CondidatesComponent } from './Component/condidates/condidates.component';
-import { DepartmentPerformanceComponent } from './Component/Departement/department-performance/department-performance.component';
-import { DepartmentLisComponent } from './Component/Departement/department-lis/department-lis.component';
 import { EmployeesComponent } from './Component/employees/employees.component';
 
 export const routes: Routes = [
@@ -51,10 +49,12 @@ export const routes: Routes = [
                 path:'Employees',
                 component: EmployeesComponent,
             }
-            , {
-                path:'Departmentlist',
-                component:  DepartmentLisComponent,
+            ,
+            {
+                path:'Employees',
+                component: EmployeesComponent,
             }
+            
            
             
         ]

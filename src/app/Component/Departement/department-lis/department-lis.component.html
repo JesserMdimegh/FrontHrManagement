@@ -10,7 +10,7 @@
         <p>Tasks Completed: {{ department.performance.tasksCompleted }}</p>
         <p>Attendance Rate: {{ department.performance.attendanceRate }}%</p>
 
-        <!-- Employee Management for Each Department -->
+      
         <div class="employee-management">
           <h5>Employees</h5>
           <ul>
@@ -25,10 +25,8 @@
     </div>
   </div>
 
-  <!-- Floating Button to Add Department -->
   <button class="add-department-btn" (click)="openAddDepartmentForm()">+</button>
 
-  <!-- Add Department Form -->
   <div class="add-department-form" *ngIf="isAddDepartmentFormOpen">
     <h3>Add New Department</h3>
     <form [formGroup]="addDepartmentForm" (ngSubmit)="addDepartment()">

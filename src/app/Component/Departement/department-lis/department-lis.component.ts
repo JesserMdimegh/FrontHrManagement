@@ -17,8 +17,8 @@ interface Department {
 }
 
 @Component({
-  selector: 'app-department-list',  // Corrected typo in selector name
-  standalone: true,  // Since we're importing CommonModule, FormsModule, and ReactiveFormsModule, this is necessary for a standalone component.
+  selector: 'app-department-list',  
+  standalone: true,  
   imports: [CommonModule, FormsModule, ReactiveFormsModule],
   templateUrl: './department-lis.component.html',
   styleUrls: ['./department-lis.component.css'],
@@ -26,7 +26,7 @@ interface Department {
 export class DepartmentLisComponent {
   departments: Department[] = [
     {
-      id: 1,  // Added unique ID for each department
+      id: 1,  
       name: 'HR',
       manager: 'John Doe',
       performance: { tasksCompleted: 20, attendanceRate: 85 },
@@ -36,7 +36,7 @@ export class DepartmentLisComponent {
       ]
     },
     {
-      id: 2,  // Added unique ID for each department
+      id: 2,  
       name: 'HR',
       manager: 'John Doe',
       performance: { tasksCompleted: 20, attendanceRate: 85 },
@@ -47,7 +47,7 @@ export class DepartmentLisComponent {
     }
     ,
     {
-      id: 1,  // Added unique ID for each department
+      id: 1,  
       name: 'HR',
       manager: 'John Doe',
       performance: { tasksCompleted: 20, attendanceRate: 85 },
@@ -71,7 +71,7 @@ export class DepartmentLisComponent {
     this.addDepartmentForm = this.fb.group({
       name: ['', Validators.required],
       manager: ['', Validators.required],
-      employees: this.fb.array([]) // Empty array initially
+      employees: this.fb.array([]) 
     });
   }
 
@@ -89,7 +89,7 @@ export class DepartmentLisComponent {
     );
   }
 
-  removeEmployee(department: Department, index: number) {  // Corrected parameter name and type
+  removeEmployee(department: Department, index: number) { 
     department.employees.splice(index, 1);
   }
 
@@ -116,7 +116,6 @@ export class DepartmentLisComponent {
   }
 
   openAddEmployeeForm(department: Department) {
-    // Logic to open the employee add form specifically for each department
     console.log('Add employee for: ', department);
   }
   

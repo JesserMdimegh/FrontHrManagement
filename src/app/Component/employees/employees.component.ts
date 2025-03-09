@@ -26,7 +26,7 @@ export class EmployeesComponent implements OnInit {
     2: { attendance: 90, taskCompletion: 95, qualityOfWork: 'Excellent', goalsAchieved: 5 },
   };
 
-  // Example employee data
+  
   employees: Employee[] = [
     { id: 1, name: 'John Doe' },
     { id: 2, name: 'Jane Doe' },
@@ -35,6 +35,5 @@ export class EmployeesComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    // You can simulate an API call here if needed.
   }
 }

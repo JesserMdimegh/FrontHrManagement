@@ -1,4 +1,4 @@
-/* Main Container */
+
 .main-content {
     padding: 30px;
     max-width: 1200px;
@@ -7,7 +7,7 @@
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   }
   
-  /* Add Job Button */
+  
   .add-job-section {
     display: flex;
     justify-content: flex-end;
@@ -30,7 +30,6 @@
     background-color: #6f42c1;
   }
   
-  /* Job Form */
   .job-form {
     background-color: #fff;
     padding: 30px;
