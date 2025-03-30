@@ -1,43 +1,126 @@
 <body>
-    <main class="main-content">
-      <section class="add-job-section">
-        <button class="open-form-btn" (click)="showJobForm = !showJobForm">Add Job Offer</button>
-        <div class="job-form" *ngIf="showJobForm">
-          <h2>Add a Job Offer</h2>
-          <form (ngSubmit)="addJobOffer()">
-            <label for="jobTitle">Job Title:</label>
-            <input type="text" id="jobTitle" name="jobTitle" [(ngModel)]="newJob.jobTitle" required>
-  
-            <label for="company">Company:</label>
-            <input type="text" id="company" name="company" [(ngModel)]="newJob.company" required>
-  
-            <label for="location">Location:</label>
-            <input type="text" id="location" name="location" [(ngModel)]="newJob.location" required>
-  
-            <label for="description">Job Description:</label>
-            <textarea id="description" name="description" [(ngModel)]="newJob.description" required></textarea>
-  
-            <label for="requiredSkills">Required Skills (separate by commas):</label>
-            <input type="text" id="requiredSkills" name="requiredSkills" [(ngModel)]="newJob.requiredSkills" placeholder="e.g., HTML, CSS, JavaScript" required>
-  
-            <label for="interviewQuestions">Interview Questions (separate by commas):</label>
-            <input type="text" id="interviewQuestions" name="interviewQuestions" [(ngModel)]="newJob.interviewQuestions" placeholder="e.g., Tell us about your experience with Angular" />
-  
-            <button type="submit">Add Job Offer</button>
-          </form>
+  <main class="main-content">
+    <!-- Error Messages -->
+    <div class="errors" *ngIf="formErrors.length > 0">
+      <ul>
+        <li *ngFor="let error of formErrors">{{ error }}</li>
+      </ul>
+    </div>
+
+    <!-- Add Job Offer Section -->
+    <section class="add-job-section">
+      <button class="open-form-btn" (click)="showJobForm = !showJobForm">
+        {{ isEditing ? 'Edit Job Offer' : 'Add Job Offer' }}
+      </button>
+      <div class="job-form" *ngIf="showJobForm">
+        <h2>{{ isEditing ? 'Edit Job Offer' : 'Add a Job Offer' }}</h2>
+        <form [formGroup]="newJobForm" (ngSubmit)="addJobOffer()">
+          <div class="form-group">
+            <label for="title">Job Title: <span class="required-label">(nécessaire)</span></label>
+            <input type="text" id="title" formControlName="title" required>
+          </div>
+          <div class="form-group">
+            <label for="location">Location: <span class="required-label">(nécessaire)</span></label>
+            <input type="text" id="location" formControlName="location" required>
+          </div>
+          <div class="form-group">
+            <label for="description">Job Description: <span class="required-label">(nécessaire)</span></label>
+            <textarea id="description" formControlName="description" required></textarea>
+          </div>
+          <div class="form-group">
+            <label for="competences">Competences:</label>
+            <select multiple (change)="onCompetenceSelected($event)">
+              <option *ngFor="let competence of competencesList" [value]="competence.id"
+                [selected]="newJobForm.get('competences')?.value.includes(competence.id)">
+                {{ competence.titre }}
+              </option>
+            </select>
+          </div>
+          <button type="submit" [disabled]="newJobForm.invalid || loading">
+            {{ isEditing ? 'Update Job Offer' : 'Add Job Offer' }}
+          </button>
+          <button type="button" (click)="resetForm()" *ngIf="showJobForm">Cancel</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- Filter and Sort Section -->
+    <section class="filter-section">
+      <input type="text" placeholder="Search by job title, location, or description..." 
+             (input)="filterJobs($event)">
+      <select (change)="sortJobs($event)">
+        <option value="newest">Newest First</option>
+        <option value="oldest">Oldest First</option>
+      </select>
+    </section>
+
+    <!-- Loading State -->
+    <div class="loading-spinner" *ngIf="loading">Loading...</div>
+
+    <!-- Job Offers Section -->
+    <h1>List of Job Offers</h1>
+    <section class="job-grid" *ngIf="!loading">
+      <div class="job-card" *ngFor="let job of filteredJobs">
+        <div class="job-field">
+          <label>Job Title:</label>
+          <span>{{ job.title | titlecase }}</span>
         </div>
-      </section>
-  
-      <!-- Section to List Job Offers -->
-      <section class="job-grid">
-        <div class="job-card" *ngFor="let job of jobs">
-          <h2>{{ job.jobTitle }}</h2>
-          <p>{{ job.company }} • {{ job.location }}</p>
-          <p class="posted">Posted {{ job.posted }}</p>
-          <p><strong>Required Skills:</strong> {{ job.requiredSkills }}</p>
-          <button (click)="viewCandidates(job)">View Candidates</button>
+        <div class="job-field">
+          <label>Location:</label>
+          <span>{{ job.location | titlecase }}</span>
         </div>
-      </section>
-    </main>
-  </body>
-  
+        <div class="job-field">
+          <label>Description:</label>
+          <span>{{ job.description }}</span>
+        </div>
+        <div class="job-field">
+          <label>Posted:</label>
+          <span>{{ job.posted | date:'mediumDate' }}</span>
+        </div>
+        <div class="job-field">
+          <label>Required Skills:</label>
+          <div *ngIf="job.competences && job.competences.length > 0; else noCompetences">
+            <ul>
+              <li *ngFor="let competence of job.competences">
+                {{ competence.titre }}
+              </li>
+            </ul>
+          </div>
+          <ng-template #noCompetences>
+            <span>No competences specified.</span>
+          </ng-template>
+        </div>
+        <div class="button-group">
+          <button (click)="viewCandidates(job)" [disabled]="loading">
+            {{ selectedJobId === job.id ? 'Hide Candidates' : 'View Candidates' }}
+            <span class="candidate-count" *ngIf="job.candidates?.length > 0">({{ job.candidates.length }})</span>
+          </button>
+          <button (click)="updateJob(job)" [disabled]="loading">Edit</button>
+          <button (click)="deleteJob(job)" [disabled]="loading">Delete</button>
+        </div>
+
+        <!-- Candidates List -->
+        <div class="candidates-list" *ngIf="selectedJobId === job.id && job.candidates">
+          <h3>Candidates for {{ job.title }}</h3>
+          <div *ngIf="job.candidates.length > 0; else noCandidates">
+            <ul>
+              <li *ngFor="let candidate of job.candidates">
+                <div class="candidate-details">
+                  <span>{{ candidate.firstname | titlecase }} {{ candidate.lastname | titlecase }}</span>
+                  <span *ngIf="candidate.email">Email: {{ candidate.email }}</span>
+                  <span *ngIf="candidate.telephone">Tel: {{ candidate.telephone }}</span>
+                  <a [href]="'data:application/pdf;base64,' + candidate.cv" 
+                     download="candidate_cv.pdf" 
+                     *ngIf="candidate.cv">Download CV</a>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <ng-template #noCandidates>
+            <p>No candidates have applied yet.</p>
+          </ng-template>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>

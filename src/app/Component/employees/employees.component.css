@@ -1,39 +1,250 @@
-.performance-dashboard {
-    text-align: center;
+.employee-management {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.employee-grid h1 {
+  font-size: 28px;
+  color: #1a1a1a;
+  margin-bottom: 20px;
+  text-align: left;
+  font-weight: 700;
+}
+
+.employee-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #fff;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.employee-table th,
+.employee-table td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #e8ecef;
+}
+
+.employee-table th {
+  background-color: #f9fafc;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.employee-table td {
+  color: #4a5568;
+}
+
+.employee-table tr:hover {
+  background-color: #f5f7fa;
+}
+
+.edit-btn,
+.delete-btn {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  margin-right: 5px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.edit-btn {
+  background-color: #f0ad4e;
+  color: white;
+}
+
+.edit-btn:hover {
+  background-color: #ec971f;
+  transform: translateY(-2px);
+}
+
+.delete-btn {
+  background-color: #dc3545;
+  color: white;
+}
+
+.delete-btn:hover {
+  background-color: #c82333;
+  transform: translateY(-2px);
+}
+
+.edit-employee-section {
+  margin-top: 30px;
+}
+
+.employee-form {
+  background-color: #fff;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+}
+
+.employee-form h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #1a1a1a;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 14px;
+  color: #2c3e50;
+  margin-bottom: 5px;
+  font-weight: 500;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  color: #333;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #6f42c1;
+  box-shadow: 0 0 6px rgba(111, 66, 193, 0.15);
+}
+
+.form-group input[readonly] {
+  background-color: #f5f5f5;
+  cursor: not-allowed;
+}
+
+.form-group .error {
+  color: #dc3545;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+.button-group {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.button-group button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.button-group button[type="submit"] {
+  background-color: #28a745;
+  color: white;
+}
+
+.button-group button[type="submit"]:hover {
+  background-color: #218838;
+  transform: translateY(-2px);
+}
+
+.button-group button[type="submit"]:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.button-group button[type="button"] {
+  background-color: #6c757d;
+  color: white;
+}
+
+.button-group button[type="button"]:hover {
+  background-color: #5a6268;
+  transform: translateY(-2px);
+}
+
+.error-message {
+  color: #dc3545;
+  font-size: 14px;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.success-message {
+  color: #28a745;
+  font-size: 14px;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+  .employee-table th,
+  .employee-table td {
+    padding: 10px;
+    font-size: 13px;
+  }
+
+  .edit-btn,
+  .delete-btn {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+
+  .employee-form {
     padding: 20px;
   }
-  
-  .employee-list {
-    display: flex;
+
+  .employee-form h2 {
+    font-size: 22px;
+  }
+
+  .form-group input {
+    padding: 8px;
+    font-size: 13px;
+  }
+
+  .button-group {
     flex-direction: column;
-    gap: 20px;
   }
-  
-  .employee-card {
-    background: #f4f4f4;
-    border-radius: 8px;
-    padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+  .button-group button {
+    width: 100%;
+    padding: 8px 16px;
   }
-  
-  .performance-metrics {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  
-  .metric {
-    display: flex;
-    justify-content: space-between;
-    font-size: 16px;
-  }
-  
-  h2 {
-    margin-bottom: 10px;
+}
+
+@media screen and (max-width: 576px) {
+  .employee-grid h1 {
     font-size: 24px;
   }
-  
-  label {
-    font-weight: bold;
+
+  .employee-table {
+    font-size: 12px;
   }
-  
+
+  .employee-table th,
+  .employee-table td {
+    padding: 8px;
+  }
+
+  .employee-form {
+    padding: 15px;
+  }
+
+  .employee-form h2 {
+    font-size: 20px;
+  }
+}

@@ -10,16 +10,16 @@ import { RequestBuilder } from '../../request-builder';
 
 import { UserDto } from '../../models/user-dto';
 
-export interface ApiUserManagementGet$Plain$Params {
+export interface ApiUserManagementGet$Params {
 }
 
-export function apiUserManagementGet$Plain(http: HttpClient, rootUrl: string, params?: ApiUserManagementGet$Plain$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<UserDto>>> {
-  const rb = new RequestBuilder(rootUrl, apiUserManagementGet$Plain.PATH, 'get');
+export function apiUserManagementGet(http: HttpClient, rootUrl: string, params?: ApiUserManagementGet$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<UserDto>>> {
+  const rb = new RequestBuilder(rootUrl, apiUserManagementGet.PATH, 'get');
   if (params) {
   }
 
   return http.request(
-    rb.build({ responseType: 'text', accept: 'text/plain', context })
+    rb.build({ responseType: 'json', accept: 'application/json', context })
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
@@ -28,4 +28,4 @@ export function apiUserManagementGet$Plain(http: HttpClient, rootUrl: string, pa
   );
 }
 
-apiUserManagementGet$Plain.PATH = '/api/UserManagement';
+apiUserManagementGet.PATH = '/api/UserManagement';

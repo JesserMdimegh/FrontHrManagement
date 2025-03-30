@@ -10,16 +10,16 @@ import { RequestBuilder } from '../../request-builder';
 
 import { CandidatDto } from '../../models/candidat-dto';
 
-export interface ApiCandidatManagementGet$Json$Params {
+export interface ApiCandidatManagementGet$Params {
 }
 
-export function apiCandidatManagementGet$Json(http: HttpClient, rootUrl: string, params?: ApiCandidatManagementGet$Json$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<CandidatDto>>> {
-  const rb = new RequestBuilder(rootUrl, apiCandidatManagementGet$Json.PATH, 'get');
+export function apiCandidatManagementGet(http: HttpClient, rootUrl: string, params?: ApiCandidatManagementGet$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<CandidatDto>>> {
+  const rb = new RequestBuilder(rootUrl, apiCandidatManagementGet.PATH, 'get');
   if (params) {
   }
 
   return http.request(
-    rb.build({ responseType: 'json', accept: 'text/json', context })
+    rb.build({ responseType: 'json', accept: 'application/json', context })
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
@@ -28,4 +28,4 @@ export function apiCandidatManagementGet$Json(http: HttpClient, rootUrl: string,
   );
 }
 
-apiCandidatManagementGet$Json.PATH = '/api/CandidatManagement';
+apiCandidatManagementGet.PATH = '/api/CandidatManagement';

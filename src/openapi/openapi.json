@@ -12,97 +12,50 @@
     }
   ],
   "paths": {
-    "/api/Auth/register": {
+    "/api/Application/apply": {
       "post": {
-        "tags": [
-          "Auth"
-        ],
+        "tags": ["Application"],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/RegisterModel"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RegisterModel"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/RegisterModel"
+                "$ref": "#/components/schemas/ApplicationDtoPost"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/Auth/login": {
-      "post": {
-        "tags": [
-          "Auth"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/LoginModel"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/LoginModel"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/LoginModel"
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
               }
             }
           }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
         }
       }
     },
-    "/api/Auth/logout": {
-      "post": {
-        "tags": [
-          "Auth"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/CandidatManagement": {
+    "/api/Application/offer/{jobOfferId}/candidates": {
       "get": {
-        "tags": [
-          "CandidatManagement"
+        "tags": ["Application"],
+        "parameters": [
+          {
+            "name": "jobOfferId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
         ],
         "responses": {
           "200": {
             "description": "OK",
             "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/CandidatDTO"
-                  }
-                }
-              },
               "application/json": {
                 "schema": {
                   "type": "array",
@@ -110,8 +63,178 @@
                     "$ref": "#/components/schemas/CandidatDTO"
                   }
                 }
-              },
-              "text/json": {
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Application/{applicationId}/cancel": {
+      "delete": {
+        "tags": ["Application"],
+        "parameters": [
+          {
+            "name": "applicationId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Application/{applicationId}/accept": {
+      "put": {
+        "tags": ["Application"],
+        "parameters": [
+          {
+            "name": "applicationId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Application/{applicationId}/reject": {
+      "put": {
+        "tags": ["Application"],
+        "parameters": [
+          {
+            "name": "applicationId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Auth/register": {
+      "post": {
+        "tags": ["Auth"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Auth/login": {
+      "post": {
+        "tags": ["Auth"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Auth/logout": {
+      "post": {
+        "tags": ["Auth"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/CandidatManagement": {
+      "get": {
+        "tags": ["CandidatManagement"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
                 "schema": {
                   "type": "array",
                   "items": {
@@ -126,9 +249,7 @@
     },
     "/api/CandidatManagement/{id}": {
       "get": {
-        "tags": [
-          "CandidatManagement"
-        ],
+        "tags": ["CandidatManagement"],
         "parameters": [
           {
             "name": "id",
@@ -144,17 +265,7 @@
           "200": {
             "description": "OK",
             "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/CandidatDTO"
-                }
-              },
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CandidatDTO"
-                }
-              },
-              "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/CandidatDTO"
                 }
@@ -164,9 +275,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "CandidatManagement"
-        ],
+        "tags": ["CandidatManagement"],
         "parameters": [
           {
             "name": "id",
@@ -180,39 +289,42 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
           }
         }
       }
     },
     "/api/Competence/competences": {
       "get": {
-        "tags": [
-          "Competence"
-        ],
+        "tags": ["Competence"],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CompetenceDTO"
+                  }
+                }
+              }
+            }
           }
         }
       },
       "post": {
-        "tags": [
-          "Competence"
-        ],
+        "tags": ["Competence"],
         "requestBody": {
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CompetenceDTO"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CompetenceDTO"
-              }
-            },
-            "application/*+json": {
               "schema": {
                 "$ref": "#/components/schemas/CompetenceDTO"
               }
@@ -221,37 +333,26 @@
         },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CompetenceDTO"
+                }
+              }
+            }
           }
         }
       }
     },
     "/api/EmployeManagement": {
       "get": {
-        "tags": [
-          "EmployeManagement"
-        ],
+        "tags": ["EmployeManagement"],
         "responses": {
           "200": {
             "description": "OK",
             "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/EmployeDTO"
-                  }
-                }
-              },
               "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/EmployeDTO"
-                  }
-                }
-              },
-              "text/json": {
                 "schema": {
                   "type": "array",
                   "items": {
@@ -266,9 +367,7 @@
     },
     "/api/EmployeManagement/{id}": {
       "get": {
-        "tags": [
-          "EmployeManagement"
-        ],
+        "tags": ["EmployeManagement"],
         "parameters": [
           {
             "name": "id",
@@ -284,17 +383,7 @@
           "200": {
             "description": "OK",
             "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/EmployeDTO"
-                }
-              },
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/EmployeDTO"
-                }
-              },
-              "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/EmployeDTO"
                 }
@@ -304,9 +393,7 @@
         }
       },
       "put": {
-        "tags": [
-          "EmployeManagement"
-        ],
+        "tags": ["EmployeManagement"],
         "parameters": [
           {
             "name": "id",
@@ -324,29 +411,24 @@
               "schema": {
                 "$ref": "#/components/schemas/EmployeDTO"
               }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/EmployeDTO"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/EmployeDTO"
-              }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmployeDTO"
+                }
+              }
+            }
           }
         }
       },
       "delete": {
-        "tags": [
-          "EmployeManagement"
-        ],
+        "tags": ["EmployeManagement"],
         "parameters": [
           {
             "name": "id",
@@ -360,29 +442,24 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
           }
         }
       }
     },
     "/api/JobOffer/create": {
       "post": {
-        "tags": [
-          "JobOffer"
-        ],
+        "tags": ["JobOffer"],
         "requestBody": {
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/JobOfferDtoCreate"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/JobOfferDtoCreate"
-              }
-            },
-            "application/*+json": {
               "schema": {
                 "$ref": "#/components/schemas/JobOfferDtoCreate"
               }
@@ -391,37 +468,131 @@
         },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JobOfferDtoCreate"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/JobOffer/by-rh/{rhId}": {
+      "get": {
+        "tags": ["JobOffer"],
+        "parameters": [
+          {
+            "name": "rhId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/JobOfferDtoCreate"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/JobOffer/{id}": {
+      "get": {
+        "tags": ["JobOffer"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JobOfferDtoCreate"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["JobOffer"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/JobOffer": {
+      "get": {
+        "tags": ["JobOffer"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/JobOfferDtoCreate"
+                  }
+                }
+              }
+            }
           }
         }
       }
     },
     "/api/UserManagement": {
       "get": {
-        "tags": [
-          "UserManagement"
-        ],
+        "tags": ["UserManagement"],
         "responses": {
           "200": {
             "description": "OK",
             "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/UserDTO"
-                  }
-                }
-              },
               "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/UserDTO"
-                  }
-                }
-              },
-              "text/json": {
                 "schema": {
                   "type": "array",
                   "items": {
@@ -436,9 +607,7 @@
     },
     "/api/UserManagement/{id}": {
       "get": {
-        "tags": [
-          "UserManagement"
-        ],
+        "tags": ["UserManagement"],
         "parameters": [
           {
             "name": "id",
@@ -454,17 +623,7 @@
           "200": {
             "description": "OK",
             "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/UserDTO"
-                }
-              },
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UserDTO"
-                }
-              },
-              "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/UserDTO"
                 }
@@ -474,9 +633,7 @@
         }
       },
       "put": {
-        "tags": [
-          "UserManagement"
-        ],
+        "tags": ["UserManagement"],
         "parameters": [
           {
             "name": "id",
@@ -494,29 +651,24 @@
               "schema": {
                 "$ref": "#/components/schemas/UserDTO"
               }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UserDTO"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/UserDTO"
-              }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserDTO"
+                }
+              }
+            }
           }
         }
       },
       "delete": {
-        "tags": [
-          "UserManagement"
-        ],
+        "tags": ["UserManagement"],
         "parameters": [
           {
             "name": "id",
@@ -530,7 +682,14 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
           }
         }
       }
@@ -538,6 +697,24 @@
   },
   "components": {
     "schemas": {
+      "ApplicationDtoPost": {
+        "type": "object",
+        "properties": {
+          "candidatId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "jobOfferId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "cv": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "CandidatDTO": {
         "type": "object",
         "properties": {
@@ -592,6 +769,10 @@
       "CompetenceDTO": {
         "type": "object",
         "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
           "titre": {
             "type": "string",
             "nullable": true

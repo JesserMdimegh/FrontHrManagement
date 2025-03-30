@@ -11,16 +11,12 @@ import { BaseService } from '../base-service';
 import { ApiConfiguration } from '../api-configuration';
 import { StrictHttpResponse } from '../strict-http-response';
 
-import { apiCandidatManagementGet$Json } from '../fn/candidat-management/api-candidat-management-get-json';
-import { ApiCandidatManagementGet$Json$Params } from '../fn/candidat-management/api-candidat-management-get-json';
-import { apiCandidatManagementGet$Plain } from '../fn/candidat-management/api-candidat-management-get-plain';
-import { ApiCandidatManagementGet$Plain$Params } from '../fn/candidat-management/api-candidat-management-get-plain';
+import { apiCandidatManagementGet } from '../fn/candidat-management/api-candidat-management-get';
+import { ApiCandidatManagementGet$Params } from '../fn/candidat-management/api-candidat-management-get';
 import { apiCandidatManagementIdDelete } from '../fn/candidat-management/api-candidat-management-id-delete';
 import { ApiCandidatManagementIdDelete$Params } from '../fn/candidat-management/api-candidat-management-id-delete';
-import { apiCandidatManagementIdGet$Json } from '../fn/candidat-management/api-candidat-management-id-get-json';
-import { ApiCandidatManagementIdGet$Json$Params } from '../fn/candidat-management/api-candidat-management-id-get-json';
-import { apiCandidatManagementIdGet$Plain } from '../fn/candidat-management/api-candidat-management-id-get-plain';
-import { ApiCandidatManagementIdGet$Plain$Params } from '../fn/candidat-management/api-candidat-management-id-get-plain';
+import { apiCandidatManagementIdGet } from '../fn/candidat-management/api-candidat-management-id-get';
+import { ApiCandidatManagementIdGet$Params } from '../fn/candidat-management/api-candidat-management-id-get';
 import { CandidatDto } from '../models/candidat-dto';
 
 @Injectable({ providedIn: 'root' })
@@ -34,44 +30,22 @@ export class CandidatManagementService extends BaseService {
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `apiCandidatManagementGet$Plain()` instead.
+   * To access only the response body, use `apiCandidatManagementGet()` instead.
    *
    * This method doesn't expect any request body.
    */
-  apiCandidatManagementGet$Plain$Response(params?: ApiCandidatManagementGet$Plain$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<CandidatDto>>> {
-    return apiCandidatManagementGet$Plain(this.http, this.rootUrl, params, context);
+  apiCandidatManagementGet$Response(params?: ApiCandidatManagementGet$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<CandidatDto>>> {
+    return apiCandidatManagementGet(this.http, this.rootUrl, params, context);
   }
 
   /**
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `apiCandidatManagementGet$Plain$Response()` instead.
+   * To access the full response (for headers, for example), `apiCandidatManagementGet$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  apiCandidatManagementGet$Plain(params?: ApiCandidatManagementGet$Plain$Params, context?: HttpContext): Observable<Array<CandidatDto>> {
-    return this.apiCandidatManagementGet$Plain$Response(params, context).pipe(
-      map((r: StrictHttpResponse<Array<CandidatDto>>): Array<CandidatDto> => r.body)
-    );
-  }
-
-  /**
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `apiCandidatManagementGet$Json()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  apiCandidatManagementGet$Json$Response(params?: ApiCandidatManagementGet$Json$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<CandidatDto>>> {
-    return apiCandidatManagementGet$Json(this.http, this.rootUrl, params, context);
-  }
-
-  /**
-   * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `apiCandidatManagementGet$Json$Response()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  apiCandidatManagementGet$Json(params?: ApiCandidatManagementGet$Json$Params, context?: HttpContext): Observable<Array<CandidatDto>> {
-    return this.apiCandidatManagementGet$Json$Response(params, context).pipe(
+  apiCandidatManagementGet(params?: ApiCandidatManagementGet$Params, context?: HttpContext): Observable<Array<CandidatDto>> {
+    return this.apiCandidatManagementGet$Response(params, context).pipe(
       map((r: StrictHttpResponse<Array<CandidatDto>>): Array<CandidatDto> => r.body)
     );
   }
@@ -81,44 +55,22 @@ export class CandidatManagementService extends BaseService {
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `apiCandidatManagementIdGet$Plain()` instead.
+   * To access only the response body, use `apiCandidatManagementIdGet()` instead.
    *
    * This method doesn't expect any request body.
    */
-  apiCandidatManagementIdGet$Plain$Response(params: ApiCandidatManagementIdGet$Plain$Params, context?: HttpContext): Observable<StrictHttpResponse<CandidatDto>> {
-    return apiCandidatManagementIdGet$Plain(this.http, this.rootUrl, params, context);
+  apiCandidatManagementIdGet$Response(params: ApiCandidatManagementIdGet$Params, context?: HttpContext): Observable<StrictHttpResponse<CandidatDto>> {
+    return apiCandidatManagementIdGet(this.http, this.rootUrl, params, context);
   }
 
   /**
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `apiCandidatManagementIdGet$Plain$Response()` instead.
+   * To access the full response (for headers, for example), `apiCandidatManagementIdGet$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  apiCandidatManagementIdGet$Plain(params: ApiCandidatManagementIdGet$Plain$Params, context?: HttpContext): Observable<CandidatDto> {
-    return this.apiCandidatManagementIdGet$Plain$Response(params, context).pipe(
-      map((r: StrictHttpResponse<CandidatDto>): CandidatDto => r.body)
-    );
-  }
-
-  /**
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `apiCandidatManagementIdGet$Json()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  apiCandidatManagementIdGet$Json$Response(params: ApiCandidatManagementIdGet$Json$Params, context?: HttpContext): Observable<StrictHttpResponse<CandidatDto>> {
-    return apiCandidatManagementIdGet$Json(this.http, this.rootUrl, params, context);
-  }
-
-  /**
-   * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `apiCandidatManagementIdGet$Json$Response()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  apiCandidatManagementIdGet$Json(params: ApiCandidatManagementIdGet$Json$Params, context?: HttpContext): Observable<CandidatDto> {
-    return this.apiCandidatManagementIdGet$Json$Response(params, context).pipe(
+  apiCandidatManagementIdGet(params: ApiCandidatManagementIdGet$Params, context?: HttpContext): Observable<CandidatDto> {
+    return this.apiCandidatManagementIdGet$Response(params, context).pipe(
       map((r: StrictHttpResponse<CandidatDto>): CandidatDto => r.body)
     );
   }
@@ -132,7 +84,7 @@ export class CandidatManagementService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  apiCandidatManagementIdDelete$Response(params: ApiCandidatManagementIdDelete$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+  apiCandidatManagementIdDelete$Response(params: ApiCandidatManagementIdDelete$Params, context?: HttpContext): Observable<StrictHttpResponse<string>> {
     return apiCandidatManagementIdDelete(this.http, this.rootUrl, params, context);
   }
 
@@ -142,9 +94,9 @@ export class CandidatManagementService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  apiCandidatManagementIdDelete(params: ApiCandidatManagementIdDelete$Params, context?: HttpContext): Observable<void> {
+  apiCandidatManagementIdDelete(params: ApiCandidatManagementIdDelete$Params, context?: HttpContext): Observable<string> {
     return this.apiCandidatManagementIdDelete$Response(params, context).pipe(
-      map((r: StrictHttpResponse<void>): void => r.body)
+      map((r: StrictHttpResponse<string>): string => r.body)
     );
   }
 

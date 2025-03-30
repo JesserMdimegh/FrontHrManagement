@@ -1,93 +1,63 @@
 <body>
-    <div class="auth-wrapper d-flex align-center justify-center pa-4">
-      <div class="auth-card pa-4 pt-7" style="max-width: 448px;">
-        <div class="justify-center">
-          <div class="d-flex">
-            <div class="d-flex text-primary">
-              <img src="/HR-automation/public/logo_hr.png" alt="HR Tracking Logo" />
-            </div>
+  <div class="auth-container">
+    <div class="auth-card">
+      <!-- Logo -->
+      <div class="logo-container">
+        <img src="/HR-automation/public/logo_hr.png" alt="HR Tracking Logo" class="logo" />
+      </div>
+
+      <!-- Title -->
+      <div class="text-center">
+        <h5 class="title">Create Your Account 🚀</h5>
+        <p class="subtitle">Sign up to access the HR system and manage your account.</p>
+      </div>
+
+      <!-- Register Form -->
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="register-form">
+        
+        <div class="form-group">
+          <label for="name">Full Name</label>
+          <input type="text" id="name" formControlName="name" class="input-field" placeholder="Enter your full name" required />
+          <div *ngIf="registerForm.get('name')?.invalid && registerForm.get('name')?.touched" class="error">
+            Full Name is required.
           </div>
         </div>
-  
-        <div class="pt-2">
-          <h5 class="text-h5 mb-1">
-            Create Your Account 🚀
-          </h5>
-          <p class="mb-0">
-            Please sign up to access the HR system and manage your account.
-          </p>
+
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" formControlName="email" class="input-field" placeholder="Enter your email" required />
+          <div *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched" class="error">
+            Please enter a valid email address.
+          </div>
         </div>
-  
-        <div>
-          <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-            <div class="row">
-              <div class="col-12">
-                <input
-                  type="text"
-                  id="name"
-                  formControlName="name"
-                  placeholder="Full Name"
-                  class="text-field"
-                  required
-                />
-                <div *ngIf="registerForm.get('name')?.invalid && registerForm.get('name')?.touched" class="error-message">
-                  Full Name is required.
-                </div>
-              </div>
-  
-             
-              <div class="col-12">
-                <input
-                  type="email"
-                  id="email"
-                  formControlName="email"
-                  placeholder="Email Address"
-                  class="text-field"
-                  required
-                />
-                <div *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched" class="error-message">
-                  Please enter a valid email address.
-                </div>
-              </div>
-  
-              <div class="col-12">
-                <input
-                  type="password"
-                  id="password"
-                  formControlName="password"
-                  placeholder="Password"
-                  class="text-field"
-                  required
-                />
-                <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched" class="error-message">
-                  Password is required (at least 6 characters).
-                </div>
-              </div>
-  
-              <div class="col-12">
-                <input
-                  type="password"
-                  id="confirmPassword"
-                  formControlName="confirmPassword"
-                  placeholder="Confirm Password"
-                  class="text-field"
-                  required
-                />
-                <div *ngIf="registerForm.hasError('mismatch') && registerForm.get('confirmPassword')?.touched" class="error-message">
-                  Passwords do not match.
-                </div>
-              </div>
-  
-             
-              <div class="col-12">
-                <button type="submit" class="btn block" [disabled]="registerForm.invalid">
-                  Register Account
-                </button>
-              </div>
-            </div>
-          </form>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" formControlName="password" class="input-field" placeholder="Enter your password" required />
+          <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched" class="error">
+            Password must be at least 6 characters.
+          </div>
         </div>
+
+        <div class="form-group">
+          <label for="confirmPassword">Confirm Password</label>
+          <input type="password" id="confirmPassword" formControlName="confirmPassword" class="input-field" placeholder="Confirm password" required />
+          <div *ngIf="registerForm.hasError('mismatch') && registerForm.get('confirmPassword')?.touched" class="error">
+            Passwords do not match.
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="submit-btn" [disabled]="registerForm.invalid">
+          Register Account
+        </button>
+      </form>
+
+      <!-- Already have an account? Login -->
+      <div class="text-center login-link">
+        <p>Already have an account? <a href="/login">Login</a></p>
       </div>
+
     </div>
-  </body>
-  
+  </div>
+</body>

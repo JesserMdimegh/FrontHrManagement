@@ -9,23 +9,32 @@ import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
 import { LoginModel } from '../../models/login-model';
+import { UserDto } from '../../models';
+import { UserResponse } from '../../models/UserResponse';
 
 export interface ApiAuthLoginPost$Params {
       body?: LoginModel
 }
 
-export function apiAuthLoginPost(http: HttpClient, rootUrl: string, params?: ApiAuthLoginPost$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+export function apiAuthLoginPost(http: HttpClient, rootUrl: string, params?: ApiAuthLoginPost$Params, context?: HttpContext): Observable<StrictHttpResponse<{
+'token'?: string;
+'user'?:UserResponse;
+}>> {
   const rb = new RequestBuilder(rootUrl, apiAuthLoginPost.PATH, 'post');
   if (params) {
-    rb.body(params.body, 'application/*+json');
+    rb.body(params.body, 'application/json');
   }
 
+  
   return http.request(
-    rb.build({ responseType: 'json', accept: '*/*', context })
+    rb.build({ responseType: 'json', accept: 'application/json', context })
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      return r as StrictHttpResponse<{
+      'token'?: string;
+      'user'?:UserResponse
+      }>;
     })
   );
 }

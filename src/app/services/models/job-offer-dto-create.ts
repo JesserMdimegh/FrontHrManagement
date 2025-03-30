@@ -4,6 +4,7 @@
 
 import { Competence } from '../models/competence';
 export interface JobOfferDtoCreate {
+  id: string ;
   competences?: Array<Competence> | null;
   description?: string | null;
   experience?: number;

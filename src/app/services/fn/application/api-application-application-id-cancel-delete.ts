@@ -9,12 +9,14 @@ import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
 
-export interface ApiAuthLogoutPost$Params {
+export interface ApiApplicationApplicationIdCancelDelete$Params {
+  applicationId: string;
 }
 
-export function apiAuthLogoutPost(http: HttpClient, rootUrl: string, params?: ApiAuthLogoutPost$Params, context?: HttpContext): Observable<StrictHttpResponse<string>> {
-  const rb = new RequestBuilder(rootUrl, apiAuthLogoutPost.PATH, 'post');
+export function apiApplicationApplicationIdCancelDelete(http: HttpClient, rootUrl: string, params: ApiApplicationApplicationIdCancelDelete$Params, context?: HttpContext): Observable<StrictHttpResponse<string>> {
+  const rb = new RequestBuilder(rootUrl, apiApplicationApplicationIdCancelDelete.PATH, 'delete');
   if (params) {
+    rb.path('applicationId', params.applicationId, {});
   }
 
   return http.request(
@@ -27,4 +29,4 @@ export function apiAuthLogoutPost(http: HttpClient, rootUrl: string, params?: Ap
   );
 }
 
-apiAuthLogoutPost.PATH = '/api/Auth/logout';
+apiApplicationApplicationIdCancelDelete.PATH = '/api/Application/{applicationId}/cancel';

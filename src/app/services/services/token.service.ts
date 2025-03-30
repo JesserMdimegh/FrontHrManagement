@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { UserResponse } from '../models/UserResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -11,5 +12,12 @@ export class TokenService {
 
   get token(){
     return localStorage.getItem('token') as string
+  }
+  set user(user :any){
+    localStorage.setItem("user",JSON.stringify(user))
+  }
+
+  get user(){
+    return JSON.parse(localStorage.getItem("user")??"null")
   }
 }

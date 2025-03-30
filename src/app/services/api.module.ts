@@ -6,6 +6,7 @@ import { NgModule, ModuleWithProviders, SkipSelf, Optional } from '@angular/core
 import { HttpClient } from '@angular/common/http';
 import { ApiConfiguration, ApiConfigurationParams } from './api-configuration';
 
+import { ApplicationService } from './services/application.service';
 import { AuthService } from './services/auth.service';
 import { CandidatManagementService } from './services/candidat-management.service';
 import { CompetenceService } from './services/competence.service';
@@ -21,6 +22,7 @@ import { UserManagementService } from './services/user-management.service';
   exports: [],
   declarations: [],
   providers: [
+    ApplicationService,
     AuthService,
     CandidatManagementService,
     CompetenceService,
