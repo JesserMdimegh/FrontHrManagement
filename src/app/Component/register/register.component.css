@@ -1,18 +1,18 @@
-
+/* Reset and Global Styles */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
   }
-  
+
   .small-logo{
     width: 50%;
   }
 
-
   body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f7fc;
+    font-family: "Poppins", sans-serif;
+  background: linear-gradient(135deg, #f0f4f8 0%, #e2e8f0 100%);
+  min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;

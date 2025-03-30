@@ -7,8 +7,14 @@ import { RegisterComponent } from './Component/register/register.component';
 import { JobOffersComponent } from './Component/job-offers/job-offers.component';
 import { CondidatesComponent } from './Component/condidates/condidates.component';
 import { EmployeesComponent } from './Component/employees/employees.component';
+import { HomeComponent } from './Component/home/home.component';
 
 export const routes: Routes = [
+
+    {
+        path:'home',
+        component:HomeComponent,
+    },
     {
         path:'',
         redirectTo:'login',
@@ -18,12 +24,13 @@ export const routes: Routes = [
         path:'login',
         component:LoginComponent,
     }
+
     ,
 
     {
          path: 'register',
-         component: RegisterComponent
-    },
+         component: RegisterComponent },
+
     {
         path: '',
         component: LayoutComponent,
@@ -59,6 +66,7 @@ export const routes: Routes = [
 
 
         ]
+
     }
 
 

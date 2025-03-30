@@ -15,6 +15,7 @@ import { apiCompetenceCompetencesGet } from '../fn/competence/api-competence-com
 import { ApiCompetenceCompetencesGet$Params } from '../fn/competence/api-competence-competences-get';
 import { apiCompetenceCompetencesPost } from '../fn/competence/api-competence-competences-post';
 import { ApiCompetenceCompetencesPost$Params } from '../fn/competence/api-competence-competences-post';
+import { CompetenceDto } from '../models/competence-dto';
 
 @Injectable({ providedIn: 'root' })
 export class CompetenceService extends BaseService {
@@ -31,7 +32,7 @@ export class CompetenceService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  apiCompetenceCompetencesGet$Response(params?: ApiCompetenceCompetencesGet$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+  apiCompetenceCompetencesGet$Response(params?: ApiCompetenceCompetencesGet$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<CompetenceDto>>> {
     return apiCompetenceCompetencesGet(this.http, this.rootUrl, params, context);
   }
 
@@ -41,9 +42,9 @@ export class CompetenceService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  apiCompetenceCompetencesGet(params?: ApiCompetenceCompetencesGet$Params, context?: HttpContext): Observable<void> {
+  apiCompetenceCompetencesGet(params?: ApiCompetenceCompetencesGet$Params, context?: HttpContext): Observable<Array<CompetenceDto>> {
     return this.apiCompetenceCompetencesGet$Response(params, context).pipe(
-      map((r: StrictHttpResponse<void>): void => r.body)
+      map((r: StrictHttpResponse<Array<CompetenceDto>>): Array<CompetenceDto> => r.body)
     );
   }
 
@@ -54,9 +55,9 @@ export class CompetenceService extends BaseService {
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
    * To access only the response body, use `apiCompetenceCompetencesPost()` instead.
    *
-   * This method sends `application/*+json` and handles request body of type `application/*+json`.
+   * This method sends `application/json` and handles request body of type `application/json`.
    */
-  apiCompetenceCompetencesPost$Response(params?: ApiCompetenceCompetencesPost$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+  apiCompetenceCompetencesPost$Response(params?: ApiCompetenceCompetencesPost$Params, context?: HttpContext): Observable<StrictHttpResponse<CompetenceDto>> {
     return apiCompetenceCompetencesPost(this.http, this.rootUrl, params, context);
   }
 
@@ -64,11 +65,11 @@ export class CompetenceService extends BaseService {
    * This method provides access only to the response body.
    * To access the full response (for headers, for example), `apiCompetenceCompetencesPost$Response()` instead.
    *
-   * This method sends `application/*+json` and handles request body of type `application/*+json`.
+   * This method sends `application/json` and handles request body of type `application/json`.
    */
-  apiCompetenceCompetencesPost(params?: ApiCompetenceCompetencesPost$Params, context?: HttpContext): Observable<void> {
+  apiCompetenceCompetencesPost(params?: ApiCompetenceCompetencesPost$Params, context?: HttpContext): Observable<CompetenceDto> {
     return this.apiCompetenceCompetencesPost$Response(params, context).pipe(
-      map((r: StrictHttpResponse<void>): void => r.body)
+      map((r: StrictHttpResponse<CompetenceDto>): CompetenceDto => r.body)
     );
   }
 

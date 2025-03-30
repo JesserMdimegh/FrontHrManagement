@@ -11,16 +11,12 @@ import { BaseService } from '../base-service';
 import { ApiConfiguration } from '../api-configuration';
 import { StrictHttpResponse } from '../strict-http-response';
 
-import { apiEmployeManagementGet$Json } from '../fn/employe-management/api-employe-management-get-json';
-import { ApiEmployeManagementGet$Json$Params } from '../fn/employe-management/api-employe-management-get-json';
-import { apiEmployeManagementGet$Plain } from '../fn/employe-management/api-employe-management-get-plain';
-import { ApiEmployeManagementGet$Plain$Params } from '../fn/employe-management/api-employe-management-get-plain';
+import { apiEmployeManagementGet } from '../fn/employe-management/api-employe-management-get';
+import { ApiEmployeManagementGet$Params } from '../fn/employe-management/api-employe-management-get';
 import { apiEmployeManagementIdDelete } from '../fn/employe-management/api-employe-management-id-delete';
 import { ApiEmployeManagementIdDelete$Params } from '../fn/employe-management/api-employe-management-id-delete';
-import { apiEmployeManagementIdGet$Json } from '../fn/employe-management/api-employe-management-id-get-json';
-import { ApiEmployeManagementIdGet$Json$Params } from '../fn/employe-management/api-employe-management-id-get-json';
-import { apiEmployeManagementIdGet$Plain } from '../fn/employe-management/api-employe-management-id-get-plain';
-import { ApiEmployeManagementIdGet$Plain$Params } from '../fn/employe-management/api-employe-management-id-get-plain';
+import { apiEmployeManagementIdGet } from '../fn/employe-management/api-employe-management-id-get';
+import { ApiEmployeManagementIdGet$Params } from '../fn/employe-management/api-employe-management-id-get';
 import { apiEmployeManagementIdPut } from '../fn/employe-management/api-employe-management-id-put';
 import { ApiEmployeManagementIdPut$Params } from '../fn/employe-management/api-employe-management-id-put';
 import { EmployeDto } from '../models/employe-dto';
@@ -36,44 +32,22 @@ export class EmployeManagementService extends BaseService {
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `apiEmployeManagementGet$Plain()` instead.
+   * To access only the response body, use `apiEmployeManagementGet()` instead.
    *
    * This method doesn't expect any request body.
    */
-  apiEmployeManagementGet$Plain$Response(params?: ApiEmployeManagementGet$Plain$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<EmployeDto>>> {
-    return apiEmployeManagementGet$Plain(this.http, this.rootUrl, params, context);
+  apiEmployeManagementGet$Response(params?: ApiEmployeManagementGet$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<EmployeDto>>> {
+    return apiEmployeManagementGet(this.http, this.rootUrl, params, context);
   }
 
   /**
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `apiEmployeManagementGet$Plain$Response()` instead.
+   * To access the full response (for headers, for example), `apiEmployeManagementGet$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  apiEmployeManagementGet$Plain(params?: ApiEmployeManagementGet$Plain$Params, context?: HttpContext): Observable<Array<EmployeDto>> {
-    return this.apiEmployeManagementGet$Plain$Response(params, context).pipe(
-      map((r: StrictHttpResponse<Array<EmployeDto>>): Array<EmployeDto> => r.body)
-    );
-  }
-
-  /**
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `apiEmployeManagementGet$Json()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  apiEmployeManagementGet$Json$Response(params?: ApiEmployeManagementGet$Json$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<EmployeDto>>> {
-    return apiEmployeManagementGet$Json(this.http, this.rootUrl, params, context);
-  }
-
-  /**
-   * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `apiEmployeManagementGet$Json$Response()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  apiEmployeManagementGet$Json(params?: ApiEmployeManagementGet$Json$Params, context?: HttpContext): Observable<Array<EmployeDto>> {
-    return this.apiEmployeManagementGet$Json$Response(params, context).pipe(
+  apiEmployeManagementGet(params?: ApiEmployeManagementGet$Params, context?: HttpContext): Observable<Array<EmployeDto>> {
+    return this.apiEmployeManagementGet$Response(params, context).pipe(
       map((r: StrictHttpResponse<Array<EmployeDto>>): Array<EmployeDto> => r.body)
     );
   }
@@ -83,44 +57,22 @@ export class EmployeManagementService extends BaseService {
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `apiEmployeManagementIdGet$Plain()` instead.
+   * To access only the response body, use `apiEmployeManagementIdGet()` instead.
    *
    * This method doesn't expect any request body.
    */
-  apiEmployeManagementIdGet$Plain$Response(params: ApiEmployeManagementIdGet$Plain$Params, context?: HttpContext): Observable<StrictHttpResponse<EmployeDto>> {
-    return apiEmployeManagementIdGet$Plain(this.http, this.rootUrl, params, context);
+  apiEmployeManagementIdGet$Response(params: ApiEmployeManagementIdGet$Params, context?: HttpContext): Observable<StrictHttpResponse<EmployeDto>> {
+    return apiEmployeManagementIdGet(this.http, this.rootUrl, params, context);
   }
 
   /**
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `apiEmployeManagementIdGet$Plain$Response()` instead.
+   * To access the full response (for headers, for example), `apiEmployeManagementIdGet$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  apiEmployeManagementIdGet$Plain(params: ApiEmployeManagementIdGet$Plain$Params, context?: HttpContext): Observable<EmployeDto> {
-    return this.apiEmployeManagementIdGet$Plain$Response(params, context).pipe(
-      map((r: StrictHttpResponse<EmployeDto>): EmployeDto => r.body)
-    );
-  }
-
-  /**
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `apiEmployeManagementIdGet$Json()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  apiEmployeManagementIdGet$Json$Response(params: ApiEmployeManagementIdGet$Json$Params, context?: HttpContext): Observable<StrictHttpResponse<EmployeDto>> {
-    return apiEmployeManagementIdGet$Json(this.http, this.rootUrl, params, context);
-  }
-
-  /**
-   * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `apiEmployeManagementIdGet$Json$Response()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  apiEmployeManagementIdGet$Json(params: ApiEmployeManagementIdGet$Json$Params, context?: HttpContext): Observable<EmployeDto> {
-    return this.apiEmployeManagementIdGet$Json$Response(params, context).pipe(
+  apiEmployeManagementIdGet(params: ApiEmployeManagementIdGet$Params, context?: HttpContext): Observable<EmployeDto> {
+    return this.apiEmployeManagementIdGet$Response(params, context).pipe(
       map((r: StrictHttpResponse<EmployeDto>): EmployeDto => r.body)
     );
   }
@@ -132,9 +84,9 @@ export class EmployeManagementService extends BaseService {
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
    * To access only the response body, use `apiEmployeManagementIdPut()` instead.
    *
-   * This method sends `application/*+json` and handles request body of type `application/*+json`.
+   * This method sends `application/json` and handles request body of type `application/json`.
    */
-  apiEmployeManagementIdPut$Response(params: ApiEmployeManagementIdPut$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+  apiEmployeManagementIdPut$Response(params: ApiEmployeManagementIdPut$Params, context?: HttpContext): Observable<StrictHttpResponse<EmployeDto>> {
     return apiEmployeManagementIdPut(this.http, this.rootUrl, params, context);
   }
 
@@ -142,11 +94,11 @@ export class EmployeManagementService extends BaseService {
    * This method provides access only to the response body.
    * To access the full response (for headers, for example), `apiEmployeManagementIdPut$Response()` instead.
    *
-   * This method sends `application/*+json` and handles request body of type `application/*+json`.
+   * This method sends `application/json` and handles request body of type `application/json`.
    */
-  apiEmployeManagementIdPut(params: ApiEmployeManagementIdPut$Params, context?: HttpContext): Observable<void> {
+  apiEmployeManagementIdPut(params: ApiEmployeManagementIdPut$Params, context?: HttpContext): Observable<EmployeDto> {
     return this.apiEmployeManagementIdPut$Response(params, context).pipe(
-      map((r: StrictHttpResponse<void>): void => r.body)
+      map((r: StrictHttpResponse<EmployeDto>): EmployeDto => r.body)
     );
   }
 
@@ -159,7 +111,7 @@ export class EmployeManagementService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  apiEmployeManagementIdDelete$Response(params: ApiEmployeManagementIdDelete$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+  apiEmployeManagementIdDelete$Response(params: ApiEmployeManagementIdDelete$Params, context?: HttpContext): Observable<StrictHttpResponse<string>> {
     return apiEmployeManagementIdDelete(this.http, this.rootUrl, params, context);
   }
 
@@ -169,9 +121,9 @@ export class EmployeManagementService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  apiEmployeManagementIdDelete(params: ApiEmployeManagementIdDelete$Params, context?: HttpContext): Observable<void> {
+  apiEmployeManagementIdDelete(params: ApiEmployeManagementIdDelete$Params, context?: HttpContext): Observable<string> {
     return this.apiEmployeManagementIdDelete$Response(params, context).pipe(
-      map((r: StrictHttpResponse<void>): void => r.body)
+      map((r: StrictHttpResponse<string>): string => r.body)
     );
   }
 

@@ -10,16 +10,16 @@ import { RequestBuilder } from '../../request-builder';
 
 import { EmployeDto } from '../../models/employe-dto';
 
-export interface ApiEmployeManagementGet$Plain$Params {
+export interface ApiEmployeManagementGet$Params {
 }
 
-export function apiEmployeManagementGet$Plain(http: HttpClient, rootUrl: string, params?: ApiEmployeManagementGet$Plain$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<EmployeDto>>> {
-  const rb = new RequestBuilder(rootUrl, apiEmployeManagementGet$Plain.PATH, 'get');
+export function apiEmployeManagementGet(http: HttpClient, rootUrl: string, params?: ApiEmployeManagementGet$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<EmployeDto>>> {
+  const rb = new RequestBuilder(rootUrl, apiEmployeManagementGet.PATH, 'get');
   if (params) {
   }
 
   return http.request(
-    rb.build({ responseType: 'text', accept: 'text/plain', context })
+    rb.build({ responseType: 'json', accept: 'application/json', context })
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
@@ -28,4 +28,4 @@ export function apiEmployeManagementGet$Plain(http: HttpClient, rootUrl: string,
   );
 }
 
-apiEmployeManagementGet$Plain.PATH = '/api/EmployeManagement';
+apiEmployeManagementGet.PATH = '/api/EmployeManagement';

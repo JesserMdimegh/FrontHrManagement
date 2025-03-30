@@ -11,8 +11,17 @@ import { BaseService } from '../base-service';
 import { ApiConfiguration } from '../api-configuration';
 import { StrictHttpResponse } from '../strict-http-response';
 
+import { apiJobOfferByRhRhIdGet } from '../fn/job-offer/api-job-offer-by-rh-rh-id-get';
+import { ApiJobOfferByRhRhIdGet$Params } from '../fn/job-offer/api-job-offer-by-rh-rh-id-get';
 import { apiJobOfferCreatePost } from '../fn/job-offer/api-job-offer-create-post';
 import { ApiJobOfferCreatePost$Params } from '../fn/job-offer/api-job-offer-create-post';
+import { apiJobOfferGet } from '../fn/job-offer/api-job-offer-get';
+import { ApiJobOfferGet$Params } from '../fn/job-offer/api-job-offer-get';
+import { apiJobOfferIdDelete } from '../fn/job-offer/api-job-offer-id-delete';
+import { ApiJobOfferIdDelete$Params } from '../fn/job-offer/api-job-offer-id-delete';
+import { apiJobOfferIdGet } from '../fn/job-offer/api-job-offer-id-get';
+import { ApiJobOfferIdGet$Params } from '../fn/job-offer/api-job-offer-id-get';
+import { JobOfferDtoCreate } from '../models/job-offer-dto-create';
 
 @Injectable({ providedIn: 'root' })
 export class JobOfferService extends BaseService {
@@ -27,9 +36,9 @@ export class JobOfferService extends BaseService {
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
    * To access only the response body, use `apiJobOfferCreatePost()` instead.
    *
-   * This method sends `application/*+json` and handles request body of type `application/*+json`.
+   * This method sends `application/json` and handles request body of type `application/json`.
    */
-  apiJobOfferCreatePost$Response(params?: ApiJobOfferCreatePost$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+  apiJobOfferCreatePost$Response(params?: ApiJobOfferCreatePost$Params, context?: HttpContext): Observable<StrictHttpResponse<JobOfferDtoCreate>> {
     return apiJobOfferCreatePost(this.http, this.rootUrl, params, context);
   }
 
@@ -37,11 +46,112 @@ export class JobOfferService extends BaseService {
    * This method provides access only to the response body.
    * To access the full response (for headers, for example), `apiJobOfferCreatePost$Response()` instead.
    *
-   * This method sends `application/*+json` and handles request body of type `application/*+json`.
+   * This method sends `application/json` and handles request body of type `application/json`.
    */
-  apiJobOfferCreatePost(params?: ApiJobOfferCreatePost$Params, context?: HttpContext): Observable<void> {
+  apiJobOfferCreatePost(params?: ApiJobOfferCreatePost$Params, context?: HttpContext): Observable<JobOfferDtoCreate> {
     return this.apiJobOfferCreatePost$Response(params, context).pipe(
-      map((r: StrictHttpResponse<void>): void => r.body)
+      map((r: StrictHttpResponse<JobOfferDtoCreate>): JobOfferDtoCreate => r.body)
+    );
+  }
+
+  /** Path part for operation `apiJobOfferByRhRhIdGet()` */
+  static readonly ApiJobOfferByRhRhIdGetPath = '/api/JobOffer/by-rh/{rhId}';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `apiJobOfferByRhRhIdGet()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  apiJobOfferByRhRhIdGet$Response(params: ApiJobOfferByRhRhIdGet$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<JobOfferDtoCreate>>> {
+    return apiJobOfferByRhRhIdGet(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `apiJobOfferByRhRhIdGet$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  apiJobOfferByRhRhIdGet(params: ApiJobOfferByRhRhIdGet$Params, context?: HttpContext): Observable<Array<JobOfferDtoCreate>> {
+    return this.apiJobOfferByRhRhIdGet$Response(params, context).pipe(
+      map((r: StrictHttpResponse<Array<JobOfferDtoCreate>>): Array<JobOfferDtoCreate> => r.body)
+    );
+  }
+
+  /** Path part for operation `apiJobOfferIdGet()` */
+  static readonly ApiJobOfferIdGetPath = '/api/JobOffer/{id}';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `apiJobOfferIdGet()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  apiJobOfferIdGet$Response(params: ApiJobOfferIdGet$Params, context?: HttpContext): Observable<StrictHttpResponse<JobOfferDtoCreate>> {
+    return apiJobOfferIdGet(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `apiJobOfferIdGet$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  apiJobOfferIdGet(params: ApiJobOfferIdGet$Params, context?: HttpContext): Observable<JobOfferDtoCreate> {
+    return this.apiJobOfferIdGet$Response(params, context).pipe(
+      map((r: StrictHttpResponse<JobOfferDtoCreate>): JobOfferDtoCreate => r.body)
+    );
+  }
+
+  /** Path part for operation `apiJobOfferIdDelete()` */
+  static readonly ApiJobOfferIdDeletePath = '/api/JobOffer/{id}';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `apiJobOfferIdDelete()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  apiJobOfferIdDelete$Response(params: ApiJobOfferIdDelete$Params, context?: HttpContext): Observable<StrictHttpResponse<string>> {
+    return apiJobOfferIdDelete(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `apiJobOfferIdDelete$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  apiJobOfferIdDelete(params: ApiJobOfferIdDelete$Params, context?: HttpContext): Observable<string> {
+    return this.apiJobOfferIdDelete$Response(params, context).pipe(
+      map((r: StrictHttpResponse<string>): string => r.body)
+    );
+  }
+
+  /** Path part for operation `apiJobOfferGet()` */
+  static readonly ApiJobOfferGetPath = '/api/JobOffer';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `apiJobOfferGet()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  apiJobOfferGet$Response(params?: ApiJobOfferGet$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<JobOfferDtoCreate>>> {
+    return apiJobOfferGet(this.http, this.rootUrl, params, context);
+    
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `apiJobOfferGet$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  apiJobOfferGet(params?: ApiJobOfferGet$Params, context?: HttpContext): Observable<Array<JobOfferDtoCreate>> {
+    return this.apiJobOfferGet$Response(params, context).pipe(
+      map((r: StrictHttpResponse<Array<JobOfferDtoCreate>>): Array<JobOfferDtoCreate> => r.body)
     );
   }
 

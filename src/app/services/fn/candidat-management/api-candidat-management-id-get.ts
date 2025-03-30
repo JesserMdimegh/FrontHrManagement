@@ -8,26 +8,26 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { EmployeDto } from '../../models/employe-dto';
+import { CandidatDto } from '../../models/candidat-dto';
 
-export interface ApiEmployeManagementIdGet$Json$Params {
+export interface ApiCandidatManagementIdGet$Params {
   id: string;
 }
 
-export function apiEmployeManagementIdGet$Json(http: HttpClient, rootUrl: string, params: ApiEmployeManagementIdGet$Json$Params, context?: HttpContext): Observable<StrictHttpResponse<EmployeDto>> {
-  const rb = new RequestBuilder(rootUrl, apiEmployeManagementIdGet$Json.PATH, 'get');
+export function apiCandidatManagementIdGet(http: HttpClient, rootUrl: string, params: ApiCandidatManagementIdGet$Params, context?: HttpContext): Observable<StrictHttpResponse<CandidatDto>> {
+  const rb = new RequestBuilder(rootUrl, apiCandidatManagementIdGet.PATH, 'get');
   if (params) {
     rb.path('id', params.id, {});
   }
 
   return http.request(
-    rb.build({ responseType: 'json', accept: 'text/json', context })
+    rb.build({ responseType: 'json', accept: 'application/json', context })
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<EmployeDto>;
+      return r as StrictHttpResponse<CandidatDto>;
     })
   );
 }
 
-apiEmployeManagementIdGet$Json.PATH = '/api/EmployeManagement/{id}';
+apiCandidatManagementIdGet.PATH = '/api/CandidatManagement/{id}';

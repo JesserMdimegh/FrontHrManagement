@@ -11,16 +11,12 @@ import { BaseService } from '../base-service';
 import { ApiConfiguration } from '../api-configuration';
 import { StrictHttpResponse } from '../strict-http-response';
 
-import { apiUserManagementGet$Json } from '../fn/user-management/api-user-management-get-json';
-import { ApiUserManagementGet$Json$Params } from '../fn/user-management/api-user-management-get-json';
-import { apiUserManagementGet$Plain } from '../fn/user-management/api-user-management-get-plain';
-import { ApiUserManagementGet$Plain$Params } from '../fn/user-management/api-user-management-get-plain';
+import { apiUserManagementGet } from '../fn/user-management/api-user-management-get';
+import { ApiUserManagementGet$Params } from '../fn/user-management/api-user-management-get';
 import { apiUserManagementIdDelete } from '../fn/user-management/api-user-management-id-delete';
 import { ApiUserManagementIdDelete$Params } from '../fn/user-management/api-user-management-id-delete';
-import { apiUserManagementIdGet$Json } from '../fn/user-management/api-user-management-id-get-json';
-import { ApiUserManagementIdGet$Json$Params } from '../fn/user-management/api-user-management-id-get-json';
-import { apiUserManagementIdGet$Plain } from '../fn/user-management/api-user-management-id-get-plain';
-import { ApiUserManagementIdGet$Plain$Params } from '../fn/user-management/api-user-management-id-get-plain';
+import { apiUserManagementIdGet } from '../fn/user-management/api-user-management-id-get';
+import { ApiUserManagementIdGet$Params } from '../fn/user-management/api-user-management-id-get';
 import { apiUserManagementIdPut } from '../fn/user-management/api-user-management-id-put';
 import { ApiUserManagementIdPut$Params } from '../fn/user-management/api-user-management-id-put';
 import { UserDto } from '../models/user-dto';
@@ -36,44 +32,22 @@ export class UserManagementService extends BaseService {
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `apiUserManagementGet$Plain()` instead.
+   * To access only the response body, use `apiUserManagementGet()` instead.
    *
    * This method doesn't expect any request body.
    */
-  apiUserManagementGet$Plain$Response(params?: ApiUserManagementGet$Plain$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<UserDto>>> {
-    return apiUserManagementGet$Plain(this.http, this.rootUrl, params, context);
+  apiUserManagementGet$Response(params?: ApiUserManagementGet$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<UserDto>>> {
+    return apiUserManagementGet(this.http, this.rootUrl, params, context);
   }
 
   /**
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `apiUserManagementGet$Plain$Response()` instead.
+   * To access the full response (for headers, for example), `apiUserManagementGet$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  apiUserManagementGet$Plain(params?: ApiUserManagementGet$Plain$Params, context?: HttpContext): Observable<Array<UserDto>> {
-    return this.apiUserManagementGet$Plain$Response(params, context).pipe(
-      map((r: StrictHttpResponse<Array<UserDto>>): Array<UserDto> => r.body)
-    );
-  }
-
-  /**
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `apiUserManagementGet$Json()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  apiUserManagementGet$Json$Response(params?: ApiUserManagementGet$Json$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<UserDto>>> {
-    return apiUserManagementGet$Json(this.http, this.rootUrl, params, context);
-  }
-
-  /**
-   * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `apiUserManagementGet$Json$Response()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  apiUserManagementGet$Json(params?: ApiUserManagementGet$Json$Params, context?: HttpContext): Observable<Array<UserDto>> {
-    return this.apiUserManagementGet$Json$Response(params, context).pipe(
+  apiUserManagementGet(params?: ApiUserManagementGet$Params, context?: HttpContext): Observable<Array<UserDto>> {
+    return this.apiUserManagementGet$Response(params, context).pipe(
       map((r: StrictHttpResponse<Array<UserDto>>): Array<UserDto> => r.body)
     );
   }
@@ -83,44 +57,22 @@ export class UserManagementService extends BaseService {
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `apiUserManagementIdGet$Plain()` instead.
+   * To access only the response body, use `apiUserManagementIdGet()` instead.
    *
    * This method doesn't expect any request body.
    */
-  apiUserManagementIdGet$Plain$Response(params: ApiUserManagementIdGet$Plain$Params, context?: HttpContext): Observable<StrictHttpResponse<UserDto>> {
-    return apiUserManagementIdGet$Plain(this.http, this.rootUrl, params, context);
+  apiUserManagementIdGet$Response(params: ApiUserManagementIdGet$Params, context?: HttpContext): Observable<StrictHttpResponse<UserDto>> {
+    return apiUserManagementIdGet(this.http, this.rootUrl, params, context);
   }
 
   /**
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `apiUserManagementIdGet$Plain$Response()` instead.
+   * To access the full response (for headers, for example), `apiUserManagementIdGet$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  apiUserManagementIdGet$Plain(params: ApiUserManagementIdGet$Plain$Params, context?: HttpContext): Observable<UserDto> {
-    return this.apiUserManagementIdGet$Plain$Response(params, context).pipe(
-      map((r: StrictHttpResponse<UserDto>): UserDto => r.body)
-    );
-  }
-
-  /**
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `apiUserManagementIdGet$Json()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  apiUserManagementIdGet$Json$Response(params: ApiUserManagementIdGet$Json$Params, context?: HttpContext): Observable<StrictHttpResponse<UserDto>> {
-    return apiUserManagementIdGet$Json(this.http, this.rootUrl, params, context);
-  }
-
-  /**
-   * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `apiUserManagementIdGet$Json$Response()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  apiUserManagementIdGet$Json(params: ApiUserManagementIdGet$Json$Params, context?: HttpContext): Observable<UserDto> {
-    return this.apiUserManagementIdGet$Json$Response(params, context).pipe(
+  apiUserManagementIdGet(params: ApiUserManagementIdGet$Params, context?: HttpContext): Observable<UserDto> {
+    return this.apiUserManagementIdGet$Response(params, context).pipe(
       map((r: StrictHttpResponse<UserDto>): UserDto => r.body)
     );
   }
@@ -132,9 +84,9 @@ export class UserManagementService extends BaseService {
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
    * To access only the response body, use `apiUserManagementIdPut()` instead.
    *
-   * This method sends `application/*+json` and handles request body of type `application/*+json`.
+   * This method sends `application/json` and handles request body of type `application/json`.
    */
-  apiUserManagementIdPut$Response(params: ApiUserManagementIdPut$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+  apiUserManagementIdPut$Response(params: ApiUserManagementIdPut$Params, context?: HttpContext): Observable<StrictHttpResponse<UserDto>> {
     return apiUserManagementIdPut(this.http, this.rootUrl, params, context);
   }
 
@@ -142,11 +94,11 @@ export class UserManagementService extends BaseService {
    * This method provides access only to the response body.
    * To access the full response (for headers, for example), `apiUserManagementIdPut$Response()` instead.
    *
-   * This method sends `application/*+json` and handles request body of type `application/*+json`.
+   * This method sends `application/json` and handles request body of type `application/json`.
    */
-  apiUserManagementIdPut(params: ApiUserManagementIdPut$Params, context?: HttpContext): Observable<void> {
+  apiUserManagementIdPut(params: ApiUserManagementIdPut$Params, context?: HttpContext): Observable<UserDto> {
     return this.apiUserManagementIdPut$Response(params, context).pipe(
-      map((r: StrictHttpResponse<void>): void => r.body)
+      map((r: StrictHttpResponse<UserDto>): UserDto => r.body)
     );
   }
 
@@ -159,7 +111,7 @@ export class UserManagementService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  apiUserManagementIdDelete$Response(params: ApiUserManagementIdDelete$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+  apiUserManagementIdDelete$Response(params: ApiUserManagementIdDelete$Params, context?: HttpContext): Observable<StrictHttpResponse<string>> {
     return apiUserManagementIdDelete(this.http, this.rootUrl, params, context);
   }
 
@@ -169,9 +121,9 @@ export class UserManagementService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  apiUserManagementIdDelete(params: ApiUserManagementIdDelete$Params, context?: HttpContext): Observable<void> {
+  apiUserManagementIdDelete(params: ApiUserManagementIdDelete$Params, context?: HttpContext): Observable<string> {
     return this.apiUserManagementIdDelete$Response(params, context).pipe(
-      map((r: StrictHttpResponse<void>): void => r.body)
+      map((r: StrictHttpResponse<string>): string => r.body)
     );
   }
 

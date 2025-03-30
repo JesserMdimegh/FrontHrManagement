@@ -8,26 +8,27 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { JobOfferDtoCreate } from '../../models/job-offer-dto-create';
+import { ApplicationDtoPost } from '../../models/application-dto-post';
 
-export interface ApiJobOfferCreatePost$Params {
-      body?: JobOfferDtoCreate
+export interface ApiApplicationApplyPost$Params {
+      body?: ApplicationDtoPost
 }
 
-export function apiJobOfferCreatePost(http: HttpClient, rootUrl: string, params?: ApiJobOfferCreatePost$Params, context?: HttpContext): Observable<StrictHttpResponse<JobOfferDtoCreate>> {
-  const rb = new RequestBuilder(rootUrl, apiJobOfferCreatePost.PATH, 'post');
+export function apiApplicationApplyPost(http: HttpClient, rootUrl: string, params?: ApiApplicationApplyPost$Params, context?: HttpContext): Observable<StrictHttpResponse<string>> {
+  const rb = new RequestBuilder(rootUrl, apiApplicationApplyPost.PATH, 'post');
   if (params) {
     rb.body(params.body, 'application/json');
   }
   rb.header('Authorization', `Bearer ${localStorage.getItem('token')}`);
+
   return http.request(
     rb.build({ responseType: 'json', accept: 'application/json', context })
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<JobOfferDtoCreate>;
+      return r as StrictHttpResponse<string>;
     })
   );
 }
 
-apiJobOfferCreatePost.PATH = '/api/JobOffer/create';
+apiApplicationApplyPost.PATH = '/api/Application/apply';

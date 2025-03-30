@@ -8,26 +8,26 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { CandidatDto } from '../../models/candidat-dto';
 
-export interface ApiCandidatManagementIdGet$Plain$Params {
+export interface ApiJobOfferIdDelete$Params {
   id: string;
 }
 
-export function apiCandidatManagementIdGet$Plain(http: HttpClient, rootUrl: string, params: ApiCandidatManagementIdGet$Plain$Params, context?: HttpContext): Observable<StrictHttpResponse<CandidatDto>> {
-  const rb = new RequestBuilder(rootUrl, apiCandidatManagementIdGet$Plain.PATH, 'get');
+export function apiJobOfferIdDelete(http: HttpClient, rootUrl: string, params: ApiJobOfferIdDelete$Params, context?: HttpContext): Observable<StrictHttpResponse<string>> {
+  const rb = new RequestBuilder(rootUrl, apiJobOfferIdDelete.PATH, 'delete');
   if (params) {
     rb.path('id', params.id, {});
   }
-
+  rb.header('Authorization', `Bearer ${localStorage.getItem('token')}`);
   return http.request(
-    rb.build({ responseType: 'text', accept: 'text/plain', context })
+
+    rb.build({ responseType: 'json', accept: 'application/json', context })
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<CandidatDto>;
+      return r as StrictHttpResponse<string>;
     })
   );
 }
 
-apiCandidatManagementIdGet$Plain.PATH = '/api/CandidatManagement/{id}';
+apiJobOfferIdDelete.PATH = '/api/JobOffer/{id}';

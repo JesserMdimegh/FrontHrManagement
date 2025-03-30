@@ -1,93 +1,255 @@
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { JobOfferService } from '../../services/services/job-offer.service';
+import { JobOfferDtoCreate } from '../../services/models/job-offer-dto-create';
+import { Competence } from '../../services/models/competence';
+import { FormGroup, FormBuilder, Validators, FormArray, ReactiveFormsModule } from '@angular/forms';
+import { CompetenceService } from '../../services/services';
+import { HttpClient } from '@angular/common/http';
+import { apiApplicationOfferJobOfferIdCandidatesGet, ApiApplicationOfferJobOfferIdCandidatesGet$Params } from '../../services/fn/application/api-application-offer-job-offer-id-candidates-get';
+import { CandidatDto } from '../../services/models/candidat-dto';
 
 @Component({
   selector: 'app-job-offers',
-  imports: [CommonModule, FormsModule],
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './job-offers.component.html',
   styleUrls: ['./job-offers.component.css']
 })
-export class JobOffersComponent {
-
-  
+export class JobOffersComponent implements OnInit {
   showJobForm: boolean = false;
+  loading: boolean = false;
+  jobs: Array<{
+    id: string;
+    posted: string;
+    candidates: CandidatDto[];
+    competences?: Competence[];
+    description?: string;
+    experience?: number;
+    location?: string;
+    salary?: number;
+    title?: string;
+  }> = [];
+  filteredJobs: Array<any> = [];
+  newJobForm: FormGroup;
+  competencesList: Competence[] = [];
+  selectedJobId: string | null = null;
+  searchQuery: string = '';
+  sortOption: string = 'newest';
+  formErrors: string[] = [];
+  isEditing: boolean = false;
 
-  
-  jobs = [
-    {
-      id: 1,
-      jobTitle: 'Frontend Developer',
-      company: 'Company XYZ',
-      location: 'Remote',
-      posted: '3 days ago',
-      requiredSkills: 'HTML, CSS, JavaScript, React',
-      candidates: []
-    },
-    {
-      id: 2,
-      jobTitle: 'Backend Developer',
-      company: 'Tech Solutions',
-      location: 'On-site',
-      posted: '1 week ago',
-      requiredSkills: 'Node.js, Express, MongoDB',
-      candidates: []
-    },
-    {
-      id: 3,
-      jobTitle: 'Data Analyst',
-      company: 'DataCorp',
-      location: 'Hybrid',
-      posted: '2 weeks ago',
-      requiredSkills: 'SQL, Python, Data Visualization',
-      candidates: []
+  constructor(
+    private router: Router,
+    private jobOfferService: JobOfferService,
+    private competenceService: CompetenceService,
+    private fb: FormBuilder,
+    private http: HttpClient
+  ) {
+    this.newJobForm = this.fb.group({
+      title: ['', Validators.required],
+      location: ['', Validators.required],
+      description: ['', Validators.required],
+      competences: this.fb.array([])
+    });
+  }
+
+  ngOnInit() {
+    this.loadCompetences();
+    this.loadJobs();
+  }
+
+  loadCompetences() {
+    this.loading = true;
+    this.competenceService.apiCompetenceCompetencesGet().subscribe(
+      (response: any) => {
+        if (Array.isArray(response)) {
+          this.competencesList = response.map(item => ({
+            id: item.id,
+            titre: item.titre
+          }));
+        } else {
+          this.formErrors.push('Invalid competences data format');
+        }
+        this.loading = false;
+      },
+      error => {
+        console.error('Error loading competences', error);
+        this.formErrors.push('Failed to load competences');
+        this.loading = false;
+      }
+    );
+  }
+
+  loadJobs() {
+    this.loading = true;
+    this.jobOfferService.apiJobOfferGet().subscribe(
+      (response: any) => {
+        if (Array.isArray(response)) {
+          this.jobs = response.map(job => ({
+            ...job,
+            candidates: []
+          }));
+          this.filteredJobs = [...this.jobs];
+          this.sortJobs();
+        } else {
+          this.formErrors.push('Invalid jobs data format');
+          this.jobs = [];
+          this.filteredJobs = [];
+        }
+        this.loading = false;
+      },
+      error => {
+        console.error('Error loading jobs:', error);
+        this.formErrors.push('Failed to load job offers');
+        this.loading = false;
+      }
+    );
+  }
+
+  onCompetenceSelected(event: Event) {
+    const select = event.target as HTMLSelectElement;
+    const competenceId = select.value;
+    const competences = this.newJobForm.get('competences') as FormArray;
+    if (!competences.value.includes(competenceId)) {
+      competences.push(this.fb.control(competenceId));
     }
-  ];
+  }
 
-  newJob = {
-    jobTitle: '',
-    company: '',
-    location: '',
-    description: '',
-    requiredSkills: '',
-    interviewQuestions: ''
-  };
-
-  constructor(private router: Router) {}
-
-  // Function to handle form submission and add new job
   addJobOffer() {
-    const newJob = {
-      ...this.newJob, 
-      id: this.jobs.length + 1, 
-      posted: 'Just Now', 
-      candidates: [] 
+    if (this.newJobForm.invalid) {
+      console.error('Please fill in all required fields.');
+      return;
+    }
+
+    const jobOfferData: JobOfferDtoCreate = {
+      title: this.newJobForm.value.title,
+      location: this.newJobForm.value.location,
+      description: this.newJobForm.value.description,
+      competences: this.newJobForm.value.competences.map((competenceId: string) => ({
+        id: competenceId,
+        titre: this.competencesList.find(c => c.id === competenceId)?.titre || ''
+      })),
+      id: '0'
     };
 
-   
-    this.jobs.push(newJob);
-
-    this.resetForm();
-    this.showJobForm = false;
+    this.jobOfferService.apiJobOfferCreatePost({ body: jobOfferData }).subscribe(
+      response => {
+        console.log('Job offer added successfully');
+        this.resetForm();
+        this.showJobForm = false;
+        this.loadJobs();
+      },
+      error => {
+        console.error('Error adding job offer', error);
+      }
+    );
   }
 
-  // Function to reset form fields after adding a job
   resetForm() {
-    this.newJob = {
-      jobTitle: '',
-      company: '',
-      location: '',
-      description: '',
-      requiredSkills: '',
-      interviewQuestions: ''
-    };
+    this.newJobForm.reset();
+    const competences = this.newJobForm.get('competences') as FormArray;
+    competences.clear();
+    this.formErrors = [];
+    this.isEditing = false;
   }
 
-  // Function to handle viewing candidates
   viewCandidates(job: any) {
-    console.log('Viewing candidates for:', job.jobTitle);
-    this.router.navigate(['/condidates', job.id]);
+    if (this.selectedJobId === job.id) {
+      this.selectedJobId = null;
+      return;
+    }
+
+    this.selectedJobId = job.id;
+    this.loading = true;
+    const rootUrl = 'http://localhost:5096';
+    const params: ApiApplicationOfferJobOfferIdCandidatesGet$Params = {
+      jobOfferId: job.id
+    };
+
+    apiApplicationOfferJobOfferIdCandidatesGet(this.http, rootUrl, params).subscribe(
+      (response) => {
+        job.candidates = response.body || [];
+        this.loading = false;
+      },
+      (error) => {
+        console.error(`Error fetching candidates for job ${job.id}:`, error);
+        job.candidates = [];
+        this.formErrors.push('Failed to load candidates');
+        this.loading = false;
+      }
+    );
   }
 
+  updateJob(job: any) {
+    this.loading = true;
+    this.jobOfferService.apiJobOfferIdGet({ id: job.id.toString() }).subscribe(
+      (response: any) => {
+        const jobData: JobOfferDtoCreate = response.body;
+        this.newJobForm.patchValue({
+          title: jobData.title,
+          location: jobData.location,
+          description: jobData.description
+        });
+
+        const competences = this.newJobForm.get('competences') as FormArray;
+        competences.clear();
+        if (jobData.competences && jobData.competences.length > 0) {
+          jobData.competences.forEach((competence: Competence) => {
+            competences.push(this.fb.control(competence.id));
+          });
+        }
+
+        this.showJobForm = true;
+        this.isEditing = true;
+        this.loading = false;
+      },
+      error => {
+        console.error('Error fetching job details', error);
+        this.formErrors.push('Failed to load job details');
+        this.loading = false;
+      }
+    );
+  }
+
+  deleteJob(job: any) {
+    if (confirm('Are you sure you want to delete this job offer?')) {
+      this.loading = true;
+      this.jobOfferService.apiJobOfferIdDelete({ id: job.id.toString() }).subscribe(
+        () => {
+          this.loadJobs();
+        },
+        error => {
+          console.error('Error deleting job offer:', error);
+          this.formErrors.push('Failed to delete job offer');
+          this.loading = false;
+        }
+      );
+    }
+  }
+
+  filterJobs(event: Event) {
+    const input = event.target as HTMLInputElement;
+    this.searchQuery = input.value.toLowerCase();
+    this.filteredJobs = this.jobs.filter(job =>
+      (job.title?.toLowerCase().includes(this.searchQuery) || false) ||
+      (job.location?.toLowerCase().includes(this.searchQuery) || false) ||
+      (job.description?.toLowerCase().includes(this.searchQuery) || false)
+    );
+    this.sortJobs();
+  }
+
+  sortJobs(event?: Event) {
+    if (event) {
+      const select = event.target as HTMLSelectElement;
+      this.sortOption = select.value;
+    }
+
+    this.filteredJobs.sort((a, b) => {
+      const dateA = new Date(a.posted).getTime();
+      const dateB = new Date(b.posted).getTime();
+      return this.sortOption === 'newest' ? dateB - dateA : dateA - dateB;
+    });
+  }
 }

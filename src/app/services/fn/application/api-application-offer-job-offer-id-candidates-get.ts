@@ -8,16 +8,16 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { JobOfferDtoCreate } from '../../models/job-offer-dto-create';
+import { CandidatDto } from '../../models/candidat-dto';
 
-export interface ApiJobOfferCreatePost$Params {
-      body?: JobOfferDtoCreate
+export interface ApiApplicationOfferJobOfferIdCandidatesGet$Params {
+  jobOfferId: string;
 }
 
-export function apiJobOfferCreatePost(http: HttpClient, rootUrl: string, params?: ApiJobOfferCreatePost$Params, context?: HttpContext): Observable<StrictHttpResponse<JobOfferDtoCreate>> {
-  const rb = new RequestBuilder(rootUrl, apiJobOfferCreatePost.PATH, 'post');
+export function apiApplicationOfferJobOfferIdCandidatesGet(http: HttpClient, rootUrl: string, params: ApiApplicationOfferJobOfferIdCandidatesGet$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<CandidatDto>>> {
+  const rb = new RequestBuilder(rootUrl, apiApplicationOfferJobOfferIdCandidatesGet.PATH, 'get');
   if (params) {
-    rb.body(params.body, 'application/json');
+    rb.path('jobOfferId', params.jobOfferId, {});
   }
   rb.header('Authorization', `Bearer ${localStorage.getItem('token')}`);
   return http.request(
@@ -25,9 +25,9 @@ export function apiJobOfferCreatePost(http: HttpClient, rootUrl: string, params?
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<JobOfferDtoCreate>;
+      return r as StrictHttpResponse<Array<CandidatDto>>;
     })
   );
 }
 
-apiJobOfferCreatePost.PATH = '/api/JobOffer/create';
+apiApplicationOfferJobOfferIdCandidatesGet.PATH = '/api/Application/offer/{jobOfferId}/candidates';

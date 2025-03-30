@@ -17,6 +17,7 @@ import { apiAuthLogoutPost } from '../fn/auth/api-auth-logout-post';
 import { ApiAuthLogoutPost$Params } from '../fn/auth/api-auth-logout-post';
 import { apiAuthRegisterPost } from '../fn/auth/api-auth-register-post';
 import { ApiAuthRegisterPost$Params } from '../fn/auth/api-auth-register-post';
+import { UserResponse } from '../models/UserResponse';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService extends BaseService {
@@ -31,9 +32,9 @@ export class AuthService extends BaseService {
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
    * To access only the response body, use `apiAuthRegisterPost()` instead.
    *
-   * This method sends `application/*+json` and handles request body of type `application/*+json`.
+   * This method sends `application/json` and handles request body of type `application/json`.
    */
-  apiAuthRegisterPost$Response(params?: ApiAuthRegisterPost$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+  apiAuthRegisterPost$Response(params?: ApiAuthRegisterPost$Params, context?: HttpContext): Observable<StrictHttpResponse<string>> {
     return apiAuthRegisterPost(this.http, this.rootUrl, params, context);
   }
 
@@ -41,11 +42,11 @@ export class AuthService extends BaseService {
    * This method provides access only to the response body.
    * To access the full response (for headers, for example), `apiAuthRegisterPost$Response()` instead.
    *
-   * This method sends `application/*+json` and handles request body of type `application/*+json`.
+   * This method sends `application/json` and handles request body of type `application/json`.
    */
-  apiAuthRegisterPost(params?: ApiAuthRegisterPost$Params, context?: HttpContext): Observable<void> {
+  apiAuthRegisterPost(params?: ApiAuthRegisterPost$Params, context?: HttpContext): Observable<string> {
     return this.apiAuthRegisterPost$Response(params, context).pipe(
-      map((r: StrictHttpResponse<void>): void => r.body)
+      map((r: StrictHttpResponse<string>): string => r.body)
     );
   }
 
@@ -56,9 +57,12 @@ export class AuthService extends BaseService {
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
    * To access only the response body, use `apiAuthLoginPost()` instead.
    *
-   * This method sends `application/*+json` and handles request body of type `application/*+json`.
+   * This method sends `application/json` and handles request body of type `application/json`.
    */
-  apiAuthLoginPost$Response(params?: ApiAuthLoginPost$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+  apiAuthLoginPost$Response(params?: ApiAuthLoginPost$Params, context?: HttpContext): Observable<StrictHttpResponse<{
+'token'?: string;
+'user'?:UserResponse;
+}>> {
     return apiAuthLoginPost(this.http, this.rootUrl, params, context);
   }
 
@@ -66,11 +70,20 @@ export class AuthService extends BaseService {
    * This method provides access only to the response body.
    * To access the full response (for headers, for example), `apiAuthLoginPost$Response()` instead.
    *
-   * This method sends `application/*+json` and handles request body of type `application/*+json`.
+   * This method sends `application/json` and handles request body of type `application/json`.
    */
-  apiAuthLoginPost(params?: ApiAuthLoginPost$Params, context?: HttpContext): Observable<void> {
+  apiAuthLoginPost(params?: ApiAuthLoginPost$Params, context?: HttpContext): Observable<{
+'token'?: string;
+'user'?:UserResponse;
+}> {
     return this.apiAuthLoginPost$Response(params, context).pipe(
-      map((r: StrictHttpResponse<void>): void => r.body)
+      map((r: StrictHttpResponse<{
+'token'?: string;
+'user'?:UserResponse;
+}>): {
+'token'?: string;
+'user'?:UserResponse;
+} => r.body)
     );
   }
 
@@ -83,7 +96,7 @@ export class AuthService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  apiAuthLogoutPost$Response(params?: ApiAuthLogoutPost$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+  apiAuthLogoutPost$Response(params?: ApiAuthLogoutPost$Params, context?: HttpContext): Observable<StrictHttpResponse<string>> {
     return apiAuthLogoutPost(this.http, this.rootUrl, params, context);
   }
 
@@ -93,9 +106,9 @@ export class AuthService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  apiAuthLogoutPost(params?: ApiAuthLogoutPost$Params, context?: HttpContext): Observable<void> {
+  apiAuthLogoutPost(params?: ApiAuthLogoutPost$Params, context?: HttpContext): Observable<string> {
     return this.apiAuthLogoutPost$Response(params, context).pipe(
-      map((r: StrictHttpResponse<void>): void => r.body)
+      map((r: StrictHttpResponse<string>): string => r.body)
     );
   }
 

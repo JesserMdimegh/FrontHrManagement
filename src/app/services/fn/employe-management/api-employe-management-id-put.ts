@@ -15,19 +15,19 @@ export interface ApiEmployeManagementIdPut$Params {
       body?: EmployeDto
 }
 
-export function apiEmployeManagementIdPut(http: HttpClient, rootUrl: string, params: ApiEmployeManagementIdPut$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+export function apiEmployeManagementIdPut(http: HttpClient, rootUrl: string, params: ApiEmployeManagementIdPut$Params, context?: HttpContext): Observable<StrictHttpResponse<EmployeDto>> {
   const rb = new RequestBuilder(rootUrl, apiEmployeManagementIdPut.PATH, 'put');
   if (params) {
     rb.path('id', params.id, {});
-    rb.body(params.body, 'application/*+json');
+    rb.body(params.body, 'application/json');
   }
 
   return http.request(
-    rb.build({ responseType: 'text', accept: '*/*', context })
+    rb.build({ responseType: 'json', accept: 'application/json', context })
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      return r as StrictHttpResponse<EmployeDto>;
     })
   );
 }
