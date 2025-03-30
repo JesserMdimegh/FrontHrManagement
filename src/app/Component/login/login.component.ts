@@ -39,7 +39,7 @@ export class LoginComponent {
       this.authService.apiAuthLoginPost({body:loginModel}).subscribe({
         next: (res:any) => {
           this.tokenService.token = res.token as string;
-          //this.router.navigate(['/']);
+          this.router.navigate(['/dashboard']);
         },
         error: (error) => {
           console.log(error);

@@ -42,12 +42,10 @@ export class RegisterComponent implements OnInit {
 
 
   onSubmit() {
-    /*
+/*
     if (this.registerForm.valid) {
-      const formData = this.registerForm.value;  // Get the form values
-
-      // Call the register service to make the HTTP request
-      this.registerService.registerUser(formData).subscribe({
+      const formData = this.registerForm.value;
+      this.registerService.apiAuthRegisterPost(formData).subscribe({
         next: (response) => {
           console.log('Registration successful:', response);
           // Redirect the user to the login page or show a success message
@@ -59,7 +57,7 @@ export class RegisterComponent implements OnInit {
         }
       });
     }
-      */
+*/
   }
 
 }

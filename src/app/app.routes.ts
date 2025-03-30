@@ -19,10 +19,11 @@ export const routes: Routes = [
         component:LoginComponent,
     }
     ,
-  
+
     {
          path: 'register',
-         component: RegisterComponent },
+         component: RegisterComponent
+    },
     {
         path: '',
         component: LayoutComponent,
@@ -54,17 +55,17 @@ export const routes: Routes = [
                 path:'Employees',
                 component: EmployeesComponent,
             }
-            
-           
-            
+
+
+
         ]
     }
-               
-                
-            
-        
-    
-    
-    
-   
+
+
+
+
+
+
+
+
 ];

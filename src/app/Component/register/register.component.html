@@ -4,11 +4,11 @@
         <div class="justify-center">
           <div class="d-flex">
             <div class="d-flex text-primary">
-              <img src="/HR-automation/public/logo_hr.png" alt="HR Tracking Logo" />
+              <img src="/logo_hr.png" alt="HR Tracking Logo" class="small-logo" />
             </div>
           </div>
         </div>
-  
+
         <div class="pt-2">
           <h5 class="text-h5 mb-1">
             Create Your Account 🚀
@@ -17,7 +17,7 @@
             Please sign up to access the HR system and manage your account.
           </p>
         </div>
-  
+
         <div>
           <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
             <div class="row">
@@ -34,8 +34,8 @@
                   Full Name is required.
                 </div>
               </div>
-  
-             
+
+
               <div class="col-12">
                 <input
                   type="email"
@@ -49,7 +49,7 @@
                   Please enter a valid email address.
                 </div>
               </div>
-  
+
               <div class="col-12">
                 <input
                   type="password"
@@ -63,7 +63,7 @@
                   Password is required (at least 6 characters).
                 </div>
               </div>
-  
+
               <div class="col-12">
                 <input
                   type="password"
@@ -77,8 +77,8 @@
                   Passwords do not match.
                 </div>
               </div>
-  
-             
+
+
               <div class="col-12">
                 <button type="submit" class="btn block" [disabled]="registerForm.invalid">
                   Register Account
@@ -90,4 +90,3 @@
       </div>
     </div>
   </body>
-  

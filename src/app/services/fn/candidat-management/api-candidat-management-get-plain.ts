@@ -7,19 +7,22 @@ import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
-
+import { TokenService } from '../../services/token.service';
 import { CandidatDto } from '../../models/candidat-dto';
 
 export interface ApiCandidatManagementGet$Plain$Params {
 }
 
 export function apiCandidatManagementGet$Plain(http: HttpClient, rootUrl: string, params?: ApiCandidatManagementGet$Plain$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<CandidatDto>>> {
+  const tokenService = new TokenService();
   const rb = new RequestBuilder(rootUrl, apiCandidatManagementGet$Plain.PATH, 'get');
   if (params) {
   }
 
+  rb.header('Authorization', `Bearer ${tokenService.token}`);
+
   return http.request(
-    rb.build({ responseType: 'text', accept: 'text/plain', context })
+    rb.build({ responseType: 'json', accept: 'text/plain', context })
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
