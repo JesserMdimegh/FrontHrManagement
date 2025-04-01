@@ -26,9 +26,11 @@ export class LayoutComponent implements OnInit {
 
    
   }
+  
 
  
   redirectToDashboard() {
     this.router.navigate(['/dashboard']);
   }
+  
 }
