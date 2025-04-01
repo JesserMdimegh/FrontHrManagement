@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
+import * as feather from 'feather-icons';
 
 @Component({
   selector: 'app-layout',
@@ -26,6 +27,19 @@ export class LayoutComponent implements OnInit {
 
    
   }
+  ngAfterViewInit() {
+    feather.replace();
+}
+
+toggleSidebar() {
+    const sidebar = document.querySelector('.sidebar');
+    if (sidebar) {
+        sidebar.classList.toggle('mini');
+        if (window.innerWidth <= 992) {
+            sidebar.classList.toggle('active');
+        }
+    }
+}
   
 
  
