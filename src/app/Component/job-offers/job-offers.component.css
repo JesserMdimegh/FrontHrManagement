@@ -3,7 +3,7 @@
   padding: 40px;
   max-width: 1200px;
   position: relative;
-  left: 140px;
+  left: 120px;
   margin: 0 auto;
   background-color: #f9fafc;
   font-family: 'Roboto', 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -304,12 +304,12 @@ button[type="submit"]:disabled {
 }
 
 .job-card button:nth-child(2) {
-  background-color: #f0ad4e;
+  background-color: #f472b6;
   color: white;
 }
 
 .job-card button:nth-child(2):hover {
-  background-color: #ec971f;
+  background-color: #f472b6;
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(240, 173, 78, 0.3);
 }
