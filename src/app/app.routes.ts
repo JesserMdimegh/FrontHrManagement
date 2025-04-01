@@ -8,66 +8,74 @@ import { JobOffersComponent } from './Component/job-offers/job-offers.component'
 import { CondidatesComponent } from './Component/condidates/condidates.component';
 import { EmployeesComponent } from './Component/employees/employees.component';
 import { HomeComponent } from './Component/home/home.component';
+import { competenceResolver } from './resolver/competence-resolver';
+import { authenticationGuard } from './guard/auth-guard.guard';
+import { rhGuard } from './guard/rh-guard.guard';
+import { candidatGuard } from './guard/candidat-guard.guard';
 
 export const routes: Routes = [
 
+  {
+    path:'',
+    redirectTo:'login',
+    pathMatch:'full'
+  },
+  {
+    path:'login',
+    component:LoginComponent,
+  },
+  {
+    path: 'register',
+    component: RegisterComponent,
+    resolve:{competences :competenceResolver}
+
+},
+
+  // NEEED GUARDING FOR ALL ROUTES
     {
         path:'home',
         component:HomeComponent,
+        //canActivate:[authenticationGuard],
+
     },
-    {
-        path:'',
-        redirectTo:'login',
-        pathMatch:'full'
-    },
-    {
-        path:'login',
-        component:LoginComponent,
-    }
-
-    ,
 
     {
-         path: 'register',
-         component: RegisterComponent },
-
-    {
-        path: '',
-        component: LayoutComponent,
-        children: [
-            {
-                path: 'dashboard',
-                component: DashboardComponent
-            },
-            {
-                path:'CvSubmission',
-                component:CvSubmissionComponent,
-            },
-            {
-                path:'JobOffers',
-                component:JobOffersComponent,
-            }
-            ,
-            {
-                path:'Condidates',
-                component:CondidatesComponent,
-            }
-            ,
-            {
-                path:'Employees',
-                component: EmployeesComponent,
-            }
-            ,
-            {
-                path:'Employees',
-                component: EmployeesComponent,
-            }
+      path: '',
+      component: LayoutComponent,
+      //canActivate:[authenticationGuard,rhGuard],
+      children: [
+          {
+              path: 'dashboard',
+              component: DashboardComponent
+          },
+          {
+              path:'CvSubmission',
+              component:CvSubmissionComponent,
+          },
+          {
+              path:'JobOffers',
+              component:JobOffersComponent,
+              resolve:{competences :competenceResolver}
+          }
+          ,
+          {
+              path:'Condidates',
+              component:CondidatesComponent,
+          }
+          ,
+          {
+              path:'Employees',
+              component: EmployeesComponent,
+          }
+      ]
+  }
 
 
 
-        ]
 
-    }
+
+
+
 
 
 

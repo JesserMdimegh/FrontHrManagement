@@ -36,11 +36,9 @@ export class LoginComponent {
         email: this.loginForm.value.email,
         password: this.loginForm.value.password
       };
-      console.log('token:',localStorage.getItem('token'));
-
       this.authService.apiAuthLoginPost({ body: loginModel }).subscribe({
         next: (res: any) => {
-          this.tokenService.token = res.token as string;
+          this.tokenService.token = res.Token as string;
           this.tokenService.user = res.user as UserResponse;
           console.log('Login successful, redirecting...');
           console.log('res.user', res.user);

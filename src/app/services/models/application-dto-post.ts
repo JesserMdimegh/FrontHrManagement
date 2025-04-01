@@ -5,5 +5,5 @@
 export interface ApplicationDtoPost {
   candidatId?: string;
   cv?: string | null;
-  jobOfferId?: string;
+  jobOfferId?: number;
 }

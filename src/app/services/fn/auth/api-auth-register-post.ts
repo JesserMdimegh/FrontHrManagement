@@ -9,6 +9,7 @@ import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
 import { RegisterModel } from '../../models/register-model';
+import { TokenService } from '../../services/token.service';
 
 export interface ApiAuthRegisterPost$Params {
       body?: RegisterModel
@@ -16,8 +17,22 @@ export interface ApiAuthRegisterPost$Params {
 
 export function apiAuthRegisterPost(http: HttpClient, rootUrl: string, params?: ApiAuthRegisterPost$Params, context?: HttpContext): Observable<StrictHttpResponse<string>> {
   const rb = new RequestBuilder(rootUrl, apiAuthRegisterPost.PATH, 'post');
-  if (params) {
-    rb.body(params.body, 'application/json');
+  const formData = new FormData();
+  if (params?.body) {
+    formData.append('firstname', params.body.firstname || '');
+    formData.append('lastname', params.body.lastname || '');
+    formData.append('email', params.body.email || '');
+    formData.append('password', params.body.password || '');
+    formData.append('telephone', params.body.telephone || '');
+
+    if (params.body.competences) {
+      formData.append('competences', JSON.stringify(params.body.competences));
+    }
+
+    if (params.body.cvFile) {
+      formData.append('cvFile', params.body.cvFile);
+    }
+    rb.body(formData);
   }
 
   return http.request(

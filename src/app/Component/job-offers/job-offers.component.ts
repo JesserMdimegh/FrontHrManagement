@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { JobOfferService } from '../../services/services/job-offer.service';
 import { JobOfferDtoCreate } from '../../services/models/job-offer-dto-create';
 import { Competence } from '../../services/models/competence';
@@ -39,20 +39,26 @@ export class JobOffersComponent implements OnInit {
   sortOption: string = 'newest';
   formErrors: string[] = [];
   isEditing: boolean = false;
+  competences: Competence[] = [];
 
   constructor(
     private router: Router,
     private jobOfferService: JobOfferService,
     private competenceService: CompetenceService,
     private fb: FormBuilder,
-    private http: HttpClient
+    private http: HttpClient,
+    private route: ActivatedRoute
   ) {
     this.newJobForm = this.fb.group({
       title: ['', Validators.required],
       location: ['', Validators.required],
       description: ['', Validators.required],
-      competences: this.fb.array([])
+      experience: [0, Validators.required],
+      salary: [0, Validators.required],
+      competences: [[]]
     });
+
+
   }
 
   ngOnInit() {
@@ -61,25 +67,13 @@ export class JobOffersComponent implements OnInit {
   }
 
   loadCompetences() {
-    this.loading = true;
-    this.competenceService.apiCompetenceCompetencesGet().subscribe(
-      (response: any) => {
-        if (Array.isArray(response)) {
-          this.competencesList = response.map(item => ({
-            id: item.id,
-            titre: item.titre
-          }));
-        } else {
-          this.formErrors.push('Invalid competences data format');
-        }
-        this.loading = false;
-      },
-      error => {
-        console.error('Error loading competences', error);
-        this.formErrors.push('Failed to load competences');
-        this.loading = false;
+    this.route.data.subscribe(data => {
+      if (data['competences']) {
+        this.competences = data['competences'];
+      } else {
+        console.error('No competences data found in route');
       }
-    );
+    });
   }
 
   loadJobs() {
@@ -124,33 +118,32 @@ export class JobOffersComponent implements OnInit {
     }
 
     const jobOfferData: JobOfferDtoCreate = {
-      title: this.newJobForm.value.title,
-      location: this.newJobForm.value.location,
-      description: this.newJobForm.value.description,
-      competences: this.newJobForm.value.competences.map((competenceId: string) => ({
-        id: competenceId,
-        titre: this.competencesList.find(c => c.id === competenceId)?.titre || ''
-      })),
-      id: '0'
-    };
+      Title: this.newJobForm.value.title,
+      Location: this.newJobForm.value.location,
+      Description: this.newJobForm.value.description,
+      Experience: this.newJobForm.value.experience,
+      Salary: this.newJobForm.value.salary,
+      Competences: this.newJobForm.value.competences
+    }
+    console.log('Job offer data:', jobOfferData);
 
-    this.jobOfferService.apiJobOfferCreatePost({ body: jobOfferData }).subscribe(
-      response => {
-        console.log('Job offer added successfully');
+    this.jobOfferService.apiJobOfferCreatePost({ body: jobOfferData }).subscribe({
+      next:(response:any) => {
+        console.log('Job offer created successfully:', response);
         this.resetForm();
-        this.showJobForm = false;
         this.loadJobs();
       },
-      error => {
-        console.error('Error adding job offer', error);
+      error : (error) => {
+        console.error('Error creating job offer:', error);
+        this.formErrors.push('Failed to create job offer');
       }
-    );
+    })
   }
 
   resetForm() {
     this.newJobForm.reset();
     const competences = this.newJobForm.get('competences') as FormArray;
-    competences.clear();
+    //competences.clear();
     this.formErrors = [];
     this.isEditing = false;
   }
@@ -188,16 +181,16 @@ export class JobOffersComponent implements OnInit {
       (response: any) => {
         const jobData: JobOfferDtoCreate = response.body;
         this.newJobForm.patchValue({
-          title: jobData.title,
-          location: jobData.location,
-          description: jobData.description
+          title: jobData.Title,
+          location: jobData.Location,
+          description: jobData.Description
         });
 
         const competences = this.newJobForm.get('competences') as FormArray;
         competences.clear();
-        if (jobData.competences && jobData.competences.length > 0) {
-          jobData.competences.forEach((competence: Competence) => {
-            competences.push(this.fb.control(competence.id));
+        if (jobData.Competences && jobData.Competences.length > 0) {
+          jobData.Competences.forEach((competence: Competence) => {
+            competences.push(this.fb.control(competence.Id));
           });
         }
 

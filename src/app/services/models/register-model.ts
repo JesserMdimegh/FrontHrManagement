@@ -5,7 +5,7 @@
 import { Competence } from '../models/competence';
 export interface RegisterModel {
   competences?: Array<Competence> | null;
-  cv?: string | null;
+  cvFile?: File | null;
   email?: string | null;
   firstname?: string | null;
   lastname?: string | null;

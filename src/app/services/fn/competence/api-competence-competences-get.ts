@@ -17,7 +17,7 @@ export function apiCompetenceCompetencesGet(http: HttpClient, rootUrl: string, p
   const rb = new RequestBuilder(rootUrl, apiCompetenceCompetencesGet.PATH, 'get');
   if (params) {
   }
-
+  rb.header('Authorization', `Bearer ${localStorage.getItem('token')}`);
   return http.request(
     rb.build({ responseType: 'json', accept: 'application/json', context })
   ).pipe(

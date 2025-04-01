@@ -9,22 +9,22 @@ import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
 import { JobOfferDtoCreate } from '../../models/job-offer-dto-create';
+import { JobOffer } from '../../models/job-offer';
 
 export interface ApiJobOfferGet$Params {
 }
 
-export function apiJobOfferGet(http: HttpClient, rootUrl: string, params?: ApiJobOfferGet$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<JobOfferDtoCreate>>> {
+export function apiJobOfferGet(http: HttpClient, rootUrl: string, params?: ApiJobOfferGet$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<JobOffer>>> {
   const rb = new RequestBuilder(rootUrl, apiJobOfferGet.PATH, 'get');
   if (params) {
   }
   rb.header('Authorization', `Bearer ${localStorage.getItem('token')}`);
-  console.log('token:',localStorage.getItem('token'));
   return http.request(
     rb.build({ responseType: 'json', accept: 'application/json', context })
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<Array<JobOfferDtoCreate>>;
+      return r as StrictHttpResponse<Array<JobOffer>>;
     })
   );
 }

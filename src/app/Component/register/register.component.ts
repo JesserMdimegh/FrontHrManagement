@@ -1,9 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/services';
+import { Competence, RegisterModel } from '../../services/models';
+import { HttpClient } from '@angular/common/http';
+import { TokenService } from '../../services/services/token.service';
+import { UserResponse } from '../../services/models/UserResponse';
 
 @Component({
   selector: 'app-register',
@@ -13,51 +17,86 @@ import { AuthService } from '../../services/services';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
-  registerForm!: FormGroup;
+  registerForm: FormGroup;
+  competences: Competence[] = [];
 
   constructor(
     private fb: FormBuilder,
     private registerService: AuthService,
-    private router: Router
-  ) {}
-
-  ngOnInit() {
+    private router: Router,
+    private http: HttpClient,
+    private route: ActivatedRoute,
+    private tokenService: TokenService
+  ) {
     this.registerForm = this.fb.group({
-      name: ['', Validators.required],
+      firstname: ['', Validators.required],
+      lastname: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
-      confirmPassword: ['', [Validators.required]],
-    }, {
-      validator: this.passwordMatchValidator
-    });
+      confirmPassword: ['', Validators.required],
+      telephone: ['', Validators.required],
+      cvFile: [null],
+      competences: [[]]
+    }, { validators: this.passwordMatchValidator });
   }
 
   passwordMatchValidator(group: FormGroup) {
     const password = group.get('password')?.value;
     const confirmPassword = group.get('confirmPassword')?.value;
-
     return password === confirmPassword ? null : { mismatch: true };
   }
+
+  onFileChange(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      const file = input.files[0];
+      // PDF only
+      if (file.type !== 'application/pdf') {
+        alert('Please upload a PDF file.');
+        input.value = '';
+        return;
+      }
+      this.registerForm.patchValue({ cvFile: file });
+    }
+  }
+
+  ngOnInit() {
+    this.route.data.subscribe(data => {
+      this.competences = data['competences'] || [];
+      console.log('Resolved competences:', this.competences);
+    });
+  }
+
+
 
 
 
   onSubmit() {
-/*
     if (this.registerForm.valid) {
-      const formData = this.registerForm.value;
-      this.registerService.apiAuthRegisterPost(formData).subscribe({
-        next: (response) => {
-          console.log('Registration successful:', response);
-          // Redirect the user to the login page or show a success message
-          this.router.navigate(['/login']);  // You can change this to any route you want
-        },
-        error: (err) => {
-          console.error('Registration failed:', err);
-          // Handle error (show error message to user)
-        }
-      });
-    }
-*/
-  }
+      const formValue = this.registerForm.value;
 
+      const registerModel: RegisterModel = {
+        firstname: formValue.firstname,
+        lastname: formValue.lastname,
+        email: formValue.email,
+        password: formValue.password,
+        telephone: formValue.telephone,
+        competences: formValue.competences,
+        cvFile: formValue.cvFile // File object from the form
+      };
+      console.log('RegisterModel:', registerModel);
+      this.registerService.apiAuthRegisterPost({ body: registerModel }).subscribe({
+        next: (res: any) => {
+          console.log('Registration successful:', res);
+          this.tokenService.token = res.Token as string;
+          this.tokenService.user = res.user as UserResponse;
+          this.router.navigate(['/home']);
+        },
+        error: (err:any) => {
+          console.error('Registration failed:', err);
+          alert('Registration failed. Please try again.');
+        }
+    });
+  }
+}
 }

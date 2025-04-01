@@ -22,6 +22,7 @@ import { ApiJobOfferIdDelete$Params } from '../fn/job-offer/api-job-offer-id-del
 import { apiJobOfferIdGet } from '../fn/job-offer/api-job-offer-id-get';
 import { ApiJobOfferIdGet$Params } from '../fn/job-offer/api-job-offer-id-get';
 import { JobOfferDtoCreate } from '../models/job-offer-dto-create';
+import { JobOffer } from '../models/job-offer';
 
 @Injectable({ providedIn: 'root' })
 export class JobOfferService extends BaseService {
@@ -63,7 +64,7 @@ export class JobOfferService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  apiJobOfferByRhRhIdGet$Response(params: ApiJobOfferByRhRhIdGet$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<JobOfferDtoCreate>>> {
+  apiJobOfferByRhRhIdGet$Response(params: ApiJobOfferByRhRhIdGet$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<JobOffer>>> {
     return apiJobOfferByRhRhIdGet(this.http, this.rootUrl, params, context);
   }
 
@@ -73,9 +74,9 @@ export class JobOfferService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  apiJobOfferByRhRhIdGet(params: ApiJobOfferByRhRhIdGet$Params, context?: HttpContext): Observable<Array<JobOfferDtoCreate>> {
+  apiJobOfferByRhRhIdGet(params: ApiJobOfferByRhRhIdGet$Params, context?: HttpContext): Observable<Array<JobOffer>> {
     return this.apiJobOfferByRhRhIdGet$Response(params, context).pipe(
-      map((r: StrictHttpResponse<Array<JobOfferDtoCreate>>): Array<JobOfferDtoCreate> => r.body)
+      map((r: StrictHttpResponse<Array<JobOffer>>): Array<JobOffer> => r.body)
     );
   }
 
@@ -138,9 +139,9 @@ export class JobOfferService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  apiJobOfferGet$Response(params?: ApiJobOfferGet$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<JobOfferDtoCreate>>> {
+  apiJobOfferGet$Response(params?: ApiJobOfferGet$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<JobOffer>>> {
     return apiJobOfferGet(this.http, this.rootUrl, params, context);
-    
+
   }
 
   /**
@@ -149,9 +150,9 @@ export class JobOfferService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  apiJobOfferGet(params?: ApiJobOfferGet$Params, context?: HttpContext): Observable<Array<JobOfferDtoCreate>> {
+  apiJobOfferGet(params?: ApiJobOfferGet$Params, context?: HttpContext): Observable<Array<JobOffer>> {
     return this.apiJobOfferGet$Response(params, context).pipe(
-      map((r: StrictHttpResponse<Array<JobOfferDtoCreate>>): Array<JobOfferDtoCreate> => r.body)
+      map((r: StrictHttpResponse<Array<JobOffer>>): Array<JobOffer> => r.body)
     );
   }
 

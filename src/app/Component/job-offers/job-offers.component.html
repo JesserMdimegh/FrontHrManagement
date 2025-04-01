@@ -28,11 +28,18 @@
             <textarea id="description" formControlName="description" required></textarea>
           </div>
           <div class="form-group">
+            <label for="experience">Experience: <span class="required-label">(nécessaire)</span></label>
+            <input type="number" id="experience" formControlName="experience" required>
+          </div>
+          <div class="form-group">
+            <label for="salary">Salary: <span class="required-label">(nécessaire)</span></label>
+            <input type="number" id="salary" formControlName="salary" required>
+          </div>
+          <div class="form-group">
             <label for="competences">Competences:</label>
-            <select multiple (change)="onCompetenceSelected($event)">
-              <option *ngFor="let competence of competencesList" [value]="competence.id"
-                [selected]="newJobForm.get('competences')?.value.includes(competence.id)">
-                {{ competence.titre }}
+            <select multiple id="competences" formControlName="competences">
+              <option *ngFor="let competence of competences" [ngValue]="competence">
+                {{ competence.Titre }}
               </option>
             </select>
           </div>
@@ -46,7 +53,7 @@
 
     <!-- Filter and Sort Section -->
     <section class="filter-section">
-      <input type="text" placeholder="Search by job title, location, or description..." 
+      <input type="text" placeholder="Search by job title, location, or description..."
              (input)="filterJobs($event)">
       <select (change)="sortJobs($event)">
         <option value="newest">Newest First</option>
@@ -109,8 +116,8 @@
                   <span>{{ candidate.firstname | titlecase }} {{ candidate.lastname | titlecase }}</span>
                   <span *ngIf="candidate.email">Email: {{ candidate.email }}</span>
                   <span *ngIf="candidate.telephone">Tel: {{ candidate.telephone }}</span>
-                  <a [href]="'data:application/pdf;base64,' + candidate.cv" 
-                     download="candidate_cv.pdf" 
+                  <a [href]="'data:application/pdf;base64,' + candidate.cv"
+                     download="candidate_cv.pdf"
                      *ngIf="candidate.cv">Download CV</a>
                 </div>
               </li>

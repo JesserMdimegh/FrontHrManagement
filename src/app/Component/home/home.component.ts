@@ -10,6 +10,8 @@ import { apiApplicationApplyPost, ApiApplicationApplyPost$Params } from '../../s
 import { StrictHttpResponse } from '../../services/strict-http-response';
 import { UserType } from '../../services/models/UserType';
 import { TokenService } from '../../services/services/token.service';
+import { JobOffer } from '../../services/models/job-offer';
+import { JobOfferService } from '../../services/services';
 
 @Component({
   selector: 'app-home',
@@ -19,18 +21,18 @@ import { TokenService } from '../../services/services/token.service';
   styleUrl: './home.component.css'
 })
 export class HomeComponent implements OnInit {
-  jobs: JobOfferDtoCreate[] = [];
+  jobs: JobOffer[] = [];
   errorMessage: string | null = null;
   successMessage: string | null = null;
   isLoading: boolean = false;
   candidateId: string | null = null;
-  selectedJob: JobOfferDtoCreate | null = null;
+  selectedJob: JobOffer| null = null;
   cvFile: File | null = null;
   cvBase64: string | null = null;
   isLoggedIn: boolean = false;
   usertype: UserType | null = null;
 
-  constructor(private http: HttpClient, private router: Router, private tokenservice: TokenService) {}
+  constructor(private http: HttpClient, private router: Router, private tokenservice: TokenService,private jobOfferService : JobOfferService) {}
 
   ngOnInit(): void {
     this.checkAuthStatus();
@@ -40,14 +42,14 @@ export class HomeComponent implements OnInit {
   }
 
   checkAuthStatus(): void {
-    const token = this.tokenservice.token; 
+    const token = this.tokenservice.token;
     const user = this.tokenservice.user;
 
     // Debugging: Decode and log the token payload
     if (token) {
       try {
         const decodedToken = JSON.parse(atob(token.split('.')[1]));
-    
+
       } catch (error) {
         console.error('Error decoding token:', error);
       }
@@ -55,11 +57,11 @@ export class HomeComponent implements OnInit {
       console.log('No token found in localStorage');
     }
 
-    this.usertype = user ? user.userType : null; 
-    this.candidateId = user ? user.id : null;    
+    this.usertype = user ? user.userType : null;
+    this.candidateId = user ? user.id : null;
     this.isLoggedIn = !!token && user !== null && this.usertype !== null;
 
-   
+
 
     if (!this.isLoggedIn) {
       this.router.navigate(['/login']);
@@ -77,23 +79,21 @@ export class HomeComponent implements OnInit {
 
     this.isLoading = true;
     this.errorMessage = null;
-
-    const rootUrl = 'http://localhost:5096';
-    apiJobOfferGet(this.http, rootUrl).subscribe({
-      next: (response: StrictHttpResponse<JobOfferDtoCreate[]>) => {
-        this.jobs = response.body || [];
-        console.log('Fetched job offers:', this.jobs);
+    this.jobOfferService.apiJobOfferGet().subscribe({
+      next: (response: any) => {
+        this.jobs = response.body;
         this.isLoading = false;
+        console.log('Job offers fetched successfully:', this.jobs);
       },
       error: (error: any) => {
         this.isLoading = false;
-        this.errorMessage = 'Failed to load job offers: ' + (error.message || 'Unknown error');
+        this.errorMessage = 'Failed to fetch job offers: ' + (error.error?.message || error.message || 'Unknown error');
         console.error('Error fetching job offers:', error);
       }
     });
   }
 
-  startApplication(job: JobOfferDtoCreate): void {
+  startApplication(job: JobOffer): void {
     if (!this.isLoggedIn) {
       this.errorMessage = 'Please log in to apply for a job.';
       this.router.navigate(['/login']);
@@ -140,7 +140,7 @@ export class HomeComponent implements OnInit {
       return;
     }
 
-    if (!this.selectedJob || !this.selectedJob.id) {
+    if (!this.selectedJob || !this.selectedJob.Id) {
       this.errorMessage = 'Invalid job offer. Please select a job.';
       return;
     }
@@ -159,7 +159,7 @@ export class HomeComponent implements OnInit {
     const rootUrl = 'http://localhost:5096';
     const applicationDto: ApplicationDtoPost = {
       candidatId: this.candidateId,
-      jobOfferId: this.selectedJob.id,
+      jobOfferId: this.selectedJob.Id,
       cv: this.cvBase64
     };
 

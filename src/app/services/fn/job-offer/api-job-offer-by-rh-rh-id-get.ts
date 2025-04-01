@@ -9,12 +9,13 @@ import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
 import { JobOfferDtoCreate } from '../../models/job-offer-dto-create';
+import { JobOffer } from '../../models/job-offer';
 
 export interface ApiJobOfferByRhRhIdGet$Params {
   rhId: string;
 }
 
-export function apiJobOfferByRhRhIdGet(http: HttpClient, rootUrl: string, params: ApiJobOfferByRhRhIdGet$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<JobOfferDtoCreate>>> {
+export function apiJobOfferByRhRhIdGet(http: HttpClient, rootUrl: string, params: ApiJobOfferByRhRhIdGet$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<JobOffer>>> {
   const rb = new RequestBuilder(rootUrl, apiJobOfferByRhRhIdGet.PATH, 'get');
   if (params) {
     rb.path('rhId', params.rhId, {});
@@ -25,7 +26,7 @@ export function apiJobOfferByRhRhIdGet(http: HttpClient, rootUrl: string, params
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<Array<JobOfferDtoCreate>>;
+      return r as StrictHttpResponse<Array<JobOffer>>;
     })
   );
 }
