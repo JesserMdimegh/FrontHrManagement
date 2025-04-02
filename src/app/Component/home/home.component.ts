@@ -3,7 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
-import { JobOfferDtoCreate } from '../../services/models/job-offer-dto-create';
 import { ApplicationDtoPost } from '../../services/models/application-dto-post';
 import { apiJobOfferGet } from '../../services/fn/job-offer/api-job-offer-get';
 import { apiApplicationApplyPost, ApiApplicationApplyPost$Params } from '../../services/fn/application/api-application-apply-post';
@@ -56,9 +55,9 @@ export class HomeComponent implements OnInit {
     } else {
       console.log('No token found in localStorage');
     }
-
-    this.usertype = user ? user.userType : null;
-    this.candidateId = user ? user.id : null;
+    this.usertype = user.UserType !== undefined ? user.UserType as UserType : null;
+    this.candidateId = user.id || null;
+    console.log('User type set to:', this.usertype);
     this.isLoggedIn = !!token && user !== null && this.usertype !== null;
 
 
@@ -70,15 +69,17 @@ export class HomeComponent implements OnInit {
 
     this.isLoading = true;
     this.errorMessage = null;
-    this.jobOfferService.apiJobOfferGet().subscribe({
-      next: (response: any) => {
-        this.jobs = response.body;
+
+    const rootUrl = 'http://localhost:5096';
+    apiJobOfferGet(this.http, rootUrl).subscribe({
+      next: (response: StrictHttpResponse<JobOffer[]>) => {
+        this.jobs = response.body || [];
+        console.log('Fetched job offers:', this.jobs);
         this.isLoading = false;
-        console.log('Job offers fetched successfully:', this.jobs);
       },
       error: (error: any) => {
         this.isLoading = false;
-        this.errorMessage = 'Failed to fetch job offers: ' + (error.error?.message || error.message || 'Unknown error');
+        this.errorMessage = 'Failed to load job offers: ' + (error.message || 'Unknown error');
         console.error('Error fetching job offers:', error);
       }
     });
@@ -194,4 +195,3 @@ export class HomeComponent implements OnInit {
 
   }
 }
-

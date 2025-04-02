@@ -32,7 +32,7 @@
     <div class="filter-section">
       <h3>Filtre offres d’emploi</h3>
       <div class="filters">
-
+       
         <select>
           <option>Catégories</option>
           <option>Technologie</option>
@@ -64,7 +64,7 @@
       <p>{{ errorMessage }}</p>
     </div>
 
-
+  
     <div class="jobs-list" *ngIf="!isLoading && !selectedJob">
       <div class="job-card" *ngFor="let job of jobs">
         <h3>{{ job.Title }}</h3>

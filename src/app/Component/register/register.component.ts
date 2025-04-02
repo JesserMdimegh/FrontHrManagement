@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/services';
 import { Competence, RegisterModel } from '../../services/models';
@@ -12,7 +12,7 @@ import { UserResponse } from '../../services/models/UserResponse';
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [ReactiveFormsModule, FormsModule, CommonModule],
+  imports: [ReactiveFormsModule, FormsModule, CommonModule,RouterLink],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })

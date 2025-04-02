@@ -2,21 +2,34 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
     <script>
-       
         document.addEventListener('DOMContentLoaded', () => {
-    const sidebar = document.querySelector('.sidebar');
-    const toggleBtn = document.querySelector('.sidebar-mini-btn');
-    
-    toggleBtn.addEventListener('click', () => {
-        sidebar.classList.toggle('mini');
-        if (window.innerWidth <= 992) {
-            sidebar.classList.toggle('active');
-        }
-    });
+            // Add a slight delay to ensure Angular has rendered the DOM
+            setTimeout(() => {
+                try {
+                    if (typeof feather !== 'undefined') {
+                        feather.replace();
+                        console.log('Feather Icons initialized successfully');
+                    } else {
+                        console.error('Feather Icons library not loaded');
+                    }
+                } catch (error) {
+                    console.error('Error initializing Feather Icons:', error);
+                }
+            }, 500); // 500ms delay to allow Angular to render
 
-    // Feather icons initialization
-    feather.replace();
-});
+            // Sidebar toggle functionality
+            const sidebar = document.querySelector('.sidebar');
+            const toggleBtn = document.querySelector('.sidebar-mini-btn');
+            
+            if (toggleBtn) {
+                toggleBtn.addEventListener('click', () => {
+                    sidebar.classList.toggle('mini');
+                    if (window.innerWidth <= 992) {
+                        sidebar.classList.toggle('active');
+                    }
+                });
+            }
+        });
     </script>
 </head>
 

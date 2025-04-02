@@ -80,13 +80,23 @@ export class JobOffersComponent implements OnInit {
     this.loading = true;
     this.jobOfferService.apiJobOfferGet().subscribe(
       (response: any) => {
+        console.log('Raw API response:', response); // Debug: Inspect the raw response
         if (Array.isArray(response)) {
           this.jobs = response.map(job => ({
-            ...job,
-            candidates: []
+            id: job.Id || job.id,
+            posted: job.Posted || job.posted || new Date().toISOString(),
+            candidates: [],
+            competences: job.Competences || job.competences || [],
+            description: job.Description || job.description || '',
+            experience: job.Experience || job.experience || 0,
+            location: job.Location || job.location || '',
+            salary: job.Salary || job.salary || 0,
+            title: job.Title || job.title || ''
           }));
           this.filteredJobs = [...this.jobs];
           this.sortJobs();
+          console.log('Loaded jobs:', this.jobs);
+          console.log('Filtered jobs:', this.filteredJobs);
         } else {
           this.formErrors.push('Invalid jobs data format');
           this.jobs = [];
