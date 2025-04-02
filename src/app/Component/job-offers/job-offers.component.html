@@ -70,26 +70,26 @@
       <div class="job-card" *ngFor="let job of filteredJobs">
         <div class="job-field">
           <label>Job Title:</label>
-          <span>{{ job.title | titlecase }}</span>
+          <span>{{ job.title ? (job.title | titlecase) : 'N/A' }}</span>
         </div>
         <div class="job-field">
           <label>Location:</label>
-          <span>{{ job.location | titlecase }}</span>
+          <span>{{ job.location ? (job.location | titlecase) : 'N/A' }}</span>
         </div>
         <div class="job-field">
           <label>Description:</label>
-          <span>{{ job.description }}</span>
+          <span>{{ job.description || 'No description available' }}</span>
         </div>
         <div class="job-field">
           <label>Posted:</label>
-          <span>{{ job.posted | date:'mediumDate' }}</span>
+          <span>{{ job.posted ? (job.posted | date:'mediumDate') : 'N/A' }}</span>
         </div>
         <div class="job-field">
           <label>Required Skills:</label>
           <div *ngIf="job.competences && job.competences.length > 0; else noCompetences">
             <ul>
               <li *ngFor="let competence of job.competences">
-                {{ competence.titre }}
+                {{ competence.titre || competence.Titre || 'Unknown competence' }}
               </li>
             </ul>
           </div>
@@ -104,28 +104,6 @@
           </button>
           <button (click)="updateJob(job)" [disabled]="loading">Edit</button>
           <button (click)="deleteJob(job)" [disabled]="loading">Delete</button>
-        </div>
-
-        <!-- Candidates List -->
-        <div class="candidates-list" *ngIf="selectedJobId === job.id && job.candidates">
-          <h3>Candidates for {{ job.title }}</h3>
-          <div *ngIf="job.candidates.length > 0; else noCandidates">
-            <ul>
-              <li *ngFor="let candidate of job.candidates">
-                <div class="candidate-details">
-                  <span>{{ candidate.firstname | titlecase }} {{ candidate.lastname | titlecase }}</span>
-                  <span *ngIf="candidate.email">Email: {{ candidate.email }}</span>
-                  <span *ngIf="candidate.telephone">Tel: {{ candidate.telephone }}</span>
-                  <a [href]="'data:application/pdf;base64,' + candidate.cv"
-                     download="candidate_cv.pdf"
-                     *ngIf="candidate.cv">Download CV</a>
-                </div>
-              </li>
-            </ul>
-          </div>
-          <ng-template #noCandidates>
-            <p>No candidates have applied yet.</p>
-          </ng-template>
         </div>
       </div>
     </section>

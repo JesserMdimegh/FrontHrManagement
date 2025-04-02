@@ -42,6 +42,7 @@ export class LoginComponent {
           this.tokenService.user = res.user as UserResponse;
           console.log('Login successful, redirecting...');
           console.log('res.user', res.user);
+          localStorage.setItem('candidateId', res.user.Id);
 
           // ✅ Redirect to dashboard after login
           this.router.navigate(['/home']);
