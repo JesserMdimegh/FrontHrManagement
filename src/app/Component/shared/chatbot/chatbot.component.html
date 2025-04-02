@@ -1,0 +1,13 @@
+<!-- chatbot.component.html -->
+  
+  <div class="chatbot-container" *ngIf="isVisible">
+    <div class="chatbot-header">
+            <button class="close-btn" (click)="toggleChatbot()">x</button>
+    </div>
+    <iframe 
+      src="https://www.chatbase.co/chatbot-iframe/3b_8VscT9CvrAZjABE6XQ" 
+      width="100%" 
+      height="500px"
+      frameborder="0">
+    </iframe>
+  </div>

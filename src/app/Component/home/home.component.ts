@@ -12,15 +12,20 @@ import { TokenService } from '../../services/services/token.service';
 import { JobOffer } from '../../services/models/job-offer';
 import { ApplicationService, JobOfferService } from '../../services/services';
 import { LoginService } from '../../services/services/login.service';
+import { ChatbotComponent } from "../shared/chatbot/chatbot.component";
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [CommonModule, FormsModule, RouterModule, ChatbotComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
 export class HomeComponent implements OnInit {
+  chatbotStatus = true;
+  toggleChatbot() {
+    this.chatbotStatus = !this.chatbotStatus;
+  }
   jobs: JobOffer[] = [];
   errorMessage: string | null = null;
   successMessage: string | null = null;
