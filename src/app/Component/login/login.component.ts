@@ -5,6 +5,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TokenService } from '../../services/services/token.service';
 import { AuthService } from '../../services/services/auth.service';
 import { UserResponse } from '../../services/models/UserResponse';
+import { Observable } from 'rxjs';
+import { LoginService } from '../../services/services/login.service';
 
 @Component({
   selector: 'app-login',
@@ -22,7 +24,8 @@ export class LoginComponent {
     private fb: FormBuilder,
     private router: Router,
     private authService: AuthService,
-    private tokenService: TokenService
+    private tokenService: TokenService,
+    private loginService: LoginService
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -40,11 +43,12 @@ export class LoginComponent {
         next: (res: any) => {
           this.tokenService.token = res.Token as string;
           this.tokenService.user = res.user as UserResponse;
-          console.log('Login successful, redirecting...');
-          console.log('res.user', res.user);
-
-          // ✅ Redirect to dashboard after login
-          this.router.navigate(['/home']);
+          this.loginService.login(res.user);
+          if (res.user.UserType === 0) {
+            this.router.navigate(['/home']);
+          } else if (res.user.UserType === 1) {
+            this.router.navigate(['/JobOffers'])
+          }
         },
         error: (error) => {
           console.log('Login failed', error);

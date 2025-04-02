@@ -12,6 +12,7 @@ import { UserType } from '../../services/models/UserType';
 import { TokenService } from '../../services/services/token.service';
 import { JobOffer } from '../../services/models/job-offer';
 import { JobOfferService } from '../../services/services';
+import { LoginService } from '../../services/services/login.service';
 
 @Component({
   selector: 'app-home',
@@ -32,13 +33,12 @@ export class HomeComponent implements OnInit {
   isLoggedIn: boolean = false;
   usertype: UserType | null = null;
 
-  constructor(private http: HttpClient, private router: Router, private tokenservice: TokenService,private jobOfferService : JobOfferService) {}
+  constructor(private http: HttpClient, private router: Router, private tokenservice: TokenService,private jobOfferService : JobOfferService,private loginService : LoginService) {}
 
   ngOnInit(): void {
     this.checkAuthStatus();
-    if (this.isLoggedIn) {
-      this.fetchJobOffers();
-    }
+    this.fetchJobOffers();
+
   }
 
   checkAuthStatus(): void {
@@ -63,19 +63,10 @@ export class HomeComponent implements OnInit {
 
 
 
-    if (!this.isLoggedIn) {
-      this.router.navigate(['/login']);
-    }
+
   }
 
   fetchJobOffers(): void {
-    const token = this.tokenservice.token;
-    if (!token) {
-      this.errorMessage = 'You need to log in to view job offers.';
-      console.error('No token found in localStorage. Please log in.');
-      this.router.navigate(['/login']);
-      return;
-    }
 
     this.isLoading = true;
     this.errorMessage = null;
@@ -94,11 +85,6 @@ export class HomeComponent implements OnInit {
   }
 
   startApplication(job: JobOffer): void {
-    if (!this.isLoggedIn) {
-      this.errorMessage = 'Please log in to apply for a job.';
-      this.router.navigate(['/login']);
-      return;
-    }
 
     if (this.usertype !== UserType.CANDIDATE) {
       this.errorMessage = 'Only candidates can apply for job offers.';
@@ -136,7 +122,6 @@ export class HomeComponent implements OnInit {
     if (!this.candidateId) {
       this.errorMessage = 'You need to log in as a candidate to apply.';
       console.error('No candidate ID found. Please log in.');
-      this.router.navigate(['/login']);
       return;
     }
 
@@ -197,6 +182,7 @@ export class HomeComponent implements OnInit {
   }
 
   logout(): void {
+    this.loginService.logout();
     localStorage.removeItem('token');
     localStorage.removeItem('user'); // Clear user data too
     this.candidateId = null;
@@ -205,6 +191,7 @@ export class HomeComponent implements OnInit {
     this.jobs = [];
     this.successMessage = 'Logged out successfully!';
     this.router.navigate(['/login']);
+
   }
 }
 

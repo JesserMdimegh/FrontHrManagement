@@ -25,7 +25,7 @@ export function apiAuthLoginPost(http: HttpClient, rootUrl: string, params?: Api
     rb.body(params.body, 'application/json');
   }
 
-  
+
   return http.request(
     rb.build({ responseType: 'json', accept: 'application/json', context })
   ).pipe(
@@ -37,6 +37,7 @@ export function apiAuthLoginPost(http: HttpClient, rootUrl: string, params?: Api
       }>;
     })
   );
+  
 }
 
 apiAuthLoginPost.PATH = '/api/Auth/login';

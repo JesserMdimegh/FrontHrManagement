@@ -4,6 +4,6 @@ export class UserResponse {
     lastname?: string;
     email?: string;
     password?: string;
-    userType?: number;
+    UserType?: number;
     telephone?: string;
 }

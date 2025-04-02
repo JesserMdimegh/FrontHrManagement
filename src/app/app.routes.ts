@@ -14,74 +14,44 @@ import { rhGuard } from './guard/rh-guard.guard';
 import { candidatGuard } from './guard/candidat-guard.guard';
 
 export const routes: Routes = [
-
-  {
-    path:'',
-    redirectTo:'login',
-    pathMatch:'full'
-  },
-  {
-    path:'login',
-    component:LoginComponent,
-  },
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  { path: 'login', component: LoginComponent },
   {
     path: 'register',
     component: RegisterComponent,
-    resolve:{competences :competenceResolver}
-
-},
-
-  // NEEED GUARDING FOR ALL ROUTES
-    {
-        path:'home',
-        component:HomeComponent,
-        //canActivate:[authenticationGuard],
-
-    },
-
-    {
-      path: '',
-      component: LayoutComponent,
-      //canActivate:[authenticationGuard,rhGuard],
-      children: [
-          {
-              path: 'dashboard',
-              component: DashboardComponent
-          },
-          {
-              path:'CvSubmission',
-              component:CvSubmissionComponent,
-          },
-          {
-              path:'JobOffers',
-              component:JobOffersComponent,
-              resolve:{competences :competenceResolver}
-          }
-          ,
-          {
-              path:'Condidates',
-              component:CondidatesComponent,
-          }
-          ,
-          {
-              path:'Employees',
-              component: EmployeesComponent,
-          }
-      ]
+    resolve: { competences: competenceResolver }
+  },
+  {
+    path: 'home',
+    component: HomeComponent,
+    canActivate: [authenticationGuard]
+  },
+  {
+    path: '',
+    component: LayoutComponent,
+    canActivate: [authenticationGuard, rhGuard],
+    children: [
+      {
+        path: 'dashboard',
+        component: DashboardComponent
+      },
+      {
+        path: 'CvSubmission',
+        component: CvSubmissionComponent
+      },
+      {
+        path: 'JobOffers',
+        component: JobOffersComponent,
+        resolve: { competences: competenceResolver }
+      },
+      {
+        path: 'Condidates',
+        component: CondidatesComponent
+      },
+      {
+        path: 'Employees',
+        component: EmployeesComponent
+      }
+    ]
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ];
