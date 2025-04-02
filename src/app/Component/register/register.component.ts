@@ -24,7 +24,6 @@ export class RegisterComponent implements OnInit {
     private fb: FormBuilder,
     private registerService: AuthService,
     private router: Router,
-    private http: HttpClient,
     private route: ActivatedRoute,
     private tokenService: TokenService
   ) {

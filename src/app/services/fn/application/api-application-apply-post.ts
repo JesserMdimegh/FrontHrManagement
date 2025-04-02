@@ -16,8 +16,13 @@ export interface ApiApplicationApplyPost$Params {
 
 export function apiApplicationApplyPost(http: HttpClient, rootUrl: string, params?: ApiApplicationApplyPost$Params, context?: HttpContext): Observable<StrictHttpResponse<string>> {
   const rb = new RequestBuilder(rootUrl, apiApplicationApplyPost.PATH, 'post');
-  if (params) {
-    rb.body(params.body, 'application/json');
+  const formData = new FormData();
+  if (params?.body) {
+    formData.append('CandidatId', params.body.CandidatId|| '');
+    formData.append('JobOfferId', params.body.JobOfferId|| '');
+    formData.append('Cv', params.body.Cv|| '');
+
+    rb.body(formData);
   }
   rb.header('Authorization', `Bearer ${localStorage.getItem('token')}`);
 

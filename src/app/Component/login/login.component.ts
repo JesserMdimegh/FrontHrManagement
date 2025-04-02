@@ -43,6 +43,7 @@ export class LoginComponent {
         next: (res: any) => {
           this.tokenService.token = res.Token as string;
           this.tokenService.user = res.user as UserResponse;
+          localStorage.setItem('candidateId', res.user.Id);
           this.loginService.login(res.user);
           if (res.user.UserType === 0) {
             this.router.navigate(['/home']);

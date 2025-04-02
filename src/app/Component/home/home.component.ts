@@ -10,7 +10,7 @@ import { StrictHttpResponse } from '../../services/strict-http-response';
 import { UserType } from '../../services/models/UserType';
 import { TokenService } from '../../services/services/token.service';
 import { JobOffer } from '../../services/models/job-offer';
-import { JobOfferService } from '../../services/services';
+import { ApplicationService, JobOfferService } from '../../services/services';
 import { LoginService } from '../../services/services/login.service';
 
 @Component({
@@ -28,74 +28,49 @@ export class HomeComponent implements OnInit {
   candidateId: string | null = null;
   selectedJob: JobOffer| null = null;
   cvFile: File | null = null;
-  cvBase64: string | null = null;
   isLoggedIn: boolean = false;
   usertype: UserType | null = null;
 
-  constructor(private http: HttpClient, private router: Router, private tokenservice: TokenService,private jobOfferService : JobOfferService,private loginService : LoginService) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private tokenservice: TokenService,
+    private jobOfferService : JobOfferService,
+    private loginService : LoginService,
+    private applicationService:ApplicationService
+  )
+  {}
 
   ngOnInit(): void {
-    this.checkAuthStatus();
     this.fetchJobOffers();
-
+    this.candidateId = localStorage.getItem('candidateId') ;
+    this.usertype = this.tokenservice.user.UserType as UserType;
+    console.log(this.tokenservice.user.UserType )
+    console.log('User type:', this.usertype);
   }
 
-  checkAuthStatus(): void {
-    const token = this.tokenservice.token;
-    const user = this.tokenservice.user;
 
-    // Debugging: Decode and log the token payload
-    if (token) {
-      try {
-        const decodedToken = JSON.parse(atob(token.split('.')[1]));
-
-      } catch (error) {
-        console.error('Error decoding token:', error);
-      }
-    } else {
-      console.log('No token found in localStorage');
-    }
-    this.usertype = user.UserType !== undefined ? user.UserType as UserType : null;
-    this.candidateId = user.id || null;
-    console.log('User type set to:', this.usertype);
-    this.isLoggedIn = !!token && user !== null && this.usertype !== null;
-
-
-
-
-  }
 
   fetchJobOffers(): void {
 
     this.isLoading = true;
     this.errorMessage = null;
 
-    const rootUrl = 'http://localhost:5096';
-    apiJobOfferGet(this.http, rootUrl).subscribe({
-      next: (response: StrictHttpResponse<JobOffer[]>) => {
-        this.jobs = response.body || [];
-        console.log('Fetched job offers:', this.jobs);
+    this.jobOfferService.apiJobOfferGet(this.http).subscribe({
+      next: (response: JobOffer[]) => {
+        this.jobs = response || [];
         this.isLoading = false;
       },
       error: (error: any) => {
         this.isLoading = false;
         this.errorMessage = 'Failed to load job offers: ' + (error.message || 'Unknown error');
-        console.error('Error fetching job offers:', error);
       }
     });
   }
 
   startApplication(job: JobOffer): void {
-
-    if (this.usertype !== UserType.CANDIDATE) {
-      this.errorMessage = 'Only candidates can apply for job offers.';
-      console.log('Restricted user type:', this.usertype);
-      return;
-    }
-
     this.selectedJob = job;
     this.cvFile = null;
-    this.cvBase64 = null;
     this.errorMessage = null;
     this.successMessage = null;
   }
@@ -103,21 +78,17 @@ export class HomeComponent implements OnInit {
   onCvFileChange(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
+      const file = input.files[0];
+      // PDF only
+      if (file.type !== 'application/pdf') {
+        alert('Please upload a PDF file.');
+        input.value = '';
+        return;
+      }
       this.cvFile = input.files[0];
-      this.convertFileToBase64(this.cvFile);
     }
   }
 
-  convertFileToBase64(file: File): void {
-    const reader = new FileReader();
-    reader.onload = () => {
-      this.cvBase64 = (reader.result as string).split(',')[1];
-    };
-    reader.onerror = () => {
-      this.errorMessage = 'Failed to read the CV file. Please try again.';
-    };
-    reader.readAsDataURL(file);
-  }
 
   applyForJob(): void {
     if (!this.candidateId) {
@@ -131,7 +102,7 @@ export class HomeComponent implements OnInit {
       return;
     }
 
-    if (!this.cvBase64) {
+    if (!this.cvFile) {
       this.errorMessage = 'Please upload a CV before applying.';
       return;
     }
@@ -142,20 +113,21 @@ export class HomeComponent implements OnInit {
       return;
     }
 
-    const rootUrl = 'http://localhost:5096';
+    
+
     const applicationDto: ApplicationDtoPost = {
-      candidatId: this.candidateId,
-      jobOfferId: this.selectedJob.Id,
-      cv: this.cvBase64
+      CandidatId: this.candidateId,
+      JobOfferId: this.selectedJob.Id.toString(),
+      Cv: this.cvFile
     };
+
 
     console.log('Submitting application with data:', applicationDto);
 
-    const params: ApiApplicationApplyPost$Params = { body: applicationDto };
 
-    apiApplicationApplyPost(this.http, rootUrl, params).subscribe({
-      next: (response: StrictHttpResponse<string>) => {
-        const responseBody = JSON.parse(response.body);
+    this.applicationService.apiApplicationApplyPost({ body: applicationDto }).subscribe({
+      next: (response: string) => {
+        const responseBody = JSON.parse(response);
         this.successMessage = responseBody.message || 'Application submitted successfully.';
         this.errorMessage = null;
         this.selectedJob = null;
@@ -177,7 +149,6 @@ export class HomeComponent implements OnInit {
   cancelApplication(): void {
     this.selectedJob = null;
     this.cvFile = null;
-    this.cvBase64 = null;
     this.errorMessage = null;
     this.successMessage = null;
   }
