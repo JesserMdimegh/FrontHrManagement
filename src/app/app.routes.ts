@@ -12,6 +12,7 @@ import { competenceResolver } from './resolver/competence-resolver';
 import { authenticationGuard } from './guard/auth-guard.guard';
 import { rhGuard } from './guard/rh-guard.guard';
 import { candidatGuard } from './guard/candidat-guard.guard';
+import { ChatbotComponent } from './Component/shared/chatbot/chatbot.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -21,6 +22,7 @@ export const routes: Routes = [
     component: RegisterComponent,
     resolve: { competences: competenceResolver }
   },
+
   {
     path: 'home',
     component: HomeComponent,
