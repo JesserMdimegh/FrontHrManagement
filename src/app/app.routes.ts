@@ -5,6 +5,7 @@ import { LayoutComponent } from './Component/layout/layout.component';
 import { CvSubmissionComponent } from './Component/cv-submission/cv-submission.component';
 import { RegisterComponent } from './Component/register/register.component';
 import { JobOffersComponent } from './Component/job-offers/job-offers.component';
+import { JobOfferCandidatesComponent } from './Component/job-offer-candidates/job-offer-candidates.component'; // Import the new component
 import { CondidatesComponent } from './Component/condidates/condidates.component';
 import { EmployeesComponent } from './Component/employees/employees.component';
 import { HomeComponent } from './Component/home/home.component';
@@ -42,7 +43,12 @@ export const routes: Routes = [
       {
         path: 'JobOffers',
         component: JobOffersComponent,
-        resolve: { competences: competenceResolver }
+        resolve: { competences: competenceResolver },
+        children: [
+          {
+            path: ':id/candidates',
+            component: JobOfferCandidatesComponent
+          }]
       },
       {
         path: 'Condidates',
@@ -53,5 +59,6 @@ export const routes: Routes = [
         component: EmployeesComponent
       }
     ]
-  }
+  },
+  { path: '**', redirectTo: 'login' } // Add a wildcard route for handling invalid paths
 ];

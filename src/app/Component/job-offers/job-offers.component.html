@@ -89,7 +89,7 @@
           <div *ngIf="job.competences && job.competences.length > 0; else noCompetences">
             <ul>
               <li *ngFor="let competence of job.competences">
-                {{ competence.titre || competence.Titre || 'Unknown competence' }}
+                {{ competence.Titre || competence.Titre || 'Unknown competence' }}
               </li>
             </ul>
           </div>
@@ -100,12 +100,16 @@
         <div class="button-group">
           <button (click)="viewCandidates(job)" [disabled]="loading">
             {{ selectedJobId === job.id ? 'Hide Candidates' : 'View Candidates' }}
-            <span class="candidate-count" *ngIf="job.candidates?.length > 0">({{ job.candidates.length }})</span>
+            <span class="candidate-count" *ngIf="job.candidates.length > 0">({{ job.candidates.length }})</span>
           </button>
           <button (click)="updateJob(job)" [disabled]="loading">Edit</button>
           <button (click)="deleteJob(job)" [disabled]="loading">Delete</button>
         </div>
       </div>
     </section>
+
+    <div >
+      <router-outlet></router-outlet>
+    </div>
   </main>
 </body>

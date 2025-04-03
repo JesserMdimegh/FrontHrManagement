@@ -108,7 +108,7 @@
     background: white;
     color: black;
     font-weight: 600;
-    box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
+    box-shadow: 0 7px 15px rgba(124, 58, 237, 0.3);
 }
 .m-link:hover {
     background:  #7c3aed;
@@ -120,7 +120,7 @@
     position: absolute;
     left: 0;
     top: 50%;
-    width: 4px;
+    width: 6px;
     height: 50%;
     background: #f472b6; 
     transform: translateY(-50%);

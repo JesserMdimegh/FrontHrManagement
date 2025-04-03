@@ -4,11 +4,13 @@
 
 import { Competence } from '../models/competence';
 export interface CandidatDto {
-  competences?: Array<Competence> | null;
-  cv?: string | null;
-  email?: string | null;
-  firstname?: string | null;
-  id?: string;
-  lastname?: string | null;
-  telephone?: string | null;
+  Status: string;
+  Competences?: Array<Competence> | null;
+  Cv?: string | null;
+  Email?: string | null;
+  Firstname?: string | null;
+  Id?: string;
+  Lastname?: string | null;
+  Telephone?: string | null;
+  AppliedDate?: string | null;
 }
