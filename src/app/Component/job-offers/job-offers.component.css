@@ -496,3 +496,39 @@ button[type="submit"]:disabled {
     padding: 10px;
   }
 }
+
+@media (max-width: 768px) {
+  .job-grid { display: block; }
+  .job-card { width: 100%; margin-bottom: 1rem; }
+  .job-form { width: 100%; }
+}
+.candidates-section {
+  margin-top: 20px;
+}
+
+.search-candidates input {
+  padding: 8px;
+  width: 100%;
+  max-width: 300px;
+  margin-bottom: 10px;
+}
+
+.sort-candidates {
+  margin-bottom: 10px;
+}
+
+.sort-candidates select {
+  padding: 5px;
+  margin-left: 5px;
+}
+
+
+/* job-offers.component.css */
+router-outlet {
+  display: block;
+  min-height: 200px; /* Ensure it takes up space */
+}
+
+.job-grid {
+  margin-bottom: 20px; /* Add space before the router-outlet */
+}
