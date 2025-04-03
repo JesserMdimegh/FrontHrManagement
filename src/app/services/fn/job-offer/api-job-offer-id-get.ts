@@ -19,7 +19,8 @@ export function apiJobOfferIdGet(http: HttpClient, rootUrl: string, params: ApiJ
   if (params) {
     rb.path('id', params.id, {});
   }
-
+  rb.header('Authorization', `Bearer ${localStorage.getItem('token')}`);
+ 
   return http.request(
     rb.build({ responseType: 'json', accept: 'application/json', context })
   ).pipe(

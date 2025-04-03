@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 import { JobOfferService } from '../../services/services/job-offer.service';
 import { JobOfferDtoCreate } from '../../services/models/job-offer-dto-create';
 import { Competence } from '../../services/models/competence';
@@ -9,37 +9,48 @@ import { CompetenceService } from '../../services/services';
 import { HttpClient } from '@angular/common/http';
 import { apiApplicationOfferJobOfferIdCandidatesGet, ApiApplicationOfferJobOfferIdCandidatesGet$Params } from '../../services/fn/application/api-application-offer-job-offer-id-candidates-get';
 import { CandidatDto } from '../../services/models/candidat-dto';
+import { environment } from '../../services/environment';
+import { StrictHttpResponse } from '../../services/strict-http-response';
+import { Observable } from 'rxjs';
+
+interface JobOffer {
+  id: string;
+  posted: string;
+  candidates: CandidatDto[];
+  competences?: Competence[];
+  description?: string;
+  experience?: number;
+  location?: string;
+  salary?: number;
+  title?: string;
+  filteredCandidates?: CandidatDto[];
+}
 
 @Component({
   selector: 'app-job-offers',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule,RouterOutlet],
   templateUrl: './job-offers.component.html',
   styleUrls: ['./job-offers.component.css']
 })
 export class JobOffersComponent implements OnInit {
   showJobForm: boolean = false;
   loading: boolean = false;
-  jobs: Array<{
-    id: string;
-    posted: string;
-    candidates: CandidatDto[];
-    competences?: Competence[];
-    description?: string;
-    experience?: number;
-    location?: string;
-    salary?: number;
-    title?: string;
-  }> = [];
-  filteredJobs: Array<any> = [];
+  jobs: JobOffer[] = [];
+  filteredJobs: JobOffer[] = [];
   newJobForm: FormGroup;
-  competencesList: Competence[] = [];
   selectedJobId: string | null = null;
   searchQuery: string = '';
   sortOption: string = 'newest';
   formErrors: string[] = [];
   isEditing: boolean = false;
   competences: Competence[] = [];
+
+  // Pagination properties for candidates
+  candidateCurrentPage: number = 1;
+  candidatePageSize: number = 5;
+  candidatePageSizeOptions: number[] = [5, 10, 20];
+  apiUrl: any;
 
   constructor(
     private router: Router,
@@ -53,12 +64,10 @@ export class JobOffersComponent implements OnInit {
       title: ['', Validators.required],
       location: ['', Validators.required],
       description: ['', Validators.required],
-      experience: [0, Validators.required],
-      salary: [0, Validators.required],
-      competences: [[]]
+      experience: [0, [Validators.required, Validators.min(0)]],
+      salary: [0, [Validators.required, Validators.min(0)]],
+      competences: this.fb.array([])
     });
-
-
   }
 
   ngOnInit() {
@@ -72,18 +81,18 @@ export class JobOffersComponent implements OnInit {
         this.competences = data['competences'];
       } else {
         console.error('No competences data found in route');
+        this.formErrors.push('Failed to load competences');
       }
     });
   }
 
   loadJobs() {
     this.loading = true;
-    this.jobOfferService.apiJobOfferGet().subscribe(
-      (response: any) => {
-        console.log('Raw API response:', response); // Debug: Inspect the raw response
+    this.jobOfferService.apiJobOfferGet().subscribe({
+      next: (response: any) => {
         if (Array.isArray(response)) {
-          this.jobs = response.map(job => ({
-            id: job.Id || job.id,
+          this.jobs = response.map((job: any) => ({
+            id: job.Id || job.id || '',
             posted: job.Posted || job.posted || new Date().toISOString(),
             candidates: [],
             competences: job.Competences || job.competences || [],
@@ -95,8 +104,6 @@ export class JobOffersComponent implements OnInit {
           }));
           this.filteredJobs = [...this.jobs];
           this.sortJobs();
-          console.log('Loaded jobs:', this.jobs);
-          console.log('Filtered jobs:', this.filteredJobs);
         } else {
           this.formErrors.push('Invalid jobs data format');
           this.jobs = [];
@@ -104,26 +111,30 @@ export class JobOffersComponent implements OnInit {
         }
         this.loading = false;
       },
-      error => {
+      error: (error) => {
         console.error('Error loading jobs:', error);
         this.formErrors.push('Failed to load job offers');
         this.loading = false;
       }
-    );
+    });
   }
-
+  getCandidatesForJobOffer(jobOfferId: string): Observable<CandidatDto[]> {
+    const url = `${this.apiUrl}/api/application/offer/${jobOfferId}/candidates`;
+    return this.http.get<CandidatDto[]>(url);
+  }
   onCompetenceSelected(event: Event) {
     const select = event.target as HTMLSelectElement;
     const competenceId = select.value;
-    const competences = this.newJobForm.get('competences') as FormArray;
-    if (!competences.value.includes(competenceId)) {
-      competences.push(this.fb.control(competenceId));
+    const competencesArray = this.newJobForm.get('competences') as FormArray;
+
+    if (!competencesArray.value.includes(competenceId)) {
+      competencesArray.push(this.fb.control(competenceId));
     }
   }
 
   addJobOffer() {
     if (this.newJobForm.invalid) {
-      console.error('Please fill in all required fields.');
+      this.formErrors.push('Please fill in all required fields.');
       return;
     }
 
@@ -133,102 +144,163 @@ export class JobOffersComponent implements OnInit {
       Description: this.newJobForm.value.description,
       Experience: this.newJobForm.value.experience,
       Salary: this.newJobForm.value.salary,
-      Competences: this.newJobForm.value.competences
-    }
-    console.log('Job offer data:', jobOfferData);
+      Competences: this.newJobForm.value.competences.map((id: string) =>
+        this.competences.find(c => c.Id === id)
+      )
+    };
 
-    this.jobOfferService.apiJobOfferCreatePost({ body: jobOfferData }).subscribe({
-      next:(response:any) => {
-        console.log('Job offer created successfully:', response);
+    const request = this.isEditing && this.selectedJobId
+      ? this.jobOfferService.apiJobOfferIdGet({ id: this.selectedJobId})
+      : this.jobOfferService.apiJobOfferCreatePost({ body: jobOfferData });
+
+    request.subscribe({
+      next: (response: any) => {
+        console.log(this.isEditing ? 'Job offer updated successfully:' : 'Job offer created successfully:', response);
         this.resetForm();
         this.loadJobs();
       },
-      error : (error) => {
-        console.error('Error creating job offer:', error);
-        this.formErrors.push('Failed to create job offer');
+      error: (error) => {
+        console.error('Error creating/updating job offer:', error);
+        this.formErrors.push('Failed to create/update job offer');
       }
-    })
+    });
   }
 
   resetForm() {
-    this.newJobForm.reset();
-    const competences = this.newJobForm.get('competences') as FormArray;
-    //competences.clear();
+    this.newJobForm.reset({
+      title: '',
+      location: '',
+      description: '',
+      experience: 0,
+      salary: 0,
+      competences: []
+    });
+    (this.newJobForm.get('competences') as FormArray).clear();
     this.formErrors = [];
     this.isEditing = false;
+    this.selectedJobId = null;
+    this.showJobForm = false;
   }
 
-  viewCandidates(job: any) {
-    if (this.selectedJobId === job.id) {
-      this.selectedJobId = null;
-      return;
-    }
+  private navigating = false;
 
-    this.selectedJobId = job.id;
-    this.loading = true;
-    const rootUrl = 'http://localhost:5096';
-    const params: ApiApplicationOfferJobOfferIdCandidatesGet$Params = {
-      jobOfferId: job.id
-    };
+viewCandidates(job: JobOffer) {
+  if (this.navigating) return;
+  this.navigating = true;
+  this.router.navigate(['/JobOffers', job.id, 'candidates']).finally(() => {
+    this.navigating = false;
+  });
+}
+  hideCandidatesAndRedirect() {
+    this.selectedJobId = null;
+    this.router.navigate(['/dashboard']);
+  }
 
-    apiApplicationOfferJobOfferIdCandidatesGet(this.http, rootUrl, params).subscribe(
-      (response) => {
-        job.candidates = response.body || [];
-        this.loading = false;
-      },
-      (error) => {
-        console.error(`Error fetching candidates for job ${job.id}:`, error);
-        job.candidates = [];
-        this.formErrors.push('Failed to load candidates');
-        this.loading = false;
-      }
+
+  filterCandidates(event: Event, job: JobOffer) {
+    const query = (event.target as HTMLInputElement).value.toLowerCase();
+    job.filteredCandidates = job.candidates.filter((candidate: CandidatDto) =>
+      (candidate.Firstname?.toLowerCase().includes(query) || false) ||
+      (candidate.Lastname?.toLowerCase().includes(query) || false) ||
+      (candidate.Email?.toLowerCase().includes(query) || false)
     );
+    this.candidateCurrentPage = 1;
   }
 
-  updateJob(job: any) {
+  sortCandidates(event: Event, job: JobOffer) {
+    const sortOption = (event.target as HTMLSelectElement).value;
+    const candidates = job.filteredCandidates || job.candidates;
+
+    candidates.sort((a: CandidatDto, b: CandidatDto) => {
+      if (sortOption === 'nameAsc') {
+        return (a.Firstname || '').localeCompare(b.Firstname || '');
+      } else if (sortOption === 'nameDesc') {
+        return (b.Firstname || '').localeCompare(a.Firstname || '');
+      } else if (sortOption === 'dateAsc') {
+        return new Date(a.AppliedDate || '').getTime() - new Date(b.AppliedDate || '').getTime();
+      } else if (sortOption === 'dateDesc') {
+        return new Date(b.AppliedDate || '').getTime() - new Date(a.AppliedDate || '').getTime();
+      }
+      return 0;
+    });
+
+    job.filteredCandidates = [...candidates];
+    this.candidateCurrentPage = 1;
+  }
+
+  // Format competences as a comma-separated string
+  formatCompetences(competences: Competence[] | null | undefined): string {
+    if (!competences || competences.length === 0) {
+      return 'No competences specified.';
+    }
+    return competences.map(c => c.Titre || 'Unknown competence').join(', ');
+  }
+
+  viewCv(cvUrl: string) {
+    if (cvUrl) {
+      window.open(cvUrl, '_blank');
+    } else {
+      this.formErrors.push('No CV available for this candidate.');
+    }
+  }
+
+  shortlistCandidate(candidate: CandidatDto) {
+    console.log(`Shortlisting candidate: ${candidate.Firstname} ${candidate.Lastname}`);
+    this.formErrors.push(`Candidate ${candidate.Firstname} ${candidate.Lastname} shortlisted.`);
+  }
+
+  rejectCandidate(candidate: CandidatDto) {
+    console.log(`Rejecting candidate: ${candidate.Firstname} ${candidate.Lastname}`);
+    this.formErrors.push(`Candidate ${candidate.Firstname} ${candidate.Lastname} rejected.`);
+  }
+
+  updateJob(job: JobOffer) {
     this.loading = true;
-    this.jobOfferService.apiJobOfferIdGet({ id: job.id.toString() }).subscribe(
-      (response: any) => {
-        const jobData: JobOfferDtoCreate = response.body;
+    this.jobOfferService.apiJobOfferIdGet({ id: job.id.toString() }).subscribe({
+      next: (response: any) => {
+        const jobData: JobOfferDtoCreate = response.body || response;
         this.newJobForm.patchValue({
-          title: jobData.Title,
-          location: jobData.Location,
-          description: jobData.Description
+          title: jobData.Title || jobData.Title,
+          location: jobData.Location || jobData.Location,
+          description: jobData.Description || jobData.Description,
+          experience: jobData.Experience || jobData.Experience || 0,
+          salary: jobData.Salary || jobData.Salary || 0
         });
 
-        const competences = this.newJobForm.get('competences') as FormArray;
-        competences.clear();
+        const competencesArray = this.newJobForm.get('competences') as FormArray;
+        competencesArray.clear();
         if (jobData.Competences && jobData.Competences.length > 0) {
           jobData.Competences.forEach((competence: Competence) => {
-            competences.push(this.fb.control(competence.Id));
+            competencesArray.push(this.fb.control(competence.Id));
           });
         }
 
         this.showJobForm = true;
         this.isEditing = true;
+        this.selectedJobId = job.id;
         this.loading = false;
       },
-      error => {
+      error: (error) => {
         console.error('Error fetching job details', error);
         this.formErrors.push('Failed to load job details');
         this.loading = false;
       }
-    );
+    });
   }
 
-  deleteJob(job: any) {
+  deleteJob(job: JobOffer) {
     if (confirm('Are you sure you want to delete this job offer?')) {
       this.loading = true;
-      this.jobOfferService.apiJobOfferIdDelete({ id: job.id.toString() }).subscribe(
-        () => {
+      this.jobOfferService.apiJobOfferIdDelete({ id: job.id.toString() }).subscribe({
+        next: () => {
           this.loadJobs();
         },
-        error => {
+        error: (error) => {
           console.error('Error deleting job offer:', error);
           this.formErrors.push('Failed to delete job offer');
           this.loading = false;
         }
-      );
+      });
     }
   }
 

@@ -26,6 +26,12 @@ import { JobOffer } from '../models/job-offer';
 
 @Injectable({ providedIn: 'root' })
 export class JobOfferService extends BaseService {
+  apiApplicationOfferJobOfferIdCandidatesGet(id: string) {
+    throw new Error('Method not implemented.');
+  }
+  getCandidates(id: any) {
+    throw new Error('Method not implemented.');
+  }
   constructor(config: ApiConfiguration, http: HttpClient) {
     super(config, http);
   }

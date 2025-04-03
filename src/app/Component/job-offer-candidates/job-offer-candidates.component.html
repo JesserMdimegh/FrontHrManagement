@@ -1,0 +1,113 @@
+<div class="candidates-page">
+    <!-- Header -->
+    <div class="candidates-header">
+      <h2 *ngIf="job">Candidates for {{ job.title }}</h2>
+      <button class="back-btn" (click)="goBack()">
+        <i class="fas fa-arrow-left"></i> Back to Job Offers
+      </button>
+    </div>
+  
+    <!-- Error Messages -->
+    <div class="errors" *ngIf="formErrors.length > 0">
+      <ul>
+        <li *ngFor="let error of formErrors">{{ error }}</li>
+      </ul>
+    </div>
+  
+    <!-- Loading State -->
+    <div *ngIf="loading" class="loading-spinner">
+      <i class="fas fa-spinner fa-spin"></i> Loading candidates...
+    </div>
+  
+    <!-- No Candidates -->
+    <div *ngIf="!loading && job && job.candidates.length === 0" class="no-candidates">
+      <i class="fas fa-exclamation-circle"></i> No candidates found for this job.
+    </div>
+  
+    <!-- Candidates Content -->
+    <div *ngIf="!loading && job && job.candidates.length > 0" class="candidates-content">
+      <!-- Filter and Sort Controls -->
+      <div class="candidates-controls">
+        <div class="search-bar">
+          <i class="fas fa-search"></i>
+          <input type="text" placeholder="Search candidates by name or email..." (input)="filterCandidates($event)">
+        </div>
+        <div class="sort-buttons">
+          <button [ngClass]="{'active': currentSort === 'nameAsc'}" (click)="sortCandidatesBy('nameAsc')">
+            <i class="fas fa-sort-alpha-down"></i> Name (A-Z)
+          </button>
+          <button [ngClass]="{'active': currentSort === 'nameDesc'}" (click)="sortCandidatesBy('nameDesc')">
+            <i class="fas fa-sort-alpha-up"></i> Name (Z-A)
+          </button>
+          <button [ngClass]="{'active': currentSort === 'dateAsc'}" (click)="sortCandidatesBy('dateAsc')">
+            <i class="fas fa-sort-numeric-down"></i> Date (Oldest)
+          </button>
+          <button [ngClass]="{'active': currentSort === 'dateDesc'}" (click)="sortCandidatesBy('dateDesc')">
+            <i class="fas fa-sort-numeric-up"></i> Date (Newest)
+          </button>
+        </div>
+      </div>
+  
+      <!-- Candidates Table -->
+      <div class="candidates-table-container">
+        <table class="candidates-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Telephone</th>
+              <th>Applied Date</th>
+              <th>Competences</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let candidate of paginatedCandidates()" [ngClass]="getStatusClass(candidate)">
+              <td>{{ candidate.Firstname }} {{ candidate.Lastname || 'N/A' }}</td>
+              <td>{{ candidate.Email || 'N/A' }}</td>
+              <td>{{ candidate.Telephone || 'N/A' }}</td>
+              <td>{{ candidate.AppliedDate ? (candidate.AppliedDate | date:'mediumDate') : 'N/A' }}</td>
+              <td>{{ formatCompetences(candidate.Competences) }}</td>
+              <td>
+                <span class="status-badge" [ngClass]="getStatusClass(candidate)">
+                  {{ candidate.Status || 'Pending' }}
+                </span>
+              </td>
+              <td class="actions">
+                <button *ngIf="candidate.Cv" (click)="viewCv(candidate.Cv)" title="View CV">
+                  <i class="fas fa-file-pdf"></i>
+                </button>
+                <button (click)="shortlistCandidate(candidate)" title="Shortlist">
+                  <i class="fas fa-check-circle"></i>
+                </button>
+                <button (click)="rejectCandidate(candidate)" title="Reject">
+                  <i class="fas fa-times-circle"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+  
+      <!-- Pagination Controls -->
+      <div class="pagination-controls" *ngIf="job && job.candidates.length > candidatePageSize">
+        <button (click)="goToCandidatePage(candidateCurrentPage - 1)" [disabled]="candidateCurrentPage === 1">
+          <i class="fas fa-chevron-left"></i> Previous
+        </button>
+        <div class="page-numbers">
+          <span *ngFor="let page of getPageNumbers()" [ngClass]="{'active': page === candidateCurrentPage}" (click)="goToCandidatePage(page)">
+            {{ page }}
+          </span>
+        </div>
+        <button (click)="goToCandidatePage(candidateCurrentPage + 1)" [disabled]="candidateCurrentPage === candidateTotalPages()">
+          Next <i class="fas fa-chevron-right"></i>
+        </button>
+        <select (change)="changeCandidatePageSize($event)">
+          <option *ngFor="let size of candidatePageSizeOptions" [value]="size" [selected]="size === candidatePageSize">
+            {{ size }} per page
+          </option>
+        </select>
+      </div>
+    </div>
+  </div>
