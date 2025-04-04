@@ -91,10 +91,8 @@
       </div>
     </div>
   </section>
-  <button class="chatbot-button" (click)="toggleChatbot()">
-    💬 Open Chatbot
-</button>
+  
+<app-chat *ngIf="chatbotStatus"></app-chat>
 
 
 
-<app-chat> </app-chat>

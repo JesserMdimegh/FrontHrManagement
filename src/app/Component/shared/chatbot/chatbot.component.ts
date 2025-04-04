@@ -1,31 +1,53 @@
 import { Component } from '@angular/core';
-import { ChatbotService } from '../../../services/services/chatService.service';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { ChatbotService } from '../../../services/services/chatService.service';
 
 @Component({
   selector: 'app-chat',
+  standalone: true,
+  imports: [FormsModule, CommonModule],
   templateUrl: './chatbot.component.html',
-  styleUrls: ['./chatbot.component.css'],
-  imports: [FormsModule],
+  styleUrls: ['./chatbot.component.css']
 })
 export class ChatbotComponent {
   userMessage: string = '';
-  botResponse: string = '';
+  chatHistory: {sender: string, message: string}[] = [];
+  isWaitingForResponse: boolean = false;
+  isOpen: boolean = false;
 
   constructor(private chatbotService: ChatbotService) {}
+
+  toggleChat() {
+    console.log('Button clicked, current state:', this.isOpen); // Add this line
+
+    this.isOpen = !this.isOpen;
+    console.log('New state:', this.isOpen); // Add this line
+
+  }
+
+  closeChat() {
+    this.isOpen = false;
+  }
 
   sendMessage() {
     if (this.userMessage.trim() === '') return;
     
-    this.chatbotService.sendMessage(this.userMessage).subscribe(
-      response => {
-        this.botResponse = response; // Adjust based on API structure
+    // Add user message to chat history
+    this.chatHistory.push({sender: 'You', message: this.userMessage});
+    this.isWaitingForResponse = true;
+    
+    this.chatbotService.sendMessage(this.userMessage).subscribe({
+      next: (response) => {
+        this.chatHistory.push({sender: 'Bot', message: response});
+        this.isWaitingForResponse = false;
       },
-      error => {
+      error: (error) => {
         console.error('Error:', error);
-        this.botResponse = 'An error occurred.';
+        this.chatHistory.push({sender: 'Bot', message: 'Sorry, an error occurred.'});
+        this.isWaitingForResponse = false;
       }
-    );
+    });
 
     this.userMessage = ''; // Clear input
   }

@@ -24,6 +24,8 @@ import { ChatbotComponent } from "../shared/chatbot/chatbot.component";
 export class HomeComponent implements OnInit {
   chatbotStatus = true;
   toggleChatbot() {
+    alert('Button clicked!'); // Simple test
+
     this.chatbotStatus = !this.chatbotStatus;
   }
   jobs: JobOffer[] = [];
@@ -47,6 +49,7 @@ export class HomeComponent implements OnInit {
   {}
 
   ngOnInit(): void {
+    
     this.fetchJobOffers();
     this.candidateId = localStorage.getItem('candidateId') ;
     this.usertype = this.tokenservice.user.UserType as UserType;
