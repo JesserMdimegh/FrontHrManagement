@@ -1,34 +1,39 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ChatService {
-  private apiUrl = 'http://localhost:5000/api/chat'; // Your .NET API
-  
-  constructor(private http: HttpClient) { }
-  
-  sendMessage(message: string): Observable<any> {
-    return this.http.post(this.apiUrl, { message });
-  }
-  
-  // For streaming responses
-  sendMessageStreaming(message: string): Observable<string> {
-    return new Observable(observer => {
-      const eventSource = new EventSource(`${this.apiUrl}/stream?message=${encodeURIComponent(message)}`);
-      
-      eventSource.onmessage = (event) => {
-        observer.next(event.data);
-      };
-      
-      eventSource.onerror = (error) => {
-        observer.error(error);
-        eventSource.close();
-      };
-      
-      return () => eventSource.close();
-    });
+export class ChatbotService {
+  private apiUrl = 'http://localhost:11434/api/generate';
+
+  constructor(private http: HttpClient) {}
+
+  sendMessage(message: string): Observable<string> {
+    const requestBody = {
+      model: "phi3",
+      prompt: message,
+      stream: false // Force single response
+    };
+
+    return this.http.post(this.apiUrl, requestBody, { responseType: 'text' }).pipe(
+      map((response: string) => {
+        try {
+          // Handle both single response and last chunk of stream
+          const lastNewline = response.lastIndexOf('\n');
+          const jsonStr = lastNewline >= 0 ? response.substring(lastNewline) : response;
+          return JSON.parse(jsonStr).response;
+        } catch (e) {
+          console.error('Parsing error:', e);
+          return "Sorry, I couldn't process that response.";
+        }
+      }),
+      catchError(error => {
+        console.error('API error:', error);
+        return throwError(() => 'Failed to get response from chatbot');
+      })
+    );
   }
 }

@@ -1,22 +1,32 @@
-// chatbot.component.ts
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { CommonModule } from '@angular/common'; // Add this import
-
+import { Component } from '@angular/core';
+import { ChatbotService } from '../../../services/services/chatService.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'app-chatbot',
+  selector: 'app-chat',
   templateUrl: './chatbot.component.html',
   styleUrls: ['./chatbot.component.css'],
-  standalone: true,
-  imports: [CommonModule] // Add this line to make CommonModule available
+  imports: [FormsModule],
 })
 export class ChatbotComponent {
-  @Input() isVisible: boolean = true; // Receiving variable from parent
+  userMessage: string = '';
+  botResponse: string = '';
 
-  @Output() closeChatbot = new EventEmitter<void>();
+  constructor(private chatbotService: ChatbotService) {}
 
-  toggleChatbot() {
-    this.closeChatbot.emit(); // Notify parent to close chatbot
+  sendMessage() {
+    if (this.userMessage.trim() === '') return;
+    
+    this.chatbotService.sendMessage(this.userMessage).subscribe(
+      response => {
+        this.botResponse = response; // Adjust based on API structure
+      },
+      error => {
+        console.error('Error:', error);
+        this.botResponse = 'An error occurred.';
+      }
+    );
+
+    this.userMessage = ''; // Clear input
   }
-
 }
