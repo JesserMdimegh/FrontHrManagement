@@ -10,7 +10,7 @@ import { ApplicationService } from './services/application.service';
 import { AuthService } from './services/auth.service';
 import { CandidatManagementService } from './services/candidat-management.service';
 import { CompetenceService } from './services/competence.service';
-import { EmployeManagementService } from './services/employe-management.service';
+import { EmployeeService } from './services/employe-management.service';
 import { JobOfferService } from './services/job-offer.service';
 import { UserManagementService } from './services/user-management.service';
 
@@ -26,7 +26,7 @@ import { UserManagementService } from './services/user-management.service';
     AuthService,
     CandidatManagementService,
     CompetenceService,
-    EmployeManagementService,
+    EmployeeService,
     JobOfferService,
     UserManagementService,
     ApiConfiguration

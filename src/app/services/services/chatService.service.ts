@@ -13,7 +13,7 @@ export class ChatbotService {
 
   sendMessage(message: string): Observable<string> {
     const requestBody = {
-      model: "phi3",
+      model: "hr-assistant",
       prompt: message,
       stream: false // Force single response
     };

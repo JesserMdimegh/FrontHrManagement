@@ -1,250 +1,147 @@
-.employee-management {
-  padding: 20px;
-  max-width: 1200px;
+/* Add to your stylesheet */
+@import 'animate.css/animate.min.css';
+@import 'bootstrap/dist/css/bootstrap.min.css';
+@import "@fortawesome/fontawesome-free/css/all.min.css";
+
+.main-container {
+  padding: 24px;
+  height: 100vh;
+  background-color: #f8f9fa;
+}
+.main-content {
+  
+  max-width: 800px;
+  position: relative;
+  left: 190px;
   margin: 0 auto;
-  font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f9fafc;
+  font-family: 'Roboto', 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  min-height: 100vh;
+  box-sizing: border-box;
+  position: relative;
 }
 
-.employee-grid h1 {
-  font-size: 28px;
-  color: #1a1a1a;
-  margin-bottom: 20px;
-  text-align: left;
-  font-weight: 700;
+.main-content {
+  padding: 40px;
+  max-width: 1400px;
+  margin: 0 auto;
+  background-color: #f9fafc;
+  font-family: 'Roboto', 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  min-height: 100vh;
+  box-sizing: border-box;
+  position: relative;
+  border-radius: 12px;
+  box-shadow: 0 0 30px rgba(0,0,0,0.05);
 }
 
-.employee-table {
-  width: 100%;
-  border-collapse: collapse;
+.content-area {
+  padding: 24px;
   background-color: #fff;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+  border-radius: 8px;
+}
+
+.employee-management {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.table-responsive {
   border-radius: 8px;
   overflow: hidden;
 }
 
-.employee-table th,
-.employee-table td {
-  padding: 12px 15px;
-  text-align: left;
-  border-bottom: 1px solid #e8ecef;
+.table {
+  margin-bottom: 0;
 }
 
-.employee-table th {
-  background-color: #f9fafc;
+.table th {
   font-weight: 600;
-  color: #2c3e50;
+  color: #495057;
+  background-color: #f8f9fa !important;
+  border-bottom-width: 1px;
+  padding: 1rem 1.25rem;
 }
 
-.employee-table td {
-  color: #4a5568;
+.table td {
+  padding: 1rem 1.25rem;
+  vertical-align: middle;
+  border-top: 1px solid #f1f1f1;
+  transition: all 0.3s ease;
 }
 
-.employee-table tr:hover {
-  background-color: #f5f7fa;
-}
-
-.edit-btn,
-.delete-btn {
-  padding: 8px 12px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 13px;
-  font-weight: 500;
-  margin-right: 5px;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-.edit-btn {
-  background-color: #f0ad4e;
-  color: white;
-}
-
-.edit-btn:hover {
-  background-color: #ec971f;
+.table tr:hover td {
+  background-color: #f8f9fa;
   transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
 }
 
-.delete-btn {
-  background-color: #dc3545;
-  color: white;
-}
-
-.delete-btn:hover {
-  background-color: #c82333;
-  transform: translateY(-2px);
-}
-
-.edit-employee-section {
-  margin-top: 30px;
-}
-
-.employee-form {
-  background-color: #fff;
-  padding: 25px;
-  border-radius: 10px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
-}
-
-.employee-form h2 {
-  text-align: center;
-  margin-bottom: 20px;
-  color: #1a1a1a;
-  font-size: 24px;
-  font-weight: 600;
-}
-
-.form-group {
-  margin-bottom: 15px;
-}
-
-.form-group label {
-  display: block;
-  font-size: 14px;
-  color: #2c3e50;
-  margin-bottom: 5px;
+.badge {
+  padding: 0.35em 0.65em;
+  font-size: 0.75em;
   font-weight: 500;
 }
 
-.form-group input {
-  width: 100%;
-  padding: 10px;
-  font-size: 14px;
-  color: #333;
-  border: 1px solid #e0e0e0;
-  border-radius: 6px;
-  box-sizing: border-box;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+/* Button animations */
+.btn {
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
 }
 
-.form-group input:focus {
-  outline: none;
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+.btn-primary {
+  background-color: #6f42c1;
   border-color: #6f42c1;
-  box-shadow: 0 0 6px rgba(111, 66, 193, 0.15);
 }
 
-.form-group input[readonly] {
-  background-color: #f5f5f5;
-  cursor: not-allowed;
+.btn-primary:hover {
+  background-color: #5a32a3;
+  border-color: #5a32a3;
 }
 
-.form-group .error {
-  color: #dc3545;
-  font-size: 12px;
-  margin-top: 5px;
+/* Pagination styling */
+.pagination .page-item.active .page-link {
+  background-color: #6f42c1;
+  border-color: #6f42c1;
 }
 
-.button-group {
-  display: flex;
-  gap: 10px;
-  justify-content: center;
+.pagination .page-link {
+  color: #6f42c1;
 }
 
-.button-group button {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 14px;
-  font-weight: 500;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-.button-group button[type="submit"] {
-  background-color: #28a745;
-  color: white;
-}
-
-.button-group button[type="submit"]:hover {
-  background-color: #218838;
-  transform: translateY(-2px);
-}
-
-.button-group button[type="submit"]:disabled {
-  background-color: #cccccc;
-  cursor: not-allowed;
-}
-
-.button-group button[type="button"] {
-  background-color: #6c757d;
-  color: white;
-}
-
-.button-group button[type="button"]:hover {
-  background-color: #5a6268;
-  transform: translateY(-2px);
-}
-
-.error-message {
-  color: #dc3545;
-  font-size: 14px;
-  margin-bottom: 15px;
-  text-align: center;
-}
-
-.success-message {
-  color: #28a745;
-  font-size: 14px;
-  margin-bottom: 15px;
-  text-align: center;
-}
-
-/* Responsive Design */
-@media screen and (max-width: 768px) {
-  .employee-table th,
-  .employee-table td {
-    padding: 10px;
-    font-size: 13px;
-  }
-
-  .edit-btn,
-  .delete-btn {
-    padding: 6px 10px;
-    font-size: 12px;
-  }
-
-  .employee-form {
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .main-content {
     padding: 20px;
   }
-
-  .employee-form h2 {
-    font-size: 22px;
+  
+  .content-area {
+    padding: 16px;
   }
-
-  .form-group input {
-    padding: 8px;
-    font-size: 13px;
-  }
-
-  .button-group {
+  
+  .header {
     flex-direction: column;
+    align-items: flex-start;
   }
-
-  .button-group button {
-    width: 100%;
-    padding: 8px 16px;
-  }
-}
-
-@media screen and (max-width: 576px) {
-  .employee-grid h1 {
-    font-size: 24px;
-  }
-
-  .employee-table {
-    font-size: 12px;
-  }
-
-  .employee-table th,
-  .employee-table td {
-    padding: 8px;
-  }
-
-  .employee-form {
-    padding: 15px;
-  }
-
-  .employee-form h2 {
-    font-size: 20px;
+  
+  .table-responsive {
+    border: 1px solid #dee2e6;
   }
 }

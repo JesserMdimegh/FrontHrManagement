@@ -6,6 +6,6 @@ export { ApplicationService } from './services/application.service';
 export { AuthService } from './services/auth.service';
 export { CandidatManagementService } from './services/candidat-management.service';
 export { CompetenceService } from './services/competence.service';
-export { EmployeManagementService } from './services/employe-management.service';
+export { EmployeeService } from './services/employe-management.service';
 export { JobOfferService } from './services/job-offer.service';
 export { UserManagementService } from './services/user-management.service';
