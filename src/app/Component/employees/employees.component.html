@@ -1,49 +1,53 @@
-<div class="main-content">
-<table mat-table [dataSource]="employees" class="mat-elevation-z8">
-    <!-- Lastname Column -->
-    <ng-container matColumnDef="Lastname">
-      <th mat-header-cell *matHeaderCellDef> Last Name </th>
-      <td mat-cell *matCellDef="let employee"> {{employee.Lastname}} </td>
-    </ng-container>
-  
-    <!-- Firstname Column -->
-    <ng-container matColumnDef="Firstname">
-      <th mat-header-cell *matHeaderCellDef> First Name </th>
-      <td mat-cell *matCellDef="let employee"> {{employee.Firstname}} </td>
-    </ng-container>
-  
-    <!-- Email Column -->
-    <ng-container matColumnDef="Email">
-      <th mat-header-cell *matHeaderCellDef> Email </th>
-      <td mat-cell *matCellDef="let employee"> {{employee.Email}} </td>
-    </ng-container>
-  
-    <!-- Telephone Column -->
-    <ng-container matColumnDef="Telephone">
-      <th mat-header-cell *matHeaderCellDef> Telephone </th>
-      <td mat-cell *matCellDef="let employee"> {{employee.Telephone}} </td>
-    </ng-container>
-  
-    <!-- Poste Column -->
-    <ng-container matColumnDef="Poste">
-      <th mat-header-cell *matHeaderCellDef> Position </th>
-      <td mat-cell *matCellDef="let employee"> {{employee.Poste}} </td>
-    </ng-container>
-  
-    <!-- Actions Column -->
-    <ng-container matColumnDef="actions">
-      <th mat-header-cell *matHeaderCellDef> Actions </th>
-      <td mat-cell *matCellDef="let employee">
-        <button mat-icon-button color="primary" (click)="openEditDialog(employee)">
-          <mat-icon>edit</mat-icon>
-        </button>
-        <button mat-icon-button color="warn" (click)="deleteEmployee(employee.Id)">
-          <mat-icon>delete</mat-icon>
-        </button>
-      </td>
-    </ng-container>
-  
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-  </table>
+<div class="main-content container-fluid py-4">
+  <div class="card shadow">
+    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+      <h3 class="mb-0">Employee Management</h3>
+      <button class="btn btn-light" (click)="openCreateDialog()">
+        <i class="fas fa-plus me-2"></i>Add Employee
+      </button>
+    </div>
+    
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0">
+          <thead class="table-light">
+            <tr>
+              <th>Last Name</th>
+              <th>First Name</th>
+              <th>Email</th>
+              <th>Telephone</th>
+              <th>Position</th>
+              <th class="text-end">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let employee of employees">
+              <td>{{employee.Lastname}}</td>
+              <td>{{employee.Firstname}}</td>
+              <td>{{employee.Email}}</td>
+              <td>{{employee.Telephone}}</td>
+              <td>{{employee.Poste}}</td>
+              <td class="text-end">
+                <div class="btn-group" role="group">
+                  <button class="btn btn-sm btn-outline-primary" (click)="openEditDialog(employee)">
+                    <i class="fas fa-edit"></i> Edit
+                  </button>
+                  <button class="btn btn-sm btn-outline-info" (click)="viewPerformance(employee.Id)">
+                    <i class="fas fa-chart-line"></i> Performance
+                  </button>
+                  <button class="btn btn-sm btn-outline-danger" (click)="deleteEmployee(employee.Id)">
+                    <i class="fas fa-trash-alt"></i> Delete
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    
+    <div class="card-footer bg-light">
+      <small class="text-muted">Showing {{employees.length}} employees</small>
+    </div>
+  </div>
 </div>

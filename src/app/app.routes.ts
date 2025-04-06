@@ -1,4 +1,4 @@
-import { Routes } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './Component/login/login.component';
 import { DashboardComponent } from './Component/dashboard/dashboard.component';
 import { LayoutComponent } from './Component/layout/layout.component';
@@ -14,6 +14,7 @@ import { authenticationGuard } from './guard/auth-guard.guard';
 import { rhGuard } from './guard/rh-guard.guard';
 import { candidatGuard } from './guard/candidat-guard.guard';
 import { ChatbotComponent } from './Component/shared/chatbot/chatbot.component';
+import { EmployeePerformanceComponent } from './Component/employees/employee-performance/employee-performance.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -23,6 +24,8 @@ export const routes: Routes = [
     component: RegisterComponent,
     resolve: { competences: competenceResolver }
   },
+  { path: 'performance/:id', component: EmployeePerformanceComponent },
+
 
   {
     path: 'home',

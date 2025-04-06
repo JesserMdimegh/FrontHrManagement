@@ -18,6 +18,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-employee-list',
@@ -61,11 +62,15 @@ export class EmployeesComponent implements OnInit {
   constructor(
     private employeeService: EmployeeService,
     private dialog: MatDialog,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
     this.loadEmployees();
+  }
+  viewPerformance(employeeId: number) {
+    this.router.navigate(['/performance', employeeId]);
   }
 
   loadEmployees(): void {
