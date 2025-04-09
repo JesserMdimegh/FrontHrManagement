@@ -17,6 +17,8 @@
               <th>Email</th>
               <th>Telephone</th>
               <th>Position</th>
+              <th>Department</th>
+
               <th class="text-end">Actions</th>
             </tr>
           </thead>
@@ -27,6 +29,8 @@
               <td>{{employee.Email}}</td>
               <td>{{employee.Telephone}}</td>
               <td>{{employee.Poste}}</td>
+              <td>{{employee.Department}}</td>
+
               <td class="text-end">
                 <div class="btn-group" role="group">
                   <button class="btn btn-sm btn-outline-primary" (click)="openEditDialog(employee)">

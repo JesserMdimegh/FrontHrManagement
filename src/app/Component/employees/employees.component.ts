@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { EmployeeService } from '../../services/services/employe-management.service';
 import { MatDialog } from '@angular/material/dialog';
 import { EmployeeEditDialogComponent } from './edit/employee-edit-dialog/employee-edit-dialog.component';
-import { EmployeeCreateDialogComponent } from '../employee-form-dialog/employee-form-dialog.component';
+import { EmployeeCreateDialogComponent } from './employee-form-dialog/employee-form-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
@@ -57,7 +57,7 @@ export class EmployeesComponent implements OnInit {
   // Your existing code...
   filteredEmployees: any[] = []; // Make sure this exists
   employees: any[] = [];
-  displayedColumns: string[] = ['Lastname', 'Firstname', 'Email', 'Telephone', 'Poste', 'actions'];
+  displayedColumns: string[] = ['Lastname', 'Firstname', 'Email', 'Telephone', 'Poste','Department', 'actions'];
 
   constructor(
     private employeeService: EmployeeService,

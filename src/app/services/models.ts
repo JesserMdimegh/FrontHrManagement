@@ -6,7 +6,7 @@ export type { ApplicationDtoPost } from './models/application-dto-post';
 export type { CandidatDto } from './models/candidat-dto';
 export type { Competence } from './models/competence';
 export type { CompetenceDto } from './models/competence-dto';
-export type { EmployeDTO } from './models/employe-dto';
+export type { EmployeDto } from './models/employe-dto';
 export type { JobOfferDtoCreate } from './models/job-offer-dto-create';
 export type { LoginModel } from './models/login-model';
 export type { RegisterModel } from './models/register-model';

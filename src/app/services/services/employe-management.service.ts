@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { PerformanceReview } from '../models/performance-review.model';
 
 interface Employee {
   Id: string;
@@ -26,6 +27,16 @@ export class EmployeeService {
     };
   
     return this.http.get<Employee[]>(this.apiUrl, { headers });
+  }
+  getPerformanceReviews(employeeId: string): Observable<PerformanceReview[]> {
+    const token = localStorage.getItem('token');
+    const headers = {
+      'Authorization': `Bearer ${token}`
+    };
+
+    return this.http.get<PerformanceReview[]>(
+      `http://localhost:5096/api/EmployeePerformance/${employeeId}`,{ headers }
+    );
   }
 
   getEmployee(id: string): Observable<Employee> {
