@@ -1,0 +1,60 @@
+.performance-container {
+    display: flex;
+    gap: 24px;
+    margin-bottom: 24px;
+  
+    .chart-section, .reviews-section {
+      flex: 1;
+    }
+  }
+  
+  .chart-container {
+    height: 300px;
+    margin-bottom: 16px;
+  }
+  
+  .review-card {
+    margin-bottom: 16px;
+  
+    .rating {
+      display: flex;
+      align-items: center;
+      margin-left: auto;
+  
+      mat-icon {
+        color: gold;
+        width: 20px;
+        height: 20px;
+        font-size: 20px;
+      }
+  
+      span {
+        margin-left: 8px;
+      }
+    }
+  }
+  
+  .add-review {
+    margin-top: 24px;
+  
+    .rating-input {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin: 16px 0;
+  
+      mat-slider {
+        flex: 1;
+      }
+    }
+  
+    .actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+  }
+  
+  .full-width {
+    width: 100%;
+  }

@@ -1,0 +1,76 @@
+<h2 mat-dialog-title>Add New Employee</h2>
+
+<mat-dialog-content>
+  <form [formGroup]="employeeForm">
+    <mat-form-field appearance="fill">
+      <mat-label>Last Name</mat-label>
+      <input matInput formControlName="lastname" required>
+      <mat-error *ngIf="employeeForm.get('lastname')?.hasError('required')">
+        Last name is required
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>First Name</mat-label>
+      <input matInput formControlName="firstname" required>
+      <mat-error *ngIf="employeeForm.get('firstname')?.hasError('required')">
+        First name is required
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Telephone</mat-label>
+      <input matInput formControlName="telephone" required>
+      <mat-error *ngIf="employeeForm.get('telephone')?.hasError('required')">
+        Telephone is required
+      </mat-error>
+      <mat-error *ngIf="employeeForm.get('telephone')?.hasError('pattern')">
+        Please enter a valid phone number
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="email" required>
+      <mat-error *ngIf="employeeForm.get('email')?.hasError('required')">
+        Email is required
+      </mat-error>
+      <mat-error *ngIf="employeeForm.get('email')?.hasError('email')">
+        Please enter a valid email
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Department</mat-label>
+      <input matInput formControlName="department" required>
+      <mat-error *ngIf="employeeForm.get('department')?.hasError('required')">
+        department is required
+      </mat-error> 
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Position</mat-label>
+      <input matInput formControlName="poste" required>
+      <mat-error *ngIf="employeeForm.get('poste')?.hasError('required')">
+        Position is required
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Temporary Password</mat-label>
+      <input matInput type="password" formControlName="temporaryPassword" required>
+      <mat-error *ngIf="employeeForm.get('temporaryPassword')?.hasError('required')">
+        Password is required
+      </mat-error>
+      <mat-error *ngIf="employeeForm.get('temporaryPassword')?.hasError('minlength')">
+        Password must be at least 6 characters
+      </mat-error>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="!employeeForm.valid">
+    Create
+  </button>
+</mat-dialog-actions>
