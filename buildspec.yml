@@ -9,7 +9,8 @@ phases:
   build:
     commands:
       - npm run build
+
 artifacts:
+  base-directory: dist/hr-automation
   files:
     - '**/*'
-  base-directory: dist/hr-automation
