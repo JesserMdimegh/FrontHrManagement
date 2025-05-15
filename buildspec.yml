@@ -13,4 +13,5 @@ phases:
       - zip -r ../../build.zip .
 artifacts:
   files:
-    - build.zip
+    - '**/*'
+  base-directory: dist/your-app-name
