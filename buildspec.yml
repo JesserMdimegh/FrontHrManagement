@@ -9,9 +9,7 @@ phases:
   build:
     commands:
       - npm run build
-      - cd dist/hr-automation
-      - zip -r ../../build.zip .
 artifacts:
   files:
     - '**/*'
-  base-directory: dist/your-app-name
+  base-directory: dist/hr-automation
