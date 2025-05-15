@@ -102,7 +102,10 @@ export class EmployeePerformanceComponent implements OnInit {
 
     // Productivity Trend Data
     const productivityScores = allReviews.map(review => review.OverallScore);
+    
     const productivityLabels = allReviews.map((_, index) => `Review ${index + 1}`);
+    console.log('Productivity Scores:', productivityScores);
+    console.log('Productivity Labels:', productivityLabels);
 
     const clientSatisfactionScore = allReviews.map(review => review.ClientSatisfactionScore);
     const clientSatisfactionLabels = allReviews.map((_, index) => `Review ${index + 1}`);
@@ -295,7 +298,7 @@ export class EmployeePerformanceComponent implements OnInit {
   }
 
   goBack(): void {
-    this.router.navigate(['/employees']);
+    this.router.navigate(['/Employees']);
   }
 
   ngOnDestroy(): void {

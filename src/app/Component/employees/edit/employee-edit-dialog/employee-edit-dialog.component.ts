@@ -18,7 +18,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 @Component({
   selector: 'app-employee-edit-dialog',
   templateUrl: './employee-edit-dialog.component.html',
-  styleUrls: ['./employee-edit-dialog.component.scss'],
+  styleUrls: ['./employee-edit-dialog.component.css'],
   imports: [CommonModule,
     HttpClientModule,
     ReactiveFormsModule,

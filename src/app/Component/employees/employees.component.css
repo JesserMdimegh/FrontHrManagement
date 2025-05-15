@@ -1,5 +1,5 @@
 /* Add to your stylesheet */
-@import 'animate.css/animate.min.css';
+import 'animate.css/source/animate.css'; // Unminified version
 @import 'bootstrap/dist/css/bootstrap.min.css';
 @import "@fortawesome/fontawesome-free/css/all.min.css";
 
