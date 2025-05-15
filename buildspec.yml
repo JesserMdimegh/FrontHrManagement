@@ -1,5 +1,4 @@
 version: 0.2
-
 phases:
   install:
     runtime-versions:
@@ -9,8 +8,7 @@ phases:
   build:
     commands:
       - npm run build -- --configuration production
-
 artifacts:
-  base-directory: dist/hr-automation
+  base-directory: dist/hr-automation/browser  
   files:
     - '**/*'
